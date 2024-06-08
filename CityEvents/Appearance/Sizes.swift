@@ -13,7 +13,8 @@ enum Sizes {
 	
 	static let borderWidth: CGFloat = 1
 	static let cornerRadius: CGFloat = 10
-	static let buttonHeigth: CGFloat = 45
+	static let buttonHeigth: CGFloat = 44
+	
 	static let regularFont: CGFloat = 17
 	
 	enum Padding {
@@ -21,12 +22,4 @@ enum Sizes {
 		static let normal: CGFloat = 16
 		static let double: CGFloat = 32
 	}
-	
-	// CharactersScene
-	
-	static let header: CGFloat = 50
-	
-	// DetailInfoScene
-	
-	static let additionalInfoButtonHeigth: CGFloat = 45
 }

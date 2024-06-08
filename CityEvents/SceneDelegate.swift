@@ -17,8 +17,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		
 		let presenter = EventsPresenter()
 		let viewController = EventsViewController(presenter: presenter)
+		let navController = UINavigationController(rootViewController: viewController)
 		
-		window?.rootViewController = viewController
+		window?.rootViewController = navController
 		window?.makeKeyAndVisible()
 	}
 }

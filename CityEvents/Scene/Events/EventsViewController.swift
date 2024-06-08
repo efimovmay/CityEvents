@@ -56,7 +56,7 @@ private extension EventsViewController {
 	}
 	
 	func navigationBarSetup() {
-		title = "EVENTS"
+		title = L10n.EventsScreen.title
 		navigationController?.navigationBar.prefersLargeTitles = true
 	}
 	

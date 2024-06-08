@@ -16,6 +16,7 @@ final class EventsView: UIView {
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
+		setupUI()
 		setupLayout()
 	}
 	
@@ -29,7 +30,7 @@ final class EventsView: UIView {
 
 private extension EventsView {
 	func setupUI() {
-		backgroundColor = .cyan
+		backgroundColor = Colors.white
 	}
 	
 	func setupLayout() {
@@ -76,7 +77,7 @@ private extension EventsView {
 			
 			let headerSize = NSCollectionLayoutSize(
 				widthDimension: .fractionalWidth(1.0),
-				heightDimension: .absolute(Sizes.header)
+				heightDimension: .absolute(50)
 			)
 			let header = NSCollectionLayoutBoundarySupplementaryItem(
 				layoutSize: headerSize,
