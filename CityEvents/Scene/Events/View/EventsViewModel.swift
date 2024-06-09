@@ -8,7 +8,7 @@
 import Foundation
 
 struct EventsViewModel {
-	let eventList: [Model]
+	var eventList: [Model]
 	
 	struct Model {
 		let title: String

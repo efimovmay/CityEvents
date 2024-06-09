@@ -10,7 +10,8 @@ import UIKit
 final class RegularEventViewCell: UICollectionViewCell {
 	static let identifier = String(describing: RegularEventViewCell.self)
 	
-	private lazy var nameLabel: UILabel = makeTitleLabel()
+	private lazy var eventImageView: UIImageView = makeImageView()
+	private lazy var nameLabel: UILabel  = makeTitleLabel()
 	
 	// MARK: - Initialization
 	
@@ -25,7 +26,10 @@ final class RegularEventViewCell: UICollectionViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	func configure(name: String) {
+	func configure(image: String, name: String) {
+		eventImageView.load(urlString: image) {
+			
+		}
 		nameLabel.text = name
 	}
 }
@@ -38,14 +42,26 @@ private extension RegularEventViewCell {
 	}
 	
 	func setupLayout() {
-		addSubview(nameLabel)
+		addSubview(eventImageView)
+		eventImageView.addSubview(nameLabel)
 		
 		NSLayoutConstraint.activate([
-			nameLabel.topAnchor.constraint(equalTo: topAnchor),
-			nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-			nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-			nameLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+			eventImageView.topAnchor.constraint(equalTo: topAnchor),
+			eventImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+			eventImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+			eventImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+			
+			nameLabel.leadingAnchor.constraint(equalTo: eventImageView.leadingAnchor, constant: Sizes.Padding.normal),
+			nameLabel.trailingAnchor.constraint(equalTo: eventImageView.trailingAnchor, constant: -Sizes.Padding.normal),
+			nameLabel.bottomAnchor.constraint(equalTo: eventImageView.bottomAnchor, constant: -Sizes.Padding.normal),
 		])
+	}
+	func makeImageView() -> UIImageView {
+		let image = UIImageView()
+		image.contentMode = .scaleAspectFill
+		image.clipsToBounds = true
+		image.translatesAutoresizingMaskIntoConstraints = false
+		return image
 	}
 	
 	func makeTitleLabel() -> UILabel {

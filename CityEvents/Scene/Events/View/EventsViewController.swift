@@ -78,9 +78,9 @@ extension EventsViewController: UICollectionViewDataSource {
 		}
 		switch sectionType {
 		case .recomendation:
-			return 4
+			return viewModel.eventList.count
 		case .regular:
-			return 3
+			return viewModel.eventList.count
 		}
 	}
 	
@@ -97,8 +97,11 @@ extension EventsViewController: UICollectionViewDataSource {
 			) as? EventViewCell else {
 				return UICollectionViewCell()
 			}
-			cell.configure(name: "recomendation")
+			let event = viewModel.eventList[indexPath.row]
+			cell.configure(image: event.image, name: event.title)
+			
 			return cell
+			
 		case .regular:
 			guard let cell = collectionView.dequeueReusableCell(
 				withReuseIdentifier: RegularEventViewCell.identifier,
@@ -106,7 +109,9 @@ extension EventsViewController: UICollectionViewDataSource {
 			) as? RegularEventViewCell else {
 				return UICollectionViewCell()
 			}
-			cell.configure(name: "regular")
+			let event = viewModel.eventList[indexPath.row]
+			cell.configure(image: event.image, name: event.title)
+			
 			return cell
 		}
 	}
@@ -142,5 +147,6 @@ extension EventsViewController: UICollectionViewDelegate {
 extension EventsViewController: IEventsView {
 	func render(viewModel: EventsViewModel) {
 		self.viewModel = viewModel
+		contentView.eventsCollectionView.reloadData()
 	}
 }

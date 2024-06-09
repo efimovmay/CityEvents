@@ -13,6 +13,11 @@ protocol INetworkService {
 		with requestData: INetworkRequestData,
 		completion: @escaping(Result<T, NetworkServiceError>) -> Void
 	)
+	
+	func perform(
+		request: URLRequest,
+		completion: @escaping (Result<Data, NetworkServiceError>
+		) -> Void)
 }
 
 class NetworkService: INetworkService {
@@ -43,11 +48,11 @@ class NetworkService: INetworkService {
 			}
 		}
 	}
-}
-
-private extension NetworkService {
 	
-	func perform(request: URLRequest, completion: @escaping (Result<Data, NetworkServiceError>) -> Void) {
+	func perform(
+		request: URLRequest,
+		completion: @escaping (Result<Data, NetworkServiceError>
+		) -> Void) {
 		session.dataTask(with: request) { (data, response, error) in
 			if let error = error {
 				completion(.failure(.networkError(error)))
@@ -67,6 +72,9 @@ private extension NetworkService {
 			completion(.success(data))
 		}.resume()
 	}
+}
+
+private extension NetworkService {
 	
 	func makeRequest(with requestData: INetworkRequestData) -> URLRequest? {
 		
