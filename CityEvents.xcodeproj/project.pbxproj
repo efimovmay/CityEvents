@@ -26,6 +26,16 @@
 		5BB997782C14F3B200E47C8F /* StringLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB997772C14F3B200E47C8F /* StringLocalization.swift */; };
 		5BCBBB022C159E36004C60AD /* EventsSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB012C159E36004C60AD /* EventsSectionHeaderView.swift */; };
 		5BCBBB042C15A17E004C60AD /* RegularEventViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB032C15A17E004C60AD /* RegularEventViewCell.swift */; };
+		5BCBBB072C15BBA9004C60AD /* NetworkEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB062C15BBA9004C60AD /* NetworkEndpoints.swift */; };
+		5BCBBB092C15BBB2004C60AD /* RequestParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB082C15BBB2004C60AD /* RequestParameters.swift */; };
+		5BCBBB0B2C15BBBB004C60AD /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB0A2C15BBBB004C60AD /* NetworkService.swift */; };
+		5BCBBB0E2C15BC26004C60AD /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB0D2C15BC26004C60AD /* Event.swift */; };
+		5BCBBB102C15BC4A004C60AD /* EventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB0F2C15BC4A004C60AD /* EventList.swift */; };
+		5BCBBB122C15BC78004C60AD /* UIImageView+load+cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB112C15BC78004C60AD /* UIImageView+load+cache.swift */; };
+		5BCBBB142C15BD2E004C60AD /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB132C15BD2E004C60AD /* NetworkError.swift */; };
+		5BCBBB162C15DF79004C60AD /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB152C15DF79004C60AD /* NetworkRequest.swift */; };
+		5BCBBB182C15E14E004C60AD /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB172C15E14E004C60AD /* HTTPMethod.swift */; };
+		5BCBBB1A2C15E683004C60AD /* AllLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB192C15E683004C60AD /* AllLocation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +61,16 @@
 		5BB997772C14F3B200E47C8F /* StringLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringLocalization.swift; sourceTree = "<group>"; };
 		5BCBBB012C159E36004C60AD /* EventsSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsSectionHeaderView.swift; sourceTree = "<group>"; };
 		5BCBBB032C15A17E004C60AD /* RegularEventViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularEventViewCell.swift; sourceTree = "<group>"; };
+		5BCBBB062C15BBA9004C60AD /* NetworkEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkEndpoints.swift; sourceTree = "<group>"; };
+		5BCBBB082C15BBB2004C60AD /* RequestParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestParameters.swift; sourceTree = "<group>"; };
+		5BCBBB0A2C15BBBB004C60AD /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		5BCBBB0D2C15BC26004C60AD /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		5BCBBB0F2C15BC4A004C60AD /* EventList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventList.swift; sourceTree = "<group>"; };
+		5BCBBB112C15BC78004C60AD /* UIImageView+load+cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+load+cache.swift"; sourceTree = "<group>"; };
+		5BCBBB132C15BD2E004C60AD /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		5BCBBB152C15DF79004C60AD /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		5BCBBB172C15E14E004C60AD /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		5BCBBB192C15E683004C60AD /* AllLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLocation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +105,8 @@
 			children = (
 				5BB997672C14EB1800E47C8F /* Appearance */,
 				5BB9976A2C14EB8500E47C8F /* Extensions */,
+				5BCBBB0C2C15BBE3004C60AD /* Model */,
+				5BCBBB052C15BB95004C60AD /* Network */,
 				5BB997592C14992900E47C8F /* Resource */,
 				5BB9975B2C149E6000E47C8F /* Scene */,
 				5BB9975A2C149E5400E47C8F /* Storage */,
@@ -144,6 +166,7 @@
 		5BB9976A2C14EB8500E47C8F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				5BCBBB112C15BC78004C60AD /* UIImageView+load+cache.swift */,
 				5BB9976D2C14EC0E00E47C8F /* UIColor+Dynamic.swift */,
 				5BB9976F2C14ECAD00E47C8F /* UIColor+Hex.swift */,
 			);
@@ -169,6 +192,29 @@
 				5BCBBB032C15A17E004C60AD /* RegularEventViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		5BCBBB052C15BB95004C60AD /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				5BCBBB082C15BBB2004C60AD /* RequestParameters.swift */,
+				5BCBBB062C15BBA9004C60AD /* NetworkEndpoints.swift */,
+				5BCBBB132C15BD2E004C60AD /* NetworkError.swift */,
+				5BCBBB0A2C15BBBB004C60AD /* NetworkService.swift */,
+				5BCBBB152C15DF79004C60AD /* NetworkRequest.swift */,
+				5BCBBB172C15E14E004C60AD /* HTTPMethod.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		5BCBBB0C2C15BBE3004C60AD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5BCBBB0D2C15BC26004C60AD /* Event.swift */,
+				5BCBBB0F2C15BC4A004C60AD /* EventList.swift */,
+				5BCBBB192C15E683004C60AD /* AllLocation.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,19 +289,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BCBBB102C15BC4A004C60AD /* EventList.swift in Sources */,
 				5BB997472C1498A600E47C8F /* EventsViewController.swift in Sources */,
+				5BCBBB142C15BD2E004C60AD /* NetworkError.swift in Sources */,
 				5BB997622C14A4E700E47C8F /* EventsView.swift in Sources */,
 				5BB9976E2C14EC0E00E47C8F /* UIColor+Dynamic.swift in Sources */,
 				5BB997602C149FFA00E47C8F /* EventsViewModel.swift in Sources */,
+				5BCBBB1A2C15E683004C60AD /* AllLocation.swift in Sources */,
+				5BCBBB0E2C15BC26004C60AD /* Event.swift in Sources */,
 				5BCBBB042C15A17E004C60AD /* RegularEventViewCell.swift in Sources */,
+				5BCBBB182C15E14E004C60AD /* HTTPMethod.swift in Sources */,
+				5BCBBB122C15BC78004C60AD /* UIImageView+load+cache.swift in Sources */,
+				5BCBBB072C15BBA9004C60AD /* NetworkEndpoints.swift in Sources */,
+				5BCBBB162C15DF79004C60AD /* NetworkRequest.swift in Sources */,
 				5BB997662C14AE6800E47C8F /* Sizes.swift in Sources */,
 				5BCBBB022C159E36004C60AD /* EventsSectionHeaderView.swift in Sources */,
 				5BB997642C14A92300E47C8F /* EventViewCell.swift in Sources */,
 				5BB9975E2C149EC100E47C8F /* EventsPresenter.swift in Sources */,
 				5BB9974D2C1498A600E47C8F /* CityEvents.xcdatamodeld in Sources */,
+				5BCBBB092C15BBB2004C60AD /* RequestParameters.swift in Sources */,
 				5BB997722C14EDDB00E47C8F /* Colors.swift in Sources */,
 				5BB997782C14F3B200E47C8F /* StringLocalization.swift in Sources */,
 				5BB9976C2C14EBD000E47C8F /* Theme.swift in Sources */,
+				5BCBBB0B2C15BBBB004C60AD /* NetworkService.swift in Sources */,
 				5BB997702C14ECAD00E47C8F /* UIColor+Hex.swift in Sources */,
 				5BB997432C1498A600E47C8F /* AppDelegate.swift in Sources */,
 				5BB997452C1498A600E47C8F /* SceneDelegate.swift in Sources */,
