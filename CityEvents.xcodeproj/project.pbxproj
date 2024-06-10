@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5BA475982C16E49A00BF2D5D /* EventsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA475972C16E49A00BF2D5D /* EventsRouter.swift */; };
+		5BA4759A2C16E5B600BF2D5D /* EventsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA475992C16E5B600BF2D5D /* EventsAssembly.swift */; };
 		5BB997432C1498A600E47C8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB997422C1498A600E47C8F /* AppDelegate.swift */; };
 		5BB997452C1498A600E47C8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB997442C1498A600E47C8F /* SceneDelegate.swift */; };
 		5BB997472C1498A600E47C8F /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB997462C1498A600E47C8F /* EventsViewController.swift */; };
@@ -40,6 +42,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5BA475972C16E49A00BF2D5D /* EventsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsRouter.swift; sourceTree = "<group>"; };
+		5BA475992C16E5B600BF2D5D /* EventsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAssembly.swift; sourceTree = "<group>"; };
 		5BB9973F2C1498A600E47C8F /* CityEvents.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CityEvents.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BB997422C1498A600E47C8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5BB997442C1498A600E47C8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +90,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5BA4759B2C16E61A00BF2D5D /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
 		5BB997362C1498A600E47C8F = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				5BB9975C2C149E6900E47C8F /* Events */,
+				5BA4759B2C16E61A00BF2D5D /* Detail */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -150,6 +162,8 @@
 			children = (
 				5BCBBAFF2C1594DA004C60AD /* View */,
 				5BB9975D2C149EC100E47C8F /* EventsPresenter.swift */,
+				5BA475972C16E49A00BF2D5D /* EventsRouter.swift */,
+				5BA475992C16E5B600BF2D5D /* EventsAssembly.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -292,6 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BA4759A2C16E5B600BF2D5D /* EventsAssembly.swift in Sources */,
 				5BCBBB102C15BC4A004C60AD /* EventList.swift in Sources */,
 				5BB997472C1498A600E47C8F /* EventsViewController.swift in Sources */,
 				5BCBBB142C15BD2E004C60AD /* NetworkError.swift in Sources */,
@@ -307,6 +322,7 @@
 				5BCBBB072C15BBA9004C60AD /* NetworkEndpoints.swift in Sources */,
 				5BCBBB162C15DF79004C60AD /* NetworkRequest.swift in Sources */,
 				5BB997662C14AE6800E47C8F /* Sizes.swift in Sources */,
+				5BA475982C16E49A00BF2D5D /* EventsRouter.swift in Sources */,
 				5BCBBB022C159E36004C60AD /* EventsSectionHeaderView.swift in Sources */,
 				5BB997642C14A92300E47C8F /* EventViewCell.swift in Sources */,
 				5BB9975E2C149EC100E47C8F /* EventsPresenter.swift in Sources */,

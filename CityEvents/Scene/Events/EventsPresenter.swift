@@ -17,13 +17,14 @@ final class EventsPresenter: IEventsPresenter {
 	
 	private weak var view: IEventsView?
 	private let network: INetworkService
-	
+	private let router: EventsRouter
 	// MARK: - Private properties
 	
 	// MARK: - Initialization
 	
-	init(network: INetworkService) {
+	init(router: EventsRouter, network: INetworkService) {
 		self.network = network
+		self.router = router
 	}
 	
 	// MARK: - Public methods

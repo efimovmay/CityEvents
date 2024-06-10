@@ -16,11 +16,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		window = UIWindow(windowScene: windowScene)
 		
 		let network = NetworkService()
-		let presenter = EventsPresenter(network: network)
-		let viewController = EventsViewController(presenter: presenter)
-		let navController = UINavigationController(rootViewController: viewController)
+		let navController = UINavigationController()
+		let dependencies = EventsAssembly.Dependencies(navigationController: navController, network: network)
+		let eventsViewController = EventsAssembly.makeModule(dependencies: dependencies)
 		
-		window?.rootViewController = navController
+		window?.rootViewController = eventsViewController
 		window?.makeKeyAndVisible()
 	}
 }
