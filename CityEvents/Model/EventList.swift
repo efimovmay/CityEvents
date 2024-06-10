@@ -15,17 +15,10 @@ struct EventListDTO: Decodable {
 	
 	struct Event: Decodable {
 		let id: Int
-		let dates: [Dates]
+		let dates: [DateRange]
 		let title: String
-		let images: [Image]
+		let place: Place?
+		let price: String
+		let images: [EventImages]
 	}
-	
-	struct Image: Decodable {
-		let image: String
-	}
-}
-
-struct Dates: Decodable {
-	let start: Int
-	let end: Int
 }

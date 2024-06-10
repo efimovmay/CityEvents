@@ -7,11 +7,21 @@
 
 import Foundation
 
-struct EventsViewModel {
-	var eventList: [Model]
+enum EventsViewModel {
 	
-	struct Model {
+	struct eventList {
+		var eventList: [EventModel]
+	}
+
+	struct eventsOfDay {
+		var eventOfDay: [EventModel]
+	}
+	
+	struct EventModel {
 		let title: String
 		let image: String
+		let price: String
+		let place: String?
+		let date: String?
 	}
 }

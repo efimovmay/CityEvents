@@ -38,8 +38,9 @@ struct NetworkRequestDataEvents: INetworkRequestData {
 	init(location: AllLocation, actualSince: String? = nil, actualUntil: String? = nil) {
 
 		parameters = [
-			"fields" : "id,title,images,dates",
-			"lang": "ru",
+			"expand" : "place",
+			"fields" : "id,dates,title,place,price,images",
+			"lang" : "ru",
 			"location": location.rawValue
 		]
 		if let actualSince = actualSince {

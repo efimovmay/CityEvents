@@ -18,8 +18,11 @@ final class EventsPresenter: IEventsPresenter {
 	private weak var view: IEventsView?
 	private let network: INetworkService
 	private let router: EventsRouter
+	
 	// MARK: - Private properties
 	
+	private let dateFormatter = DateFormatter()
+
 	// MARK: - Initialization
 	
 	init(router: EventsRouter, network: INetworkService) {
@@ -31,7 +34,8 @@ final class EventsPresenter: IEventsPresenter {
 	
 	func viewIsReady(view: IEventsView) {
 		self.view = view
-		fetchEvent()
+		fetchEventsOfDay()
+		fetchEvents()
 	}
 }
 
@@ -63,7 +67,7 @@ private extension EventsPresenter {
 			switch result {
 			case .success(let data):
 				DispatchQueue.main.async {
-					self.render(with: data)
+					self.renderEventOfDay(with: data)
 				}
 			case .failure(let error):
 				print(error.localizedDescription)
@@ -87,25 +91,42 @@ private extension EventsPresenter {
 			}
 	}
 	
-	func render(with events: EventOfDayDTO) {
-//		var list = EventsViewModel(eventList: [])
+	func renderEventOfDay(with events: EventOfDayDTO) {
+//		var list = EventsViewModel.eventsOfDay(eventOfDay: [])
 //		events.results.forEach { event in
-//			list.eventList.append(EventsViewModel.Model(
-//				title: event.object.title,
-//				image: event.object.poster.image
+//			list.eventOfDay.append(EventsViewModel.Model(
+//				title: event.object.,
+//				image: event.object.
 //			))
 //		}
-//		view?.render(viewModel: list)
+//		view?.renderEventOfDay(viewModel: list)
 	}
 	
 	func render(with events: EventListDTO) {
-		var list = EventsViewModel(eventList: [])
+		var list = EventsViewModel.eventList(eventList: [])
 		events.results.forEach { event in
-			list.eventList.append(EventsViewModel.Model(
-				title: event.title,
-				image: event.images[0].image
+			list.eventList.append(EventsViewModel.EventModel(
+				title: event.title.capitalizingFirstLetter(),
+				image: event.images[0].image,
+				price: event.price,
+				place: event.place?.title,
+				date: getLastDate(dateRange: event.dates)
 			))
 		}
-		view?.render(viewModel: list)
+		view?.renderEvents(viewModel: list)
+	}
+}
+
+private extension EventsPresenter {
+	func getLastDate(dateRange: [DateRange]) -> String? {
+		guard let date = dateRange.last?.end else { return nil }
+		let lastDate = Date(timeIntervalSince1970: date)
+		let currentDate = Date()
+		guard let dateBeforeYear = Calendar.current.date(byAdding: .year, value: 1, to: currentDate) else { return nil }
+		if lastDate <= currentDate || lastDate > dateBeforeYear { return nil }
+		dateFormatter.dateStyle = .medium
+		dateFormatter.locale = Locale.current
+		let stringLastDate = "до \(String(dateFormatter.string(from: lastDate)))"
+		return stringLastDate
 	}
 }

@@ -10,6 +10,7 @@ import UIKit
 enum Theme {
 	
 	static let mainColor = Colors.white
+	static let imageSticker = Colors.darkGray
 	
 	enum ImageIcon {
 		static let heart = UIImage(systemName: "heart")

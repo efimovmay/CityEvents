@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5BA475982C16E49A00BF2D5D /* EventsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA475972C16E49A00BF2D5D /* EventsRouter.swift */; };
 		5BA4759A2C16E5B600BF2D5D /* EventsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA475992C16E5B600BF2D5D /* EventsAssembly.swift */; };
+		5BA4759D2C171E1D00BF2D5D /* String+CapitalizingFirst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA4759C2C171E1D00BF2D5D /* String+CapitalizingFirst.swift */; };
 		5BB997432C1498A600E47C8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB997422C1498A600E47C8F /* AppDelegate.swift */; };
 		5BB997452C1498A600E47C8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB997442C1498A600E47C8F /* SceneDelegate.swift */; };
 		5BB997472C1498A600E47C8F /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB997462C1498A600E47C8F /* EventsViewController.swift */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		5BA475972C16E49A00BF2D5D /* EventsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsRouter.swift; sourceTree = "<group>"; };
 		5BA475992C16E5B600BF2D5D /* EventsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAssembly.swift; sourceTree = "<group>"; };
+		5BA4759C2C171E1D00BF2D5D /* String+CapitalizingFirst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CapitalizingFirst.swift"; sourceTree = "<group>"; };
 		5BB9973F2C1498A600E47C8F /* CityEvents.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CityEvents.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BB997422C1498A600E47C8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5BB997442C1498A600E47C8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				5BCBBB112C15BC78004C60AD /* UIImageView+load+cache.swift */,
 				5BB9976D2C14EC0E00E47C8F /* UIColor+Dynamic.swift */,
 				5BB9976F2C14ECAD00E47C8F /* UIColor+Hex.swift */,
+				5BA4759C2C171E1D00BF2D5D /* String+CapitalizingFirst.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				5BA475982C16E49A00BF2D5D /* EventsRouter.swift in Sources */,
 				5BCBBB022C159E36004C60AD /* EventsSectionHeaderView.swift in Sources */,
 				5BB997642C14A92300E47C8F /* EventViewCell.swift in Sources */,
+				5BA4759D2C171E1D00BF2D5D /* String+CapitalizingFirst.swift in Sources */,
 				5BB9975E2C149EC100E47C8F /* EventsPresenter.swift in Sources */,
 				5BB9974D2C1498A600E47C8F /* CityEvents.xcdatamodeld in Sources */,
 				5BCBBB092C15BBB2004C60AD /* RequestParameters.swift in Sources */,

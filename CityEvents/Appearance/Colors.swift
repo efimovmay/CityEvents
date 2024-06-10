@@ -16,4 +16,8 @@ enum Colors {
 		light: UIColor(hex: 0x000000),
 		dark: UIColor(hex: 0xFFFFFF)
 	)
+	static let darkGray = UIColor.color(
+		light: UIColor(hex: 0xF5F5F5),
+		dark: UIColor(hex: 0x1F1F1F)
+	)
 }

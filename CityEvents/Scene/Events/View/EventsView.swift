@@ -124,7 +124,7 @@ private extension EventsView {
 		let item = NSCollectionLayoutItem(layoutSize: itemSize)
 		let groupSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .fractionalHeight(0.4)
+			heightDimension: .fractionalHeight(0.5)
 		)
 		let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
 		let itemSpacing = CGFloat(10)

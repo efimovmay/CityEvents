@@ -8,7 +8,8 @@
 import UIKit
 
 protocol IEventsView: AnyObject {
-	func render(viewModel: EventsViewModel)
+	func renderEvents(viewModel: EventsViewModel.eventList)
+	func renderEventOfDay(viewModel: EventsViewModel.eventsOfDay)
 }
 
 final class EventsViewController: UIViewController {
@@ -20,7 +21,8 @@ final class EventsViewController: UIViewController {
 	
 
 	private lazy var contentView: EventsView = EventsView()
-	private var viewModel: EventsViewModel = .init(eventList: [])
+	private var events: EventsViewModel.eventList = .init(eventList: [])
+	private var eventOfDay: EventsViewModel.eventsOfDay = .init(eventOfDay: [])
 	
 	// MARK: - Initialization
 	
@@ -45,6 +47,16 @@ final class EventsViewController: UIViewController {
 		setupUI()
 		
 		presenter.viewIsReady(view: self)
+	}
+}
+
+// MARK: - Action
+
+private extension EventsViewController {
+	@objc
+	func likeButtonTapped(_ sender: UIButton) {
+		sender.isSelected.toggle()
+		
 	}
 }
 
@@ -78,9 +90,10 @@ extension EventsViewController: UICollectionViewDataSource {
 		}
 		switch sectionType {
 		case .recomendation:
-			return viewModel.eventList.count
+			return eventOfDay.eventOfDay.count
+			
 		case .regular:
-			return viewModel.eventList.count
+			return events.eventList.count
 		}
 	}
 	
@@ -97,7 +110,7 @@ extension EventsViewController: UICollectionViewDataSource {
 			) as? EventViewCell else {
 				return UICollectionViewCell()
 			}
-			let event = viewModel.eventList[indexPath.row]
+			let event = eventOfDay.eventOfDay[indexPath.row]
 			cell.configure(image: event.image, name: event.title)
 			
 			return cell
@@ -109,9 +122,16 @@ extension EventsViewController: UICollectionViewDataSource {
 			) as? RegularEventViewCell else {
 				return UICollectionViewCell()
 			}
-			let event = viewModel.eventList[indexPath.row]
-			cell.configure(image: event.image, name: event.title)
 			
+			let event = events.eventList[indexPath.row]
+			cell.configure(
+				image: event.image,
+				title: event.title,
+				date: event.date,
+				place: event.place,
+				price: event.price
+			)
+			cell.favoriteButton.addTarget(self, action: #selector(likeButtonTapped(_:)), for: .touchUpInside)
 			return cell
 		}
 	}
@@ -145,8 +165,13 @@ extension EventsViewController: UICollectionViewDelegate {
 // MARK: - IEventListViewController
 
 extension EventsViewController: IEventsView {
-	func render(viewModel: EventsViewModel) {
-		self.viewModel = viewModel
+	func renderEvents(viewModel: EventsViewModel.eventList) {
+		events = viewModel
+		contentView.eventsCollectionView.reloadData()
+	}
+	
+	func renderEventOfDay(viewModel: EventsViewModel.eventsOfDay) {
+		eventOfDay = viewModel
 		contentView.eventsCollectionView.reloadData()
 	}
 }

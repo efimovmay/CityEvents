@@ -10,8 +10,9 @@ import UIKit
 final class EventViewCell: UICollectionViewCell {
 	static let identifier = String(describing: EventViewCell.self)
 	
+	private lazy var contentStack: UIStackView = makeContentStack()
 	private lazy var eventImageView: UIImageView = makeImageView()
-	private lazy var nameLabel: UILabel  = makeTitleLabel()
+	private lazy var titleLabel: UILabel  = makeTitleLabel()
 	
 	// MARK: - Initialization
 	
@@ -30,7 +31,7 @@ final class EventViewCell: UICollectionViewCell {
 		eventImageView.load(urlString: image) {
 			
 		}
-		nameLabel.text = name
+		titleLabel.text = name
 	}
 }
 
@@ -42,18 +43,13 @@ private extension EventViewCell {
 	}
 	
 	func setupLayout() {
-		addSubview(eventImageView)
-		eventImageView.addSubview(nameLabel)
+		addSubview(contentStack)
 		
 		NSLayoutConstraint.activate([
-			eventImageView.topAnchor.constraint(equalTo: topAnchor),
-			eventImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-			eventImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-			eventImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-			
-			nameLabel.leadingAnchor.constraint(equalTo: eventImageView.leadingAnchor, constant: Sizes.Padding.normal),
-			nameLabel.trailingAnchor.constraint(equalTo: eventImageView.trailingAnchor, constant: -Sizes.Padding.normal),
-			nameLabel.bottomAnchor.constraint(equalTo: eventImageView.bottomAnchor, constant: -Sizes.Padding.normal),
+			contentStack.topAnchor.constraint(equalTo: topAnchor),
+			contentStack.leadingAnchor.constraint(equalTo: leadingAnchor),
+			contentStack.trailingAnchor.constraint(equalTo: trailingAnchor),
+			contentStack.bottomAnchor.constraint(equalTo: bottomAnchor),
 		])
 	}
 	func makeImageView() -> UIImageView {
@@ -62,6 +58,13 @@ private extension EventViewCell {
 		image.clipsToBounds = true
 		image.translatesAutoresizingMaskIntoConstraints = false
 		return image
+	}
+	func makeContentStack() -> UIStackView {
+		let stack = UIStackView(arrangedSubviews: [eventImageView, titleLabel])
+		stack.axis = .vertical
+		stack.distribution = .fill
+		stack.translatesAutoresizingMaskIntoConstraints = false
+		return stack
 	}
 	
 	func makeTitleLabel() -> UILabel {
