@@ -10,6 +10,7 @@ enum NetworkEndpoints {
 	static let baseURL = "https://kudago.com"
 	
 	case commonPath
+	case eventsOfDay
 	case searchPath
 	case eventsPath
 	case listPath
@@ -35,6 +36,8 @@ extension NetworkEndpoints: CustomStringConvertible {
 			"/movies"
 		case .moviesShowingsPath:
 			"/movie-showings"
+		case .eventsOfDay:
+			"/events-of-the-day"
 		}
 	}
 }

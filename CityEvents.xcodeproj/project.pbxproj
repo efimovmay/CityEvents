@@ -36,6 +36,7 @@
 		5BCBBB162C15DF79004C60AD /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB152C15DF79004C60AD /* NetworkRequest.swift */; };
 		5BCBBB182C15E14E004C60AD /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB172C15E14E004C60AD /* HTTPMethod.swift */; };
 		5BCBBB1A2C15E683004C60AD /* AllLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB192C15E683004C60AD /* AllLocation.swift */; };
+		5BCBBB1C2C16013B004C60AD /* EventOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB1B2C16013B004C60AD /* EventOfDay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +72,7 @@
 		5BCBBB152C15DF79004C60AD /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		5BCBBB172C15E14E004C60AD /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		5BCBBB192C15E683004C60AD /* AllLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLocation.swift; sourceTree = "<group>"; };
+		5BCBBB1B2C16013B004C60AD /* EventOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventOfDay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +214,7 @@
 			children = (
 				5BCBBB0D2C15BC26004C60AD /* Event.swift */,
 				5BCBBB0F2C15BC4A004C60AD /* EventList.swift */,
+				5BCBBB1B2C16013B004C60AD /* EventOfDay.swift */,
 				5BCBBB192C15E683004C60AD /* AllLocation.swift */,
 			);
 			path = Model;
@@ -297,6 +300,7 @@
 				5BB997602C149FFA00E47C8F /* EventsViewModel.swift in Sources */,
 				5BCBBB1A2C15E683004C60AD /* AllLocation.swift in Sources */,
 				5BCBBB0E2C15BC26004C60AD /* Event.swift in Sources */,
+				5BCBBB1C2C16013B004C60AD /* EventOfDay.swift in Sources */,
 				5BCBBB042C15A17E004C60AD /* RegularEventViewCell.swift in Sources */,
 				5BCBBB182C15E14E004C60AD /* HTTPMethod.swift in Sources */,
 				5BCBBB122C15BC78004C60AD /* UIImageView+load+cache.swift in Sources */,

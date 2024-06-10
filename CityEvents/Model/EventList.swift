@@ -9,7 +9,7 @@ import Foundation
 
 struct EventListDTO: Decodable {
 	let count: Int
-	let next: String
+	let next: String?
 	let previous: String?
 	let results: [Event]
 	
@@ -23,9 +23,9 @@ struct EventListDTO: Decodable {
 	struct Image: Decodable {
 		let image: String
 	}
-	
-	struct Dates: Decodable {
-		let start: Int
-		let end: Int
-	}
+}
+
+struct Dates: Decodable {
+	let start: Int
+	let end: Int
 }

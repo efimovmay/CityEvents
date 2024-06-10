@@ -30,7 +30,7 @@ final class EventsPresenter: IEventsPresenter {
 	
 	func viewIsReady(view: IEventsView) {
 		self.view = view
-		fetchEvents()
+		fetchEvent()
 	}
 }
 
@@ -51,6 +51,50 @@ private extension EventsPresenter {
 				print(error.localizedDescription)
 			}
 		}
+	}
+	
+	func fetchEventsOfDay() {
+		network.fetch(
+			dataType: EventOfDayDTO.self,
+			with: NetworkRequestDataOfDay(
+				location: AllLocation.spb
+		)) { result in
+			switch result {
+			case .success(let data):
+				DispatchQueue.main.async {
+					self.render(with: data)
+				}
+			case .failure(let error):
+				print(error.localizedDescription)
+			}
+		}
+	}
+	
+	func fetchEvent() {
+		network.fetch(
+			dataType: EventDTO.self,
+			with: NetworkRequestDataDetailEvent(ids: 194980)
+			) { result in
+				switch result {
+				case .success(let data):
+					DispatchQueue.main.async {
+						print(data.bodyText)
+					}
+				case .failure(let error):
+					print(error.localizedDescription)
+				}
+			}
+	}
+	
+	func render(with events: EventOfDayDTO) {
+//		var list = EventsViewModel(eventList: [])
+//		events.results.forEach { event in
+//			list.eventList.append(EventsViewModel.Model(
+//				title: event.object.title,
+//				image: event.object.poster.image
+//			))
+//		}
+//		view?.render(viewModel: list)
 	}
 	
 	func render(with events: EventListDTO) {
