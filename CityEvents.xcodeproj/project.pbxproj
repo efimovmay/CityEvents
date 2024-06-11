@@ -19,7 +19,6 @@
 		5BB9975E2C149EC100E47C8F /* EventsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB9975D2C149EC100E47C8F /* EventsPresenter.swift */; };
 		5BB997602C149FFA00E47C8F /* EventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB9975F2C149FFA00E47C8F /* EventsViewModel.swift */; };
 		5BB997622C14A4E700E47C8F /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB997612C14A4E700E47C8F /* EventsView.swift */; };
-		5BB997642C14A92300E47C8F /* EventViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB997632C14A92300E47C8F /* EventViewCell.swift */; };
 		5BB997662C14AE6800E47C8F /* Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB997652C14AE6800E47C8F /* Sizes.swift */; };
 		5BB9976C2C14EBD000E47C8F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB9976B2C14EBD000E47C8F /* Theme.swift */; };
 		5BB9976E2C14EC0E00E47C8F /* UIColor+Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB9976D2C14EC0E00E47C8F /* UIColor+Dynamic.swift */; };
@@ -28,7 +27,7 @@
 		5BB997742C14EFF900E47C8F /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5BB997732C14EFF900E47C8F /* Localizable.xcstrings */; };
 		5BB997782C14F3B200E47C8F /* StringLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB997772C14F3B200E47C8F /* StringLocalization.swift */; };
 		5BCBBB022C159E36004C60AD /* EventsSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB012C159E36004C60AD /* EventsSectionHeaderView.swift */; };
-		5BCBBB042C15A17E004C60AD /* RegularEventViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB032C15A17E004C60AD /* RegularEventViewCell.swift */; };
+		5BCBBB042C15A17E004C60AD /* EventViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB032C15A17E004C60AD /* EventViewCell.swift */; };
 		5BCBBB072C15BBA9004C60AD /* NetworkEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB062C15BBA9004C60AD /* NetworkEndpoints.swift */; };
 		5BCBBB092C15BBB2004C60AD /* RequestParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB082C15BBB2004C60AD /* RequestParameters.swift */; };
 		5BCBBB0B2C15BBBB004C60AD /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB0A2C15BBBB004C60AD /* NetworkService.swift */; };
@@ -57,7 +56,6 @@
 		5BB9975D2C149EC100E47C8F /* EventsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsPresenter.swift; sourceTree = "<group>"; };
 		5BB9975F2C149FFA00E47C8F /* EventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewModel.swift; sourceTree = "<group>"; };
 		5BB997612C14A4E700E47C8F /* EventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsView.swift; sourceTree = "<group>"; };
-		5BB997632C14A92300E47C8F /* EventViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewCell.swift; sourceTree = "<group>"; };
 		5BB997652C14AE6800E47C8F /* Sizes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sizes.swift; sourceTree = "<group>"; };
 		5BB9976B2C14EBD000E47C8F /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		5BB9976D2C14EC0E00E47C8F /* UIColor+Dynamic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Dynamic.swift"; sourceTree = "<group>"; };
@@ -67,7 +65,7 @@
 		5BB997762C14F10300E47C8F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		5BB997772C14F3B200E47C8F /* StringLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringLocalization.swift; sourceTree = "<group>"; };
 		5BCBBB012C159E36004C60AD /* EventsSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsSectionHeaderView.swift; sourceTree = "<group>"; };
-		5BCBBB032C15A17E004C60AD /* RegularEventViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularEventViewCell.swift; sourceTree = "<group>"; };
+		5BCBBB032C15A17E004C60AD /* EventViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewCell.swift; sourceTree = "<group>"; };
 		5BCBBB062C15BBA9004C60AD /* NetworkEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkEndpoints.swift; sourceTree = "<group>"; };
 		5BCBBB082C15BBB2004C60AD /* RequestParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestParameters.swift; sourceTree = "<group>"; };
 		5BCBBB0A2C15BBBB004C60AD /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -207,8 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				5BCBBB012C159E36004C60AD /* EventsSectionHeaderView.swift */,
-				5BB997632C14A92300E47C8F /* EventViewCell.swift */,
-				5BCBBB032C15A17E004C60AD /* RegularEventViewCell.swift */,
+				5BCBBB032C15A17E004C60AD /* EventViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -319,7 +316,7 @@
 				5BCBBB1A2C15E683004C60AD /* AllLocation.swift in Sources */,
 				5BCBBB0E2C15BC26004C60AD /* Event.swift in Sources */,
 				5BCBBB1C2C16013B004C60AD /* EventOfDay.swift in Sources */,
-				5BCBBB042C15A17E004C60AD /* RegularEventViewCell.swift in Sources */,
+				5BCBBB042C15A17E004C60AD /* EventViewCell.swift in Sources */,
 				5BCBBB182C15E14E004C60AD /* HTTPMethod.swift in Sources */,
 				5BCBBB122C15BC78004C60AD /* UIImageView+load+cache.swift in Sources */,
 				5BCBBB072C15BBA9004C60AD /* NetworkEndpoints.swift in Sources */,
@@ -327,7 +324,6 @@
 				5BB997662C14AE6800E47C8F /* Sizes.swift in Sources */,
 				5BA475982C16E49A00BF2D5D /* EventsRouter.swift in Sources */,
 				5BCBBB022C159E36004C60AD /* EventsSectionHeaderView.swift in Sources */,
-				5BB997642C14A92300E47C8F /* EventViewCell.swift in Sources */,
 				5BA4759D2C171E1D00BF2D5D /* String+CapitalizingFirst.swift in Sources */,
 				5BB9975E2C149EC100E47C8F /* EventsPresenter.swift in Sources */,
 				5BB9974D2C1498A600E47C8F /* CityEvents.xcdatamodeld in Sources */,

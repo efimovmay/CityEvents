@@ -55,8 +55,8 @@ private extension EventsView {
 			forCellWithReuseIdentifier: EventViewCell.identifier
 		)
 		collection.register(
-			RegularEventViewCell.self,
-			forCellWithReuseIdentifier: RegularEventViewCell.identifier
+			EventViewCell.self,
+			forCellWithReuseIdentifier: EventViewCell.identifier
 		)
 		collection.register(
 			EventsSectionHeaderView.self,

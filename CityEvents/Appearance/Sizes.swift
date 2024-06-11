@@ -15,6 +15,8 @@ enum Sizes {
 	static let cornerRadius: CGFloat = 10
 	static let likeButton: CGFloat = 44
 	
+	static let dateViewHeigth: CGFloat = 34
+	
 	enum Font {
 		static let titleEvent: CGFloat = 22
 	}

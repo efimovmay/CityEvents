@@ -8,8 +8,8 @@
 import UIKit
 
 protocol IEventsView: AnyObject {
-	func renderEvents(viewModel: EventsViewModel.eventList)
-	func renderEventOfDay(viewModel: EventsViewModel.eventsOfDay)
+	func reloadEventsCollection()
+	func addRowEventsCollection(startIndex: Int, endIndex: Int)
 }
 
 final class EventsViewController: UIViewController {
@@ -18,11 +18,8 @@ final class EventsViewController: UIViewController {
 	private let presenter: IEventsPresenter
 	
 	// MARK: - Private properties
-	
 
 	private lazy var contentView: EventsView = EventsView()
-	private var events: EventsViewModel.eventList = .init(eventList: [])
-	private var eventOfDay: EventsViewModel.eventsOfDay = .init(eventOfDay: [])
 	
 	// MARK: - Initialization
 	
@@ -54,9 +51,8 @@ final class EventsViewController: UIViewController {
 
 private extension EventsViewController {
 	@objc
-	func likeButtonTapped(_ sender: UIButton) {
-		sender.isSelected.toggle()
-		
+	func favoriteButtonTapped(_ sender: UIButton) {
+		print("like")
 	}
 }
 
@@ -90,10 +86,10 @@ extension EventsViewController: UICollectionViewDataSource {
 		}
 		switch sectionType {
 		case .recomendation:
-			return eventOfDay.eventOfDay.count
+			return 0
 			
 		case .regular:
-			return events.eventList.count
+			return presenter.numberOfEvents()
 		}
 	}
 	
@@ -110,20 +106,21 @@ extension EventsViewController: UICollectionViewDataSource {
 			) as? EventViewCell else {
 				return UICollectionViewCell()
 			}
-			let event = eventOfDay.eventOfDay[indexPath.row]
-			cell.configure(image: event.image, name: event.title)
 			
 			return cell
 			
 		case .regular:
 			guard let cell = collectionView.dequeueReusableCell(
-				withReuseIdentifier: RegularEventViewCell.identifier,
+				withReuseIdentifier: EventViewCell.identifier,
 				for: indexPath
-			) as? RegularEventViewCell else {
+			) as? EventViewCell else {
 				return UICollectionViewCell()
 			}
 			
-			let event = events.eventList[indexPath.row]
+			let event = presenter.item(at: indexPath.row)
+			
+			cell.favoriteButton.removeTarget(nil, action: nil, for: .allEvents)
+			cell.favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped(_:)), for: .touchUpInside)
 			cell.configure(
 				image: event.image,
 				title: event.title,
@@ -131,7 +128,7 @@ extension EventsViewController: UICollectionViewDataSource {
 				place: event.place,
 				price: event.price
 			)
-			cell.favoriteButton.addTarget(self, action: #selector(likeButtonTapped(_:)), for: .touchUpInside)
+
 			return cell
 		}
 	}
@@ -156,6 +153,16 @@ extension EventsViewController: UICollectionViewDataSource {
 			return UICollectionReusableView()
 		}
 	}
+	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		presenter.routeToDetailsScreen(indexEvent: indexPath.item)
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+		if indexPath.item == presenter.numberOfEvents() - 2 {
+			presenter.fetchNextPage()
+		}
+	}
 }
 
 extension EventsViewController: UICollectionViewDelegate {
@@ -165,13 +172,17 @@ extension EventsViewController: UICollectionViewDelegate {
 // MARK: - IEventListViewController
 
 extension EventsViewController: IEventsView {
-	func renderEvents(viewModel: EventsViewModel.eventList) {
-		events = viewModel
+	func reloadEventsCollection() {
 		contentView.eventsCollectionView.reloadData()
 	}
 	
-	func renderEventOfDay(viewModel: EventsViewModel.eventsOfDay) {
-		eventOfDay = viewModel
-		contentView.eventsCollectionView.reloadData()
+	func addRowEventsCollection(startIndex: Int, endIndex: Int) {
+		var indexPaths: [IndexPath] = []
+		for index in startIndex...endIndex {
+			indexPaths.append(IndexPath(item: index, section: 1))
+		}
+		contentView.eventsCollectionView.performBatchUpdates({
+			contentView.eventsCollectionView.insertItems(at: indexPaths)
+		}, completion: nil)
 	}
 }
