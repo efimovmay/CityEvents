@@ -17,6 +17,7 @@ enum NetworkEndpoints {
 	case placesPath
 	case moviesPath
 	case moviesShowingsPath
+	case eventCategories
 }
 
 extension NetworkEndpoints: CustomStringConvertible {
@@ -38,6 +39,8 @@ extension NetworkEndpoints: CustomStringConvertible {
 			"/movie-showings"
 		case .eventsOfDay:
 			"/events-of-the-day"
+		case .eventCategories:
+			"/event-categories"
 		}
 	}
 }

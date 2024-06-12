@@ -15,7 +15,6 @@ final class EventViewCell: UICollectionViewCell {
 	
 	lazy var favoriteButton: UIButton = makeLikeButton()
 	
-	private lazy var contentStack: UIStackView = makeContentStack()
 	private lazy var eventImageView: UIImageView = makeImageView()
 	private lazy var titleLabel: UILabel = makeTitleLabel()
 	private lazy var dateView: UIView = makeDateView()
@@ -57,16 +56,26 @@ final class EventViewCell: UICollectionViewCell {
 private extension EventViewCell {
 	
 	func setupLayout() {
-		addSubview(contentStack)
+		addSubview(priceLabel)
+		addSubview(titleLabel)
+		addSubview(eventImageView)
+		eventImageView.addSubview(favoriteButton)
 		eventImageView.addSubview(dateView)
 		dateView.addSubview(dateLabel)
-		eventImageView.addSubview(favoriteButton)
 
 		NSLayoutConstraint.activate([
-			contentStack.topAnchor.constraint(equalTo: topAnchor),
-			contentStack.leadingAnchor.constraint(equalTo: leadingAnchor),
-			contentStack.trailingAnchor.constraint(equalTo: trailingAnchor),
-			contentStack.bottomAnchor.constraint(equalTo: bottomAnchor),
+			priceLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+			priceLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+			priceLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+			
+			titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+			titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+			titleLabel.bottomAnchor.constraint(equalTo: priceLabel.topAnchor, constant: -Sizes.Padding.half),
+			
+			eventImageView.topAnchor.constraint(equalTo: topAnchor),
+			eventImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+			eventImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+			eventImageView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -Sizes.Padding.half),
 			
 			favoriteButton.topAnchor.constraint(equalTo: eventImageView.topAnchor, constant: Sizes.Padding.normal),
 			favoriteButton.trailingAnchor.constraint(equalTo: eventImageView.trailingAnchor, constant: -Sizes.Padding.normal),
@@ -79,17 +88,9 @@ private extension EventViewCell {
 			dateView.heightAnchor.constraint(equalToConstant: Sizes.dateViewHeigth),
 			
 			dateLabel.centerXAnchor.constraint(equalTo: dateView.centerXAnchor),
-			dateLabel.centerYAnchor.constraint(equalTo: dateView.centerYAnchor)
+			dateLabel.centerYAnchor.constraint(equalTo: dateView.centerYAnchor),
+			
 		])
-	}
-	
-	func makeContentStack() -> UIStackView {
-		let stack = UIStackView(arrangedSubviews: [eventImageView, titleLabel, priceLabel])
-		stack.axis = .vertical
-		stack.spacing = Sizes.Padding.half
-		stack.distribution = .equalCentering
-		stack.translatesAutoresizingMaskIntoConstraints = false
-		return stack
 	}
 	
 	func makeImageView() -> UIImageView {

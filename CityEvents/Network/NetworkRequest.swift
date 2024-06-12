@@ -17,6 +17,18 @@ protocol INetworkRequestData {
 	var parameters: [String: String] { get }
 }
 
+struct NetworkRequestDataCategories: INetworkRequestData {
+	var path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventCategories.description
+	var method = HTTPMethod.get
+	var parameters: [String : String]
+	
+	init() {
+		parameters = [
+			"lang" : "ru"
+		]
+	}
+}
+
 struct NetworkRequestDataDetailEvent: INetworkRequestData {
 	var path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventsPath.description
 	var method = HTTPMethod.get
@@ -35,19 +47,26 @@ struct NetworkRequestDataEvents: INetworkRequestData {
 	var method = HTTPMethod.get
 	var parameters: [String : String]
 	
-	init(location: AllLocation, actualSince: String? = nil, actualUntil: String? = nil) {
+	init(
+		location: AllLocation,
+		actualSince: Double? = nil,
+		actualUntil: Double? = nil,
+		categories: String? = nil) {
 
 		parameters = [
 			"expand" : "place",
 			"fields" : "id,dates,title,place,price,images",
 			"lang" : "ru",
-			"location": location.rawValue
+			"location": location.rawValue,
 		]
 		if let actualSince = actualSince {
-			parameters["actual_since"] = actualSince
+			parameters["actual_since"] = String(actualSince)
 		}
 		if let actualUntil = actualUntil {
-			parameters["actual_until"] = actualUntil
+			parameters["actual_until"] = String(actualUntil)
+		}
+		if let categories = categories {
+			parameters["categories"] = categories
 		}
 	}
 }

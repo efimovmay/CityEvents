@@ -9,14 +9,16 @@ import Foundation
 
 protocol IEventsPresenter {
 	func viewIsReady(view: IEventsView)
+	func numberOfCategory() -> Int
 	func numberOfEvents() -> Int
-	func item(at index: Int) -> EventsViewModel.Event
+	func getCategory(at index: Int) -> EventsViewModel.Category
+	func getEvent(at index: Int) -> EventsViewModel.Event
 	func routeToDetailsScreen(indexEvent: Int)
+	func fetchEventsByCategory(at index: Int)
 	func fetchNextPage()
 }
 
 final class EventsPresenter: IEventsPresenter {
-	
 	// MARK: - Dependencies
 	
 	private weak var view: IEventsView?
@@ -26,7 +28,10 @@ final class EventsPresenter: IEventsPresenter {
 	// MARK: - Private properties
 	
 	private let dateFormatter = DateFormatter()
-	private var events: [EventsViewModel.Event] = []
+	
+	var events: [EventsViewModel.Event] = []
+	var categories: [EventsViewModel.Category] = []
+	
 	private var urlNextPage: String? = nil
 	
 	// MARK: - Initialization
@@ -40,15 +45,14 @@ final class EventsPresenter: IEventsPresenter {
 	
 	func viewIsReady(view: IEventsView) {
 		self.view = view
-		fetchEvents()
+		fetchCategories()
+		fetchEvents(categories: nil)
 	}
 	
-	func numberOfEvents() -> Int {
-		events.count
-	}
-	
-	func item(at index: Int) -> EventsViewModel.Event {
-		events[index]
+	func fetchEventsByCategory(at index: Int) {
+		events = []
+		reloadSection(.events)
+		fetchEvents(categories: categories[index].slug)
 	}
 	
 	func routeToDetailsScreen(indexEvent: Int) {
@@ -71,6 +75,40 @@ final class EventsPresenter: IEventsPresenter {
 
 private extension EventsPresenter {
 	
+	func fetchCategories() {
+		network.fetch(dataType: [CategoriesEvent].self, with: NetworkRequestDataCategories()) { result in
+			switch result {
+			case .success(let data):
+				data.forEach { category in
+					self.categories.append(EventsViewModel.Category(
+						slug: category.slug,
+						name: category.name
+					))
+				}
+				self.reloadSection(.category)
+			case .failure(let error):
+				print(error.localizedDescription)
+			}
+		}
+	}
+	
+	func fetchEvents(categories: String?) {
+		network.fetch(
+			dataType: EventListDTO.self,
+			with: NetworkRequestDataEvents(
+				location: AllLocation.spb,
+				actualSince: Date().timeIntervalSince1970,
+				categories: categories
+			)) { result in
+				switch result {
+				case .success(let data):
+					self.addDownloadEvents(data)
+				case .failure(let error):
+					print(error.localizedDescription)
+				}
+			}
+	}
+	
 	func addDownloadEvents(_ data: EventListDTO) {
 		urlNextPage = data.next
 		let startIndex = self.events.count
@@ -91,38 +129,6 @@ private extension EventsPresenter {
 		}
 	}
 	
-	func fetchEvents() {
-		network.fetch(
-			dataType: EventListDTO.self,
-			with: NetworkRequestDataEvents(
-				location: AllLocation.spb,
-				actualSince: String(Date().timeIntervalSince1970))
-		) { result in
-			switch result {
-			case .success(let data):
-				self.addDownloadEvents(data)
-			case .failure(let error):
-				print(error.localizedDescription)
-			}
-		}
-	}
-	
-	func fetchEvent() {
-		network.fetch(
-			dataType: EventDTO.self,
-			with: NetworkRequestDataDetailEvent(ids: 194980)
-			) { result in
-				switch result {
-				case .success(let data):
-					DispatchQueue.main.async {
-						print(data.bodyText)
-					}
-				case .failure(let error):
-					print(error.localizedDescription)
-				}
-			}
-	}
-
 	func getLastDate(dateRange: [DateRange]) -> String? {
 		guard let date = dateRange.last?.end else { return nil }
 		let lastDate = Date(timeIntervalSince1970: date)
@@ -143,4 +149,27 @@ private extension EventsPresenter {
 			self.view?.reloadEventsCollection()
 		}
 	}
+	
+	func reloadSection(_ section: EventsViewModel.Sections) {
+		DispatchQueue.main.async {
+			self.view?.reloadSection(section.rawValue)
+		}
+	}
 }
+
+
+//func fetchEvent() {
+//	network.fetch(
+//		dataType: EventDTO.self,
+//		with: NetworkRequestDataDetailEvent(ids: 194980)
+//	) { result in
+//		switch result {
+//		case .success(let data):
+//			DispatchQueue.main.async {
+//				print(data.bodyText)
+//			}
+//		case .failure(let error):
+//			print(error.localizedDescription)
+//		}
+//	}
+//	}

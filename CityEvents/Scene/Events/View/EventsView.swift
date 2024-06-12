@@ -10,10 +10,6 @@ import UIKit
 final class EventsView: UIView {
 	// MARK: - Properties
 	
-	enum Sections: Int, CaseIterable {
-		case recomendation, regular
-	}
-	
 	lazy var eventsCollectionView: UICollectionView = makeEventsCollectionView()
 	
 	// MARK: - Initialization
@@ -51,8 +47,8 @@ private extension EventsView {
 	func makeEventsCollectionView() -> UICollectionView {
 		let collection = UICollectionView(frame: .zero, collectionViewLayout: createCollectionLayout())
 		collection.register(
-			EventViewCell.self,
-			forCellWithReuseIdentifier: EventViewCell.identifier
+			CategoryCell.self,
+			forCellWithReuseIdentifier: CategoryCell.identifier
 		)
 		collection.register(
 			EventViewCell.self,
@@ -65,58 +61,48 @@ private extension EventsView {
 		)
 		collection.backgroundColor = .clear
 		collection.translatesAutoresizingMaskIntoConstraints = false
+		
 		return collection
 	}
 	
 	private func createCollectionLayout() -> UICollectionViewLayout {
-		let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvirnment) -> NSCollectionLayoutSection? in
-			guard let section = Sections(rawValue: sectionIndex) else { return nil }
+		let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
+			guard let section = EventsViewModel.Sections(rawValue: sectionIndex) else { return nil }
 			switch section {
-			case .recomendation:
-				return self.createRecomandationSection()
-			case .regular:
-				return self.createVerticalSection()
+			case .category:
+				return self.createCategorySection()
+			case .events:
+				return self.createEventsSection()
 			}
 		}
-		
-		
 		let config = UICollectionViewCompositionalLayoutConfiguration()
-		config.interSectionSpacing = 50
+		config.interSectionSpacing = Sizes.Padding.double
 		layout.configuration = config
 		
 		return layout
 	}
 	
-	private func createRecomandationSection() -> NSCollectionLayoutSection {
+	private func createCategorySection() -> NSCollectionLayoutSection {
 		let itemSize = NSCollectionLayoutSize(
-			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .fractionalHeight(1.0)
+			widthDimension: .estimated(Sizes.categoryWidthMinimum),
+			heightDimension: .absolute(Sizes.categoryHeigth)
 		)
 		let item = NSCollectionLayoutItem(layoutSize: itemSize)
 		
 		let groupSize = NSCollectionLayoutSize(
-			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .fractionalWidth(0.6)
+			widthDimension:  .estimated(Sizes.categoryWidthMinimum),
+			heightDimension: .absolute(Sizes.categoryHeigth)
 		)
 		let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 		
-		let headerSize = NSCollectionLayoutSize(
-			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .absolute(60)
-		)
-		let header = NSCollectionLayoutBoundarySupplementaryItem(
-			layoutSize: headerSize,
-			elementKind: UICollectionView.elementKindSectionHeader,
-			alignment: .top)
-		
 		let section = NSCollectionLayoutSection(group: group)
-		section.boundarySupplementaryItems = [header]
-		section.orthogonalScrollingBehavior = .paging
+		section.orthogonalScrollingBehavior = .continuous
+		section.interGroupSpacing = Sizes.Padding.half
 		
 		return section
 	}
 	
-	private func createVerticalSection() -> NSCollectionLayoutSection {
+	private func createEventsSection() -> NSCollectionLayoutSection {
 		let itemSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
 			heightDimension: .fractionalHeight(0.9)
@@ -127,8 +113,7 @@ private extension EventsView {
 			heightDimension: .fractionalHeight(0.5)
 		)
 		let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-		let itemSpacing = CGFloat(10)
-		group.interItemSpacing = .fixed(itemSpacing)
+		group.interItemSpacing = .fixed(CGFloat(Sizes.Padding.half))
 		
 		let section = NSCollectionLayoutSection(group: group)
 		section.contentInsets = NSDirectionalEdgeInsets(

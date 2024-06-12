@@ -9,6 +9,16 @@ import Foundation
 
 enum EventsViewModel {
 	
+	enum Sections: Int, CaseIterable {
+		case category
+		case	 events
+	}
+	
+	struct Category {
+		let slug: String
+		let name: String
+	}
+	
 	struct Event {
 		let id: Int
 		let title: String
@@ -17,5 +27,4 @@ enum EventsViewModel {
 		let place: String?
 		let date: String?
 	}
-
 }

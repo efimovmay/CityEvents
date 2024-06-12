@@ -16,6 +16,8 @@ enum Sizes {
 	static let likeButton: CGFloat = 44
 	
 	static let dateViewHeigth: CGFloat = 34
+	static let categoryHeigth: CGFloat = 44
+	static let categoryWidthMinimum: CGFloat = 50
 	
 	enum Font {
 		static let titleEvent: CGFloat = 22
