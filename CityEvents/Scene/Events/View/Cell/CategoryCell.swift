@@ -27,8 +27,13 @@ final class CategoryCell: UICollectionViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	func configure(categoryName: String) {
+	func configure(categoryName: String, isActive: Bool) {
 		categoryNameLabel.text = categoryName
+		if isActive {
+			categoryView.backgroundColor = .systemBlue
+		} else {
+			categoryView.backgroundColor = Theme.imageSticker
+		}
 	}
 }
 
@@ -62,7 +67,6 @@ private extension CategoryCell {
 	
 	func makeCategoryView() -> UIView{
 		let view = UIView()
-		view.backgroundColor = Theme.imageSticker
 		view.layer.cornerRadius = Sizes.categoryHeigth / 2
 		view.clipsToBounds = true
 		view.translatesAutoresizingMaskIntoConstraints = false

@@ -8,7 +8,6 @@
 import Foundation
 
 enum L10n {
-	
 	static let error = NSLocalizedString("error", comment: "")
 	
 	enum EventsScreen {

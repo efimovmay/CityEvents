@@ -31,7 +31,6 @@
 		5BCBBB022C159E36004C60AD /* EventsSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB012C159E36004C60AD /* EventsSectionHeaderView.swift */; };
 		5BCBBB042C15A17E004C60AD /* EventViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB032C15A17E004C60AD /* EventViewCell.swift */; };
 		5BCBBB072C15BBA9004C60AD /* NetworkEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB062C15BBA9004C60AD /* NetworkEndpoints.swift */; };
-		5BCBBB092C15BBB2004C60AD /* RequestParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB082C15BBB2004C60AD /* RequestParameters.swift */; };
 		5BCBBB0B2C15BBBB004C60AD /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB0A2C15BBBB004C60AD /* NetworkService.swift */; };
 		5BCBBB0E2C15BC26004C60AD /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB0D2C15BC26004C60AD /* Event.swift */; };
 		5BCBBB102C15BC4A004C60AD /* EventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCBBB0F2C15BC4A004C60AD /* EventList.swift */; };
@@ -71,7 +70,6 @@
 		5BCBBB012C159E36004C60AD /* EventsSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsSectionHeaderView.swift; sourceTree = "<group>"; };
 		5BCBBB032C15A17E004C60AD /* EventViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewCell.swift; sourceTree = "<group>"; };
 		5BCBBB062C15BBA9004C60AD /* NetworkEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkEndpoints.swift; sourceTree = "<group>"; };
-		5BCBBB082C15BBB2004C60AD /* RequestParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestParameters.swift; sourceTree = "<group>"; };
 		5BCBBB0A2C15BBBB004C60AD /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		5BCBBB0D2C15BC26004C60AD /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		5BCBBB0F2C15BC4A004C60AD /* EventList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventList.swift; sourceTree = "<group>"; };
@@ -197,10 +195,10 @@
 		5BCBBAFF2C1594DA004C60AD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				5BCBBB002C1594F1004C60AD /* Cell */,
 				5BB997462C1498A600E47C8F /* EventsViewController.swift */,
 				5BB997612C14A4E700E47C8F /* EventsView.swift */,
 				5BB9975F2C149FFA00E47C8F /* EventsViewModel.swift */,
-				5BCBBB002C1594F1004C60AD /* Cell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -218,7 +216,6 @@
 		5BCBBB052C15BB95004C60AD /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				5BCBBB082C15BBB2004C60AD /* RequestParameters.swift */,
 				5BCBBB062C15BBA9004C60AD /* NetworkEndpoints.swift */,
 				5BCBBB132C15BD2E004C60AD /* NetworkError.swift */,
 				5BCBBB0A2C15BBBB004C60AD /* NetworkService.swift */,
@@ -335,7 +332,6 @@
 				5BB9975E2C149EC100E47C8F /* EventsPresenter.swift in Sources */,
 				5B661EFE2C198D77003CCA50 /* CategoriesEvent.swift in Sources */,
 				5BB9974D2C1498A600E47C8F /* CityEvents.xcdatamodeld in Sources */,
-				5BCBBB092C15BBB2004C60AD /* RequestParameters.swift in Sources */,
 				5BB997722C14EDDB00E47C8F /* Colors.swift in Sources */,
 				5BB997782C14F3B200E47C8F /* StringLocalization.swift in Sources */,
 				5BB9976C2C14EBD000E47C8F /* Theme.swift in Sources */,

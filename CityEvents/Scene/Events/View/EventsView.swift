@@ -37,7 +37,7 @@ private extension EventsView {
 		addSubview(eventsCollectionView)
 		
 		NSLayoutConstraint.activate([
-			eventsCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+			eventsCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Sizes.Padding.half),
 			eventsCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
 			eventsCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
 			eventsCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
@@ -76,7 +76,7 @@ private extension EventsView {
 			}
 		}
 		let config = UICollectionViewCompositionalLayoutConfiguration()
-		config.interSectionSpacing = Sizes.Padding.double
+		config.interSectionSpacing = Sizes.Padding.normal
 		layout.configuration = config
 		
 		return layout
@@ -98,14 +98,19 @@ private extension EventsView {
 		let section = NSCollectionLayoutSection(group: group)
 		section.orthogonalScrollingBehavior = .continuous
 		section.interGroupSpacing = Sizes.Padding.half
-		
+		section.contentInsets = NSDirectionalEdgeInsets(
+			top: .zero,
+			leading: Sizes.Padding.normal,
+			bottom: .zero,
+			trailing: Sizes.Padding.normal
+		)
 		return section
 	}
 	
 	private func createEventsSection() -> NSCollectionLayoutSection {
 		let itemSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .fractionalHeight(0.9)
+			heightDimension: .fractionalHeight(1.0)
 		)
 		let item = NSCollectionLayoutItem(layoutSize: itemSize)
 		let groupSize = NSCollectionLayoutSize(
@@ -113,16 +118,15 @@ private extension EventsView {
 			heightDimension: .fractionalHeight(0.5)
 		)
 		let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-		group.interItemSpacing = .fixed(CGFloat(Sizes.Padding.half))
 		
 		let section = NSCollectionLayoutSection(group: group)
+		section.interGroupSpacing = Sizes.Padding.semiDouble
 		section.contentInsets = NSDirectionalEdgeInsets(
 			top: .zero,
 			leading: Sizes.Padding.normal,
 			bottom: .zero,
 			trailing: Sizes.Padding.normal
 		)
-		
 		return section
 	}
 }

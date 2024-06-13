@@ -8,9 +8,10 @@
 import UIKit
 
 protocol IEventsView: AnyObject {
-	func reloadEventsCollection()
 	func addRowEventsCollection(startIndex: Int, endIndex: Int)
+	func reloadEventsCollection()
 	func reloadSection(_ section: Int)
+	func reloadCell(section: Int, cellIndex: Int)
 }
 
 final class EventsViewController: UIViewController {
@@ -43,7 +44,6 @@ final class EventsViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupUI()
-		
 		presenter.viewIsReady(view: self)
 	}
 }
@@ -66,6 +66,8 @@ private extension EventsViewController {
 	}
 	
 	func navigationBarSetup() {
+		title = L10n.EventsScreen.title
+		navigationController?.navigationBar.prefersLargeTitles = true
 	}
 	
 	func eventsCollectionViewSetup() {
@@ -87,10 +89,10 @@ extension EventsViewController: UICollectionViewDataSource {
 		}
 		switch sectionType {
 		case .category:
-			return presenter.numberOfCategory()
+			return presenter.categories.count
 			
 		case .events:
-			return presenter.numberOfEvents()
+			return presenter.events.count
 		}
 	}
 	
@@ -107,8 +109,8 @@ extension EventsViewController: UICollectionViewDataSource {
 			) as? CategoryCell else {
 				return UICollectionViewCell()
 			}
-			let category = presenter.getCategory(at: indexPath.row)
-			cell.configure(categoryName: category.name)
+			let category = presenter.categories[indexPath.row]
+			cell.configure(categoryName: category.name, isActive: category.isActive)
 			
 			return cell
 			
@@ -120,7 +122,7 @@ extension EventsViewController: UICollectionViewDataSource {
 				return UICollectionViewCell()
 			}
 			
-			let event = presenter.getEvent(at: indexPath.row)
+			let event = presenter.events[indexPath.row]
 			
 			cell.favoriteButton.removeTarget(nil, action: nil, for: .allEvents)
 			cell.favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped(_:)), for: .touchUpInside)
@@ -163,14 +165,14 @@ extension EventsViewController: UICollectionViewDataSource {
 		}
 		switch sectionType {
 		case .category:
-			presenter.fetchEventsByCategory(at: indexPath.item)
+			presenter.categoryDidSelect(at: indexPath.item)
 		case .events:
 			presenter.routeToDetailsScreen(indexEvent: indexPath.item)
 		}
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-		if indexPath.item == presenter.numberOfEvents() - 2 {
+		if indexPath.item == presenter.events.count - 2 {
 			presenter.fetchNextPage()
 		}
 	}
@@ -202,5 +204,10 @@ extension EventsViewController: IEventsView {
 			let indexSet = IndexSet(integer: section)
 			contentView.eventsCollectionView.reloadSections(indexSet)
 		}, completion: nil)
+	}
+	
+	func reloadCell(section: Int, cellIndex: Int) {
+		let indexPath = IndexPath(row: cellIndex, section: section)
+		contentView.eventsCollectionView.reloadItems(at: [indexPath])
 	}
 }

@@ -8,13 +8,11 @@
 import Foundation
 
 protocol IEventsPresenter {
+	var events: [EventsViewModel.Event] { get }
+	var categories: [EventsViewModel.Category] { get }
 	func viewIsReady(view: IEventsView)
-	func numberOfCategory() -> Int
-	func numberOfEvents() -> Int
-	func getCategory(at index: Int) -> EventsViewModel.Category
-	func getEvent(at index: Int) -> EventsViewModel.Event
 	func routeToDetailsScreen(indexEvent: Int)
-	func fetchEventsByCategory(at index: Int)
+	func categoryDidSelect(at index: Int)
 	func fetchNextPage()
 }
 
@@ -33,6 +31,7 @@ final class EventsPresenter: IEventsPresenter {
 	var categories: [EventsViewModel.Category] = []
 	
 	private var urlNextPage: String? = nil
+	private var activeCaregory: Set<String> = .init()
 	
 	// MARK: - Initialization
 	
@@ -49,10 +48,18 @@ final class EventsPresenter: IEventsPresenter {
 		fetchEvents(categories: nil)
 	}
 	
-	func fetchEventsByCategory(at index: Int) {
+	func categoryDidSelect(at index: Int) {
+		categories[index].isActive.toggle()
+		view?.reloadCell(section: EventsViewModel.Sections.category.rawValue, cellIndex: index)
+		
+		if categories[index].isActive {
+			activeCaregory.insert(categories[index].slug)
+		} else {
+			activeCaregory.remove(categories[index].slug)
+		}
 		events = []
 		reloadSection(.events)
-		fetchEvents(categories: categories[index].slug)
+		fetchEvents(categories: getActiveCategory())
 	}
 	
 	func routeToDetailsScreen(indexEvent: Int) {
@@ -76,7 +83,7 @@ final class EventsPresenter: IEventsPresenter {
 private extension EventsPresenter {
 	
 	func fetchCategories() {
-		network.fetch(dataType: [CategoriesEvent].self, with: NetworkRequestDataCategories()) { result in
+		network.fetch(dataType: [CategoriesEvent].self, with: NetworkRequestDataCategories(lang: "ru")) { result in
 			switch result {
 			case .success(let data):
 				data.forEach { category in
@@ -98,7 +105,8 @@ private extension EventsPresenter {
 			with: NetworkRequestDataEvents(
 				location: AllLocation.spb,
 				actualSince: Date().timeIntervalSince1970,
-				categories: categories
+				categories: categories, 
+				lang: "ru"
 			)) { result in
 				switch result {
 				case .success(let data):
@@ -111,6 +119,7 @@ private extension EventsPresenter {
 	
 	func addDownloadEvents(_ data: EventListDTO) {
 		urlNextPage = data.next
+		if data.results.isEmpty { return }
 		let startIndex = self.events.count
 		
 		data.results.forEach { event in
@@ -142,6 +151,14 @@ private extension EventsPresenter {
 		let stringLastDate = "до \(String(dateFormatter.string(from: lastDate)))"
 		
 		return stringLastDate
+	}
+	
+	func getActiveCategory() -> String? {
+		if activeCaregory.isEmpty {
+			return nil
+		} else {
+			return activeCaregory.joined(separator: ",")
+		}
 	}
 	
 	func reloadEventsCollection() {

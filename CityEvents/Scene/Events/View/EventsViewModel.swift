@@ -17,6 +17,7 @@ enum EventsViewModel {
 	struct Category {
 		let slug: String
 		let name: String
+		var isActive: Bool = false
 	}
 	
 	struct Event {

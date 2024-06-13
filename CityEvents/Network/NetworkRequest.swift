@@ -22,22 +22,9 @@ struct NetworkRequestDataCategories: INetworkRequestData {
 	var method = HTTPMethod.get
 	var parameters: [String : String]
 	
-	init() {
+	init(lang: String) {
 		parameters = [
-			"lang" : "ru"
-		]
-	}
-}
-
-struct NetworkRequestDataDetailEvent: INetworkRequestData {
-	var path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventsPath.description
-	var method = HTTPMethod.get
-	var parameters: [String : String]
-	
-	init(ids: Int) {
-		path.append("/\(String(ids))")
-		parameters = [
-			"lang" : "ru"
+			"lang" : lang
 		]
 	}
 }
@@ -51,12 +38,14 @@ struct NetworkRequestDataEvents: INetworkRequestData {
 		location: AllLocation,
 		actualSince: Double? = nil,
 		actualUntil: Double? = nil,
-		categories: String? = nil) {
-
+		categories: String? = nil,
+		lang: String
+	) {
+		
 		parameters = [
 			"expand" : "place",
 			"fields" : "id,dates,title,place,price,images",
-			"lang" : "ru",
+			"lang" : lang,
 			"location": location.rawValue,
 		]
 		if let actualSince = actualSince {
@@ -68,6 +57,19 @@ struct NetworkRequestDataEvents: INetworkRequestData {
 		if let categories = categories {
 			parameters["categories"] = categories
 		}
+	}
+}
+
+struct NetworkRequestDataDetailEvent: INetworkRequestData {
+	var path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventsPath.description
+	var method = HTTPMethod.get
+	var parameters: [String : String]
+	
+	init(ids: Int) {
+		path.append("/\(String(ids))")
+		parameters = [
+			"lang" : "ru"
+		]
 	}
 }
 
