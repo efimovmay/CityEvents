@@ -45,7 +45,7 @@ final class EventsPresenter: IEventsPresenter {
 	func viewIsReady(view: IEventsView) {
 		self.view = view
 		fetchCategories()
-		fetchEvents(categories: nil)
+		fetchEvents()
 	}
 	
 	func categoryDidSelect(at index: Int) {
@@ -59,7 +59,7 @@ final class EventsPresenter: IEventsPresenter {
 		}
 		events = []
 		reloadSection(.events)
-		fetchEvents(categories: getActiveCategory())
+		fetchEvents()
 	}
 	
 	func routeToDetailsScreen(indexEvent: Int) {
@@ -99,13 +99,13 @@ private extension EventsPresenter {
 		}
 	}
 	
-	func fetchEvents(categories: String?) {
+	func fetchEvents() {
 		network.fetch(
 			dataType: EventListDTO.self,
 			with: NetworkRequestDataEvents(
 				location: AllLocation.spb,
 				actualSince: Date().timeIntervalSince1970,
-				categories: categories, 
+				categories: getActiveCategory(),
 				lang: "ru"
 			)) { result in
 				switch result {
@@ -119,9 +119,9 @@ private extension EventsPresenter {
 	
 	func addDownloadEvents(_ data: EventListDTO) {
 		urlNextPage = data.next
-		if data.results.isEmpty { return }
-		let startIndex = self.events.count
+		guard !data.results.isEmpty else { return }
 		
+		let startIndex = self.events.count
 		data.results.forEach { event in
 			self.events.append(EventsViewModel.Event(
 				id: event.id,
@@ -148,7 +148,7 @@ private extension EventsPresenter {
 		
 		dateFormatter.dateStyle = .medium
 		dateFormatter.locale = Locale.current
-		let stringLastDate = "до \(String(dateFormatter.string(from: lastDate)))"
+		let stringLastDate = "\(L10n.EventsScreen.until) \(String(dateFormatter.string(from: lastDate)))"
 		
 		return stringLastDate
 	}
@@ -173,20 +173,3 @@ private extension EventsPresenter {
 		}
 	}
 }
-
-
-//func fetchEvent() {
-//	network.fetch(
-//		dataType: EventDTO.self,
-//		with: NetworkRequestDataDetailEvent(ids: 194980)
-//	) { result in
-//		switch result {
-//		case .success(let data):
-//			DispatchQueue.main.async {
-//				print(data.bodyText)
-//			}
-//		case .failure(let error):
-//			print(error.localizedDescription)
-//		}
-//	}
-//	}

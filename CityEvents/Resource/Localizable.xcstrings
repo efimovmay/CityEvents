@@ -35,6 +35,23 @@
           }
         }
       }
+    },
+    "eventsScreen.until" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "until"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "до"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

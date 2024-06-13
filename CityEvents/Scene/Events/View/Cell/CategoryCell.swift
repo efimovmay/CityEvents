@@ -31,8 +31,10 @@ final class CategoryCell: UICollectionViewCell {
 		categoryNameLabel.text = categoryName
 		if isActive {
 			categoryView.backgroundColor = .systemBlue
+			categoryNameLabel.textColor = Colors.whiteFull
 		} else {
 			categoryView.backgroundColor = Theme.imageSticker
+			categoryNameLabel.textColor = Colors.black
 		}
 	}
 }
@@ -60,6 +62,7 @@ private extension CategoryCell {
 	func makeLabel() -> UILabel {
 		let label = UILabel()
 		label.textAlignment = .center
+		label.font = UIFont.systemFont(ofSize: Sizes.Font.regular)
 		label.numberOfLines = 1
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label

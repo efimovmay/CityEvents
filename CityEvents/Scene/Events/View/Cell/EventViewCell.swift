@@ -115,6 +115,7 @@ private extension EventViewCell {
 	func makeLabel() -> UILabel {
 		let label = UILabel()
 		label.textAlignment = .left
+		label.font = UIFont.systemFont(ofSize: Sizes.Font.regular)
 		label.numberOfLines = .zero
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label

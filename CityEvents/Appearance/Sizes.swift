@@ -13,14 +13,15 @@ enum Sizes {
 	
 	static let borderWidth: CGFloat = 1
 	static let cornerRadius: CGFloat = 10
-	static let likeButton: CGFloat = 44
+	static let likeButton: CGFloat = 40
 	
-	static let dateViewHeigth: CGFloat = 34
-	static let categoryHeigth: CGFloat = 44
+	static let dateViewHeigth: CGFloat = 30
+	static let categoryHeigth: CGFloat = 34
 	static let categoryWidthMinimum: CGFloat = 50
 	
 	enum Font {
-		static let titleEvent: CGFloat = 22
+		static let regular: CGFloat = 16
+		static let titleEvent: CGFloat = 18
 	}
 	
 	enum Padding {

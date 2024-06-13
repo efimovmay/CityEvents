@@ -115,7 +115,7 @@ private extension EventsView {
 		let item = NSCollectionLayoutItem(layoutSize: itemSize)
 		let groupSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .fractionalHeight(0.5)
+			heightDimension: .fractionalHeight(0.45)
 		)
 		let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
 		
