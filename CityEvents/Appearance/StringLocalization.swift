@@ -13,5 +13,23 @@ enum L10n {
 	enum EventsScreen {
 		static let title = NSLocalizedString("eventsScreen.title", comment: "")
 		static let until = NSLocalizedString("eventsScreen.until", comment: "")
+		static let setDateTitle = NSLocalizedString("eventsScreen.set", comment: "")
+	}
+	
+	enum Location {
+		static let bg = NSLocalizedString("location.bg", comment: "")
+		static let ekb = NSLocalizedString("location.ekb", comment: "")
+		static let kev = NSLocalizedString("location.kev", comment: "")
+		static let krasnoyarsk = NSLocalizedString("location.krasnoyarsk", comment: "")
+		static let krd = NSLocalizedString("location.krd", comment: "")
+		static let kzn = NSLocalizedString("location.kzn", comment: "")
+		static let msk = NSLocalizedString("location.msk", comment: "")
+		static let newYork = NSLocalizedString("location.newYork", comment: "")
+		static let nnv = NSLocalizedString("location.nnv", comment: "")
+		static let nsk = NSLocalizedString("location.nsk", comment: "")
+		static let smr = NSLocalizedString("location.smr", comment: "")
+		static let sochi = NSLocalizedString("location.sochi", comment: "")
+		static let spb = NSLocalizedString("location.spb", comment: "")
+		static let ufa = NSLocalizedString("location.ufa", comment: "")
 	}
 }

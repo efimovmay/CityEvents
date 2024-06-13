@@ -55,6 +55,16 @@ private extension EventsViewController {
 	func favoriteButtonTapped(_ sender: UIButton) {
 		print("like")
 	}
+	
+	@objc
+	func setLocationButtonTapped() {
+		print("Location")
+	}
+	
+	@objc
+	func setDateButtonTapped() {
+		print("ddate")
+	}
 }
 
 // MARK: - SetupUI
@@ -66,8 +76,13 @@ private extension EventsViewController {
 	}
 	
 	func navigationBarSetup() {
-		title = L10n.EventsScreen.title
-		navigationController?.navigationBar.prefersLargeTitles = true
+		let titleLabel = UILabel()
+		titleLabel.attributedText = NSAttributedString(
+			string: L10n.EventsScreen.title,
+			attributes: [.font: UIFont.boldSystemFont(ofSize: Sizes.Font.title)]
+			)
+		titleLabel.sizeToFit()
+		navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
 	}
 	
 	func eventsCollectionViewSetup() {
@@ -88,9 +103,12 @@ extension EventsViewController: UICollectionViewDataSource {
 			return .zero
 		}
 		switch sectionType {
+		case .location:
+			return 1
+		case .dates:
+			return 1
 		case .category:
 			return presenter.categories.count
-			
 		case .events:
 			return presenter.events.count
 		}
@@ -101,6 +119,16 @@ extension EventsViewController: UICollectionViewDataSource {
 			return UICollectionViewCell()
 		}
 		switch sectionType {
+		case .location:
+			guard let cell = collectionView.dequeueReusableCell(
+				withReuseIdentifier: LocationCell.identifier,
+				for: indexPath
+			) as? LocationCell else {
+				return UICollectionViewCell()
+			}
+			cell.configure(locationName: AllLocation.msk.description)
+			cell.setLocationButton.addTarget(self, action: #selector(setLocationButtonTapped), for: .touchUpInside)
+			return cell
 			
 		case .category:
 			guard let cell = collectionView.dequeueReusableCell(
@@ -114,6 +142,17 @@ extension EventsViewController: UICollectionViewDataSource {
 			
 			return cell
 			
+		case .dates:
+			guard let cell = collectionView.dequeueReusableCell(
+				withReuseIdentifier: DatesCell.identifier,
+				for: indexPath
+			) as? DatesCell else {
+				return UICollectionViewCell()
+			}
+			cell.setDateButton.addTarget(self, action: #selector(setDateButtonTapped), for: .touchUpInside)
+			cell.configure(dates: "C 13 июня")
+			return cell
+			
 		case .events:
 			guard let cell = collectionView.dequeueReusableCell(
 				withReuseIdentifier: EventViewCell.identifier,
@@ -121,7 +160,6 @@ extension EventsViewController: UICollectionViewDataSource {
 			) as? EventViewCell else {
 				return UICollectionViewCell()
 			}
-			
 			let event = presenter.events[indexPath.row]
 			
 			cell.favoriteButton.removeTarget(nil, action: nil, for: .allEvents)
@@ -133,29 +171,7 @@ extension EventsViewController: UICollectionViewDataSource {
 				place: event.place,
 				price: event.price
 			)
-			
 			return cell
-		}
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-		guard let sectionType = EventsViewModel.Sections(rawValue: indexPath.section) else {
-			return UICollectionReusableView()
-		}
-		switch sectionType {
-		case .category:
-			guard let supplementaryView = collectionView.dequeueReusableSupplementaryView(
-				ofKind: kind,
-				withReuseIdentifier: EventsSectionHeaderView.identifier,
-				for: indexPath
-			) as? EventsSectionHeaderView else {
-				return UICollectionReusableView()
-			}
-			supplementaryView.configure(text: "Рекомендованные")
-			return supplementaryView
-			
-		case .events:
-			return UICollectionReusableView()
 		}
 	}
 	
@@ -164,8 +180,12 @@ extension EventsViewController: UICollectionViewDataSource {
 			return
 		}
 		switch sectionType {
+		case.location:
+			break
 		case .category:
 			presenter.categoryDidSelect(at: indexPath.item)
+		case .dates:
+			break
 		case .events:
 			presenter.routeToDetailsScreen(indexEvent: indexPath.item)
 		}

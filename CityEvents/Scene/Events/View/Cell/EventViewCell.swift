@@ -79,8 +79,8 @@ private extension EventViewCell {
 			
 			favoriteButton.topAnchor.constraint(equalTo: eventImageView.topAnchor, constant: Sizes.Padding.normal),
 			favoriteButton.trailingAnchor.constraint(equalTo: eventImageView.trailingAnchor, constant: -Sizes.Padding.normal),
-			favoriteButton.widthAnchor.constraint(equalToConstant: Sizes.likeButton),
-			favoriteButton.heightAnchor.constraint(equalToConstant: Sizes.likeButton),
+			favoriteButton.widthAnchor.constraint(equalToConstant: Sizes.smallButton),
+			favoriteButton.heightAnchor.constraint(equalToConstant: Sizes.smallButton),
 			
 			dateView.bottomAnchor.constraint(equalTo: eventImageView.bottomAnchor, constant: -Sizes.Padding.normal),
 			dateView.leadingAnchor.constraint(equalTo: eventImageView.leadingAnchor, constant: Sizes.Padding.normal),
@@ -137,7 +137,7 @@ private extension EventViewCell {
 		button.contentVerticalAlignment = .center
 		button.tintColor = .systemRed
 		button.backgroundColor = Theme.imageSticker
-		button.layer.cornerRadius = Sizes.likeButton / 2
+		button.layer.cornerRadius = Sizes.smallButton / 2
 		button.clipsToBounds = true
 		button.translatesAutoresizingMaskIntoConstraints = false
 		return button

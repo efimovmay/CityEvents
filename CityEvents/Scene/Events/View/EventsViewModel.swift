@@ -10,6 +10,8 @@ import Foundation
 enum EventsViewModel {
 	
 	enum Sections: Int, CaseIterable {
+		case location
+		case dates
 		case category
 		case	 events
 	}
