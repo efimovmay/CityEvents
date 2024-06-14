@@ -140,12 +140,12 @@ private extension EventsView {
 	func createDatesSection() -> NSCollectionLayoutSection {
 		let itemSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .estimated(44)
+			heightDimension: .estimated(48)
 		)
 		let item = NSCollectionLayoutItem(layoutSize: itemSize)
 		let groupSize = NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1.0),
-			heightDimension: .estimated(44)
+			heightDimension: .estimated(48)
 		)
 		let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
 		

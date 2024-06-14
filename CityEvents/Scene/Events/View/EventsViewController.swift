@@ -8,6 +8,7 @@
 import UIKit
 
 protocol IEventsView: AnyObject {
+	func setLocation(_ location: String)
 	func addRowEventsCollection(startIndex: Int, endIndex: Int)
 	func reloadEventsCollection()
 	func reloadSection(_ section: Int)
@@ -63,7 +64,7 @@ private extension EventsViewController {
 	
 	@objc
 	func setDateButtonTapped() {
-		print("ddate")
+		presenter.routeToCalendarScreen()
 	}
 }
 
@@ -126,8 +127,9 @@ extension EventsViewController: UICollectionViewDataSource {
 			) as? LocationCell else {
 				return UICollectionViewCell()
 			}
-			cell.configure(locationName: AllLocation.msk.description)
 			cell.setLocationButton.addTarget(self, action: #selector(setLocationButtonTapped), for: .touchUpInside)
+			cell.locationNameLabel.text = AllLocation.spb.description
+			
 			return cell
 			
 		case .category:
@@ -169,7 +171,8 @@ extension EventsViewController: UICollectionViewDataSource {
 				title: event.title,
 				date: event.date,
 				place: event.place,
-				price: event.price
+				price: event.price, 
+				isfavorite: event.isFavorite
 			)
 			return cell
 		}
@@ -205,6 +208,12 @@ extension EventsViewController: UICollectionViewDelegate {
 // MARK: - IEventListViewController
 
 extension EventsViewController: IEventsView {
+	func setLocation(_ location: String) {
+		let indexPath = IndexPath(row: .zero, section: EventsViewModel.Sections.location.rawValue)
+		guard let cell = contentView.eventsCollectionView.cellForItem(at: indexPath) as? LocationCell else { return }
+		cell.locationNameLabel.text = location
+	}
+	
 	func reloadEventsCollection() {
 		contentView.eventsCollectionView.reloadData()
 	}

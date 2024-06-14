@@ -13,7 +13,7 @@ final class LocationCell: UICollectionViewCell {
 	static let identifier = String(describing: LocationCell.self)
 	
 	lazy var setLocationButton: UIButton = makeButton()
-	private lazy var locationNameLabel: UILabel = makeLabel()
+	lazy var locationNameLabel: UILabel = makeLabel()
 	
 	// MARK: - Initialization
 	
@@ -25,10 +25,6 @@ final class LocationCell: UICollectionViewCell {
 	@available(*, unavailable)
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
-	}
-	
-	func configure(locationName: String) {
-		locationNameLabel.text = locationName
 	}
 }
 
@@ -43,7 +39,6 @@ private extension LocationCell {
 		NSLayoutConstraint.activate([
 			locationNameLabel.topAnchor.constraint(equalTo: topAnchor),
 			locationNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-			locationNameLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
 			
 			setLocationButton.widthAnchor.constraint(equalToConstant: Sizes.smallButton),
 			setLocationButton.heightAnchor.constraint(equalToConstant: Sizes.smallButton),
@@ -54,7 +49,7 @@ private extension LocationCell {
 	
 	func makeLabel() -> UILabel {
 		let label = UILabel()
-		label.textAlignment = .left
+		label.textAlignment = .justified
 		label.font = UIFont.boldSystemFont(ofSize: Sizes.Font.title)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label

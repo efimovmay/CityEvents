@@ -13,7 +13,7 @@ final class DatesCell: UICollectionViewCell {
 	static let identifier = String(describing: DatesCell.self)
 	
 	lazy var setDateButton: UIButton = makeButton()
-	private lazy var datesLabel: UILabel = makeLabel()
+	lazy var datesLabel: UILabel = makeLabel()
 	
 	// MARK: - Initialization
 	
@@ -53,7 +53,7 @@ private extension DatesCell {
 	
 	func makeLabel() -> UILabel {
 		let label = UILabel()
-		label.font = UIFont.boldSystemFont(ofSize: 20)
+		label.font = UIFont.boldSystemFont(ofSize: Sizes.Font.titleEvent)
 		label.numberOfLines = .zero
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label

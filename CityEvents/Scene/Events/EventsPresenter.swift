@@ -12,6 +12,7 @@ protocol IEventsPresenter {
 	var categories: [EventsViewModel.Category] { get }
 	func viewIsReady(view: IEventsView)
 	func routeToDetailsScreen(indexEvent: Int)
+	func routeToCalendarScreen()
 	func categoryDidSelect(at index: Int)
 	func fetchNextPage()
 }
@@ -27,17 +28,20 @@ final class EventsPresenter: IEventsPresenter {
 	
 	private let dateFormatter = DateFormatter()
 	
+	var currentLocation: AllLocation
 	var events: [EventsViewModel.Event] = []
 	var categories: [EventsViewModel.Category] = []
 	
 	private var urlNextPage: String? = nil
 	private var activeCaregory: Set<String> = .init()
+
 	
 	// MARK: - Initialization
 	
 	init(router: EventsRouter, network: INetworkService) {
 		self.network = network
 		self.router = router
+		self.currentLocation = AllLocation.spb
 	}
 	
 	// MARK: - Public methods
@@ -64,6 +68,10 @@ final class EventsPresenter: IEventsPresenter {
 	
 	func routeToDetailsScreen(indexEvent: Int) {
 		router.routeToDetailScreen(idEvent: events[indexEvent].id)
+	}
+	
+	func routeToCalendarScreen() {
+		router.routeToCalendarScreen()
 	}
 	
 	func fetchNextPage() {

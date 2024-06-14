@@ -1,5 +1,5 @@
 //
-//  StringLocalization.swift
+//  Strings.swift
 //  CityEvents
 //
 //  Created by Aleksey Efimov on 08.06.2024.
@@ -8,7 +8,15 @@
 import Foundation
 
 enum L10n {
-	static let error = NSLocalizedString("error", comment: "")
+	static let location = "location"
+	
+	enum Common {
+		static let done = NSLocalizedString("common.done", comment: "")
+		static let cancel = NSLocalizedString("common.cancel", comment: "")
+	}
+	enum CalendarScreen {
+		static let title = NSLocalizedString("calendarScreen.title", comment: "")
+	}
 	
 	enum EventsScreen {
 		static let title = NSLocalizedString("eventsScreen.title", comment: "")

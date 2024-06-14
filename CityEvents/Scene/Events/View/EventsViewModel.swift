@@ -29,5 +29,6 @@ enum EventsViewModel {
 		let price: String
 		let place: String?
 		let date: String?
+		var isFavorite: Bool = false
 	}
 }

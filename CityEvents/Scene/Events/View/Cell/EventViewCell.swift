@@ -39,7 +39,14 @@ final class EventViewCell: UICollectionViewCell {
 		eventImageView.image = nil
 	}
 	
-	func configure(image: String, title: String, date: String?, place: String?, price: String) {
+	func configure(
+		image: String,
+		title: String,
+		date: String?,
+		place: String?,
+		price: String,
+		isfavorite: Bool
+	) {
 		eventImageView.load(urlString: image) {
 			
 		}
@@ -48,6 +55,7 @@ final class EventViewCell: UICollectionViewCell {
 		priceLabel.text = price
 		dateLabel.text = date
 		dateView.isHidden = date != nil ? false : true
+		favoriteButton.tintColor = isfavorite ? .systemRed : .gray
 	}
 }
 
@@ -133,9 +141,6 @@ private extension EventViewCell {
 	func makeLikeButton() -> UIButton {
 		let button = UIButton(type: .system)
 		button.setImage(Theme.ImageIcon.heartFill, for: .normal)
-		button.contentHorizontalAlignment = .center
-		button.contentVerticalAlignment = .center
-		button.tintColor = .systemRed
 		button.backgroundColor = Theme.imageSticker
 		button.layer.cornerRadius = Sizes.smallButton / 2
 		button.clipsToBounds = true

@@ -33,6 +33,21 @@ final class EventsRouter: IEventsRouter {
 			animated: true
 		)
 	}
+	
+	func routeToCalendarScreen() -> Void {
+		let presenter = CalendarPresenter()
+		let viewController = CalendarViewController(presenter: presenter)
+		if let sheet = viewController.sheetPresentationController {
+			sheet.detents = [.custom(resolver: { context in
+				return 500
+			})]
+		}
+		navigationController.present(viewController, animated: true, completion: nil)
+	}
+	
+	func routeToLocationScreen(compleation: AllLocation) -> Void {
+
+	}
 }
 
 // MARK: - Private methods
