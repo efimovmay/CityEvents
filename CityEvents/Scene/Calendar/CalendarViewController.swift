@@ -7,9 +7,7 @@
 
 import UIKit
 
-protocol ICalendarView: AnyObject {
-	
-}
+protocol ICalendarView: AnyObject {}
 
 final class CalendarViewController: UIViewController {
 	
@@ -35,13 +33,19 @@ final class CalendarViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+		setupUI()
 		presenter.viewIsReady(view: self)
 	}
 }
 
 private extension CalendarViewController {
+	@objc
+	func doneButtonTaped() {
+		presenter.dateSetDone(startDate: startDate, endDate: endDate)
+	}
+	
 	func setupUI() {
+		contentView.doneButton.addTarget(self, action: #selector(doneButtonTaped), for: .touchUpInside)
 		contentView.calendarView.selectionBehavior = UICalendarSelectionMultiDate(delegate: self)
 		contentView.calendarView.isUserInteractionEnabled = true
 	}
@@ -63,23 +67,22 @@ private extension CalendarViewController {
 
 extension CalendarViewController: UICalendarViewDelegate, UICalendarSelectionMultiDateDelegate {
 	func multiDateSelection(_ selection: UICalendarSelectionMultiDate, didSelectDate dateComponents: DateComponents) {
-		var adjustedDateComponents = dateComponents
-		adjustedDateComponents.timeZone = TimeZone.current
-		guard let selectedDate = Calendar.current.date(from: adjustedDateComponents) else { return }
+		var modifiedDateComponents = dateComponents
+		modifiedDateComponents.timeZone = TimeZone(secondsFromGMT: 4)
 		
+		guard let selectedDate = Calendar.current.date(from: modifiedDateComponents) else { return }
+
 		if startDate == nil {
 			startDate = selectedDate
-			selection.setSelectedDates([dateComponents], animated: true)
-			print("set start")
-			print(selectedDate)
+			selection.setSelectedDates([modifiedDateComponents], animated: false)
 		} else if endDate == nil {
 			guard let startDate = startDate else { return }
 			if selectedDate < startDate {
 				self.startDate = selectedDate
-				selection.setSelectedDates([adjustedDateComponents], animated: true)
+				selection.setSelectedDates([modifiedDateComponents], animated: false)
 			} else {
-				endDate = selectedDate
-				selection.setSelectedDates(getDateRange(), animated: true)
+				endDate = selectedDate.addingTimeInterval(23 * 60 * 60)
+				selection.setSelectedDates(getDateRange(), animated: false)
 			}
 		} else {
 			startDate = nil
@@ -97,6 +100,4 @@ extension CalendarViewController: UICalendarViewDelegate, UICalendarSelectionMul
 	}
 }
 
-extension CalendarViewController: ICalendarView {
-	
-}
+extension CalendarViewController: ICalendarView {}

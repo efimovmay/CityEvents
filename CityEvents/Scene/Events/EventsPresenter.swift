@@ -34,7 +34,8 @@ final class EventsPresenter: IEventsPresenter {
 	
 	private var urlNextPage: String? = nil
 	private var activeCaregory: Set<String> = .init()
-
+	private var startDate: Date = .now
+	private var endDate: Date?
 	
 	// MARK: - Initialization
 	
@@ -71,7 +72,21 @@ final class EventsPresenter: IEventsPresenter {
 	}
 	
 	func routeToCalendarScreen() {
-		router.routeToCalendarScreen()
+		router.routeToCalendarScreen { startDate, endDate in
+			if let startDate = startDate {
+				self.startDate = startDate
+				
+				if let endDate = endDate {
+					self.endDate = endDate
+				} else {
+					self.endDate = startDate.addingTimeInterval(23 * 60 * 60)
+				}
+			} else {
+				self.startDate = .now
+				self.endDate = nil
+			}
+			self.reloadEvents()
+		}
 	}
 	
 	func fetchNextPage() {
@@ -89,6 +104,11 @@ final class EventsPresenter: IEventsPresenter {
 }
 
 private extension EventsPresenter {
+	func reloadEvents() {
+		events = []
+		view?.reloadSection(EventsViewModel.Sections.events.rawValue)
+		fetchEvents()
+	}
 	
 	func fetchCategories() {
 		network.fetch(dataType: [CategoriesEvent].self, with: NetworkRequestDataCategories(lang: "ru")) { result in
@@ -112,7 +132,8 @@ private extension EventsPresenter {
 			dataType: EventListDTO.self,
 			with: NetworkRequestDataEvents(
 				location: AllLocation.spb,
-				actualSince: Date().timeIntervalSince1970,
+				actualSince: startDate.timeIntervalSince1970,
+				actualUntil: endDate?.timeIntervalSince1970,
 				categories: getActiveCategory(),
 				lang: "ru"
 			)) { result in

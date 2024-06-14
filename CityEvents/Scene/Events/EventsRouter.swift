@@ -11,22 +11,19 @@ protocol IEventsRouter {
 	
 	/// Переход на экран DetailInfo.
 	func routeToDetailScreen(idEvent: Int)
+	
+	/// Закрвть модальный экран.
+	func dismissModalScreen()
 }
 
 final class EventsRouter: IEventsRouter {
-	
-	// MARK: - Dependencies
-	
+
 	private let navigationController: UINavigationController
-	
-	// MARK: - Initialization
-	
+
 	init(navigationController: UINavigationController) {
 		self.navigationController = navigationController
 	}
-	
-	// MARK: - Public methods
-	
+
 	func routeToDetailScreen(idEvent: Int) {
 		navigationController.pushViewController(
 			getDetailInfoViewController(idEvent: idEvent),
@@ -34,23 +31,26 @@ final class EventsRouter: IEventsRouter {
 		)
 	}
 	
-	func routeToCalendarScreen() -> Void {
-		let presenter = CalendarPresenter()
+	func routeToCalendarScreen(setDateClosure: SetDateClosure?) -> Void {
+		let presenter = CalendarPresenter(router: self, setDateClosure: setDateClosure)
 		let viewController = CalendarViewController(presenter: presenter)
 		if let sheet = viewController.sheetPresentationController {
 			sheet.detents = [.custom(resolver: { context in
-				return 500
+				return Sizes.CalendarScreen.screenHeigth
 			})]
 		}
+		
 		navigationController.present(viewController, animated: true, completion: nil)
 	}
 	
 	func routeToLocationScreen(compleation: AllLocation) -> Void {
 
 	}
+	
+	func dismissModalScreen() {
+		navigationController.dismiss(animated: true)
+	}
 }
-
-// MARK: - Private methods
 
 private extension EventsRouter {
 	func getDetailInfoViewController(idEvent: Int) -> UIViewController {

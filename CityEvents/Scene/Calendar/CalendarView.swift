@@ -11,10 +11,8 @@ final class CalendarView: UIView {
 	
 	lazy var calendarView: UICalendarView = makeCalendarView()
 	lazy var doneButton: UIButton = makeDoneButton()
-	lazy var cancelButton: UIButton = makeCancelButton()
 	
 	private lazy var contentStack: UIStackView = makeContentStack()
-	private lazy var buttonStack: UIStackView = makeButtonStack()
 	private lazy var titleLabel: UILabel = makeTitleLabel()
 	
 	override init(frame: CGRect) {
@@ -35,26 +33,25 @@ private extension CalendarView {
 	}
 	
 	func setupLayout() {
-		addSubview(calendarView)
+		addSubview(contentStack)
 		
 		NSLayoutConstraint.activate([
-			calendarView.topAnchor.constraint(equalTo: topAnchor, constant: Sizes.Padding.normal),
-			calendarView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Sizes.Padding.normal),
-			calendarView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Sizes.Padding.normal),
+			contentStack.topAnchor.constraint(equalTo: topAnchor, constant: Sizes.Padding.normal),
+			contentStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Sizes.Padding.normal),
+			contentStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Sizes.Padding.normal),
+			
+			titleLabel.widthAnchor.constraint(equalTo: contentStack.widthAnchor),
+			
+			doneButton.widthAnchor.constraint(equalTo: contentStack.widthAnchor, multiplier: 0.5),
+			doneButton.heightAnchor.constraint(equalToConstant: Sizes.CalendarScreen.doneButtonHeith),
 		])
 	}
 	
 	func makeContentStack() -> UIStackView {
-		let stack = UIStackView(arrangedSubviews: [titleLabel, calendarView, buttonStack])
+		let stack = UIStackView(arrangedSubviews: [titleLabel, calendarView, doneButton])
 		stack.axis = .vertical
-		stack.spacing = Sizes.Padding.normal
-		stack.translatesAutoresizingMaskIntoConstraints = false
-		return stack
-	}
-	
-	func makeButtonStack() -> UIStackView {
-		let stack = UIStackView(arrangedSubviews: [doneButton, cancelButton])
-		stack.axis = .horizontal
+		stack.alignment = .center
+		stack.distribution = .fill
 		stack.spacing = Sizes.Padding.normal
 		stack.translatesAutoresizingMaskIntoConstraints = false
 		return stack
@@ -64,6 +61,7 @@ private extension CalendarView {
 		let label = UILabel()
 		label.text = L10n.CalendarScreen.title
 		label.font = UIFont.boldSystemFont(ofSize: Sizes.Font.title)
+		label.textAlignment = .left
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label
 	}
@@ -82,19 +80,11 @@ private extension CalendarView {
 		var config = UIButton.Configuration.filled()
 		config.cornerStyle = .capsule
 		config.baseBackgroundColor = .systemBlue
-		config.title = L10n.Common.done
+		config.attributedTitle = AttributedString(L10n.Common.done, attributes: AttributeContainer([
+			NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: Sizes.Font.regular)
+		]))
 		button.configuration = config
-		button.translatesAutoresizingMaskIntoConstraints = false
-		return button
-	}
-	
-	func makeCancelButton() -> UIButton {
-		let button = UIButton()
-		var config = UIButton.Configuration.filled()
-		config.cornerStyle = .capsule
-		config.baseBackgroundColor = .systemRed
-		config.title = L10n.Common.cancel
-		button.configuration = config
+
 		button.translatesAutoresizingMaskIntoConstraints = false
 		return button
 	}
