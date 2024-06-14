@@ -21,6 +21,8 @@ enum L10n {
 	enum EventsScreen {
 		static let title = NSLocalizedString("eventsScreen.title", comment: "")
 		static let until = NSLocalizedString("eventsScreen.until", comment: "")
+		static let from = NSLocalizedString("eventsScreen.from", comment: "")
+		static let to = NSLocalizedString("eventsScreen.to", comment: "")
 		static let setDateTitle = NSLocalizedString("eventsScreen.set", comment: "")
 	}
 	

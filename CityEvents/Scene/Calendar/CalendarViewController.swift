@@ -67,19 +67,17 @@ private extension CalendarViewController {
 
 extension CalendarViewController: UICalendarViewDelegate, UICalendarSelectionMultiDateDelegate {
 	func multiDateSelection(_ selection: UICalendarSelectionMultiDate, didSelectDate dateComponents: DateComponents) {
-		var modifiedDateComponents = dateComponents
-		modifiedDateComponents.timeZone = TimeZone(secondsFromGMT: 4)
+		guard var selectedDate = Calendar.current.date(from: dateComponents) else { return }
+		selectedDate.addTimeInterval(3 * 60 * 60)
 		
-		guard let selectedDate = Calendar.current.date(from: modifiedDateComponents) else { return }
-
 		if startDate == nil {
 			startDate = selectedDate
-			selection.setSelectedDates([modifiedDateComponents], animated: false)
+			selection.setSelectedDates([dateComponents], animated: false)
 		} else if endDate == nil {
 			guard let startDate = startDate else { return }
 			if selectedDate < startDate {
 				self.startDate = selectedDate
-				selection.setSelectedDates([modifiedDateComponents], animated: false)
+				selection.setSelectedDates([dateComponents], animated: false)
 			} else {
 				endDate = selectedDate.addingTimeInterval(23 * 60 * 60)
 				selection.setSelectedDates(getDateRange(), animated: false)

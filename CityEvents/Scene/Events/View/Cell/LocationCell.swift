@@ -13,7 +13,7 @@ final class LocationCell: UICollectionViewCell {
 	static let identifier = String(describing: LocationCell.self)
 	
 	lazy var setLocationButton: UIButton = makeButton()
-	lazy var locationNameLabel: UILabel = makeLabel()
+	lazy var locationLabel: UILabel = makeLabel()
 	
 	// MARK: - Initialization
 	
@@ -33,12 +33,12 @@ final class LocationCell: UICollectionViewCell {
 private extension LocationCell {
 	
 	func setupLayout() {
-		addSubview(locationNameLabel)
+		addSubview(locationLabel)
 		addSubview(setLocationButton)
 		
 		NSLayoutConstraint.activate([
-			locationNameLabel.topAnchor.constraint(equalTo: topAnchor),
-			locationNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+			locationLabel.topAnchor.constraint(equalTo: topAnchor),
+			locationLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
 			
 			setLocationButton.widthAnchor.constraint(equalToConstant: Sizes.smallButton),
 			setLocationButton.heightAnchor.constraint(equalToConstant: Sizes.smallButton),

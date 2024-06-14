@@ -68,7 +68,6 @@ private extension CalendarView {
 	
 	func makeCalendarView() -> UICalendarView {
 		let calendarView = UICalendarView()
-		calendarView.calendar = .current
 		calendarView.locale = .current
 		calendarView.availableDateRange = DateInterval(start: .now, end: .distantFuture)
 		calendarView.translatesAutoresizingMaskIntoConstraints = false

@@ -8,13 +8,15 @@
 import Foundation
 
 protocol IEventsPresenter {
+	
 	var events: [EventsViewModel.Event] { get }
 	var categories: [EventsViewModel.Category] { get }
+	
 	func viewIsReady(view: IEventsView)
-	func routeToDetailsScreen(indexEvent: Int)
-	func routeToCalendarScreen()
+	func changeDateEvents()
 	func categoryDidSelect(at index: Int)
 	func fetchNextPage()
+	func routeToDetailsScreen(indexEvent: Int)
 }
 
 final class EventsPresenter: IEventsPresenter {
@@ -49,6 +51,7 @@ final class EventsPresenter: IEventsPresenter {
 	
 	func viewIsReady(view: IEventsView) {
 		self.view = view
+		changeDateLabel()
 		fetchCategories()
 		fetchEvents()
 	}
@@ -71,7 +74,7 @@ final class EventsPresenter: IEventsPresenter {
 		router.routeToDetailScreen(idEvent: events[indexEvent].id)
 	}
 	
-	func routeToCalendarScreen() {
+	func changeDateEvents() {
 		router.routeToCalendarScreen { startDate, endDate in
 			if let startDate = startDate {
 				self.startDate = startDate
@@ -85,6 +88,7 @@ final class EventsPresenter: IEventsPresenter {
 				self.startDate = .now
 				self.endDate = nil
 			}
+			self.changeDateLabel()
 			self.reloadEvents()
 		}
 	}
@@ -104,6 +108,42 @@ final class EventsPresenter: IEventsPresenter {
 }
 
 private extension EventsPresenter {
+	func changeDateLabel() {
+		var text: String = ""
+	
+		dateFormatter.dateFormat = "dd MMMM"
+		let startDateString = dateFormatter.string(from: startDate)
+		
+		if let endDate = endDate {
+			let calendar = Calendar.current
+			let componenetStartDate = calendar.dateComponents(in: .gmt, from: startDate)
+			let componenetEndDate = calendar.dateComponents(in: .gmt, from: endDate)
+			
+			if componenetStartDate.day == componenetEndDate.day &&
+				componenetStartDate.month == componenetEndDate.month {
+				text = "\(startDateString)"
+				
+			} else if componenetStartDate.day != componenetEndDate.day &&
+						componenetStartDate.month == componenetEndDate.month {
+				dateFormatter.dateFormat = "dd"
+				let startDay = dateFormatter.string(from: startDate)
+				let endDay = dateFormatter.string(from: endDate)
+				dateFormatter.dateFormat = "MMMM"
+				let mounth = dateFormatter.string(from: startDate)
+				text = "\(startDay) - \(endDay) \(mounth)"
+				
+			} else {
+				let endDateString = dateFormatter.string(from: endDate)
+				text = "\(L10n.EventsScreen.from) \(startDateString) \(L10n.EventsScreen.to) \(endDateString)"
+			}
+		} else {
+			text = "\(L10n.EventsScreen.from) \(startDateString)"
+		}
+
+		view?.setDateLabel(text: text)
+		view?.reloadSection(EventsViewModel.Sections.dates.rawValue)
+	}
+	
 	func reloadEvents() {
 		events = []
 		view?.reloadSection(EventsViewModel.Sections.events.rawValue)
@@ -187,12 +227,6 @@ private extension EventsPresenter {
 			return nil
 		} else {
 			return activeCaregory.joined(separator: ",")
-		}
-	}
-	
-	func reloadEventsCollection() {
-		DispatchQueue.main.async {
-			self.view?.reloadEventsCollection()
 		}
 	}
 	

@@ -9,8 +9,8 @@ import UIKit
 
 protocol IEventsView: AnyObject {
 	func setLocation(_ location: String)
+	func setDateLabel(text: String)
 	func addRowEventsCollection(startIndex: Int, endIndex: Int)
-	func reloadEventsCollection()
 	func reloadSection(_ section: Int)
 	func reloadCell(section: Int, cellIndex: Int)
 }
@@ -23,6 +23,7 @@ final class EventsViewController: UIViewController {
 	// MARK: - Private properties
 	
 	private lazy var contentView: EventsView = EventsView()
+	private var datesText: String?
 	
 	// MARK: - Initialization
 	
@@ -64,7 +65,7 @@ private extension EventsViewController {
 	
 	@objc
 	func setDateButtonTapped() {
-		presenter.routeToCalendarScreen()
+		presenter.changeDateEvents()
 	}
 }
 
@@ -87,8 +88,8 @@ private extension EventsViewController {
 	}
 	
 	func eventsCollectionViewSetup() {
-		contentView.eventsCollectionView.delegate = self
 		contentView.eventsCollectionView.dataSource = self
+		contentView.eventsCollectionView.delegate = self
 	}
 }
 
@@ -128,7 +129,7 @@ extension EventsViewController: UICollectionViewDataSource {
 				return UICollectionViewCell()
 			}
 			cell.setLocationButton.addTarget(self, action: #selector(setLocationButtonTapped), for: .touchUpInside)
-			cell.locationNameLabel.text = AllLocation.spb.description
+			cell.locationLabel.text = AllLocation.spb.description
 			
 			return cell
 			
@@ -152,7 +153,7 @@ extension EventsViewController: UICollectionViewDataSource {
 				return UICollectionViewCell()
 			}
 			cell.setDateButton.addTarget(self, action: #selector(setDateButtonTapped), for: .touchUpInside)
-			cell.configure(dates: "C 13 июня")
+			cell.datesLabel.text = datesText
 			return cell
 			
 		case .events:
@@ -177,7 +178,9 @@ extension EventsViewController: UICollectionViewDataSource {
 			return cell
 		}
 	}
-	
+}
+
+extension EventsViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		guard let sectionType = EventsViewModel.Sections(rawValue: indexPath.section) else {
 			return
@@ -201,21 +204,17 @@ extension EventsViewController: UICollectionViewDataSource {
 	}
 }
 
-extension EventsViewController: UICollectionViewDelegate {
-	
-}
-
 // MARK: - IEventListViewController
 
 extension EventsViewController: IEventsView {
 	func setLocation(_ location: String) {
 		let indexPath = IndexPath(row: .zero, section: EventsViewModel.Sections.location.rawValue)
 		guard let cell = contentView.eventsCollectionView.cellForItem(at: indexPath) as? LocationCell else { return }
-		cell.locationNameLabel.text = location
+		cell.locationLabel.text = location
 	}
 	
-	func reloadEventsCollection() {
-		contentView.eventsCollectionView.reloadData()
+	func setDateLabel(text: String) {
+		datesText = text
 	}
 	
 	func addRowEventsCollection(startIndex: Int, endIndex: Int) {

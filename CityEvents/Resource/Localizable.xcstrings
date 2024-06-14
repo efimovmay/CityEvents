@@ -69,6 +69,23 @@
         }
       }
     },
+    "eventsScreen.from" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С"
+          }
+        }
+      }
+    },
     "eventsScreen.set" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -100,6 +117,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "События в городе"
+          }
+        }
+      }
+    },
+    "eventsScreen.to" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "to"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "до"
           }
         }
       }
