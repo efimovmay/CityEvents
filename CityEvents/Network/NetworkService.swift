@@ -14,6 +14,12 @@ protocol INetworkService {
 		completion: @escaping(Result<T, NetworkServiceError>) -> Void
 	)
 	
+	func fetch<T: Decodable>(
+		dataType: T.Type,
+		url: String,
+		completion: @escaping(Result<T, NetworkServiceError>) -> Void
+	)
+	
 	func perform(
 		request: URLRequest,
 		completion: @escaping (Result<Data, NetworkServiceError>
@@ -34,6 +40,32 @@ class NetworkService: INetworkService {
 			completion(.failure(.invalidURL))
 			return
 		}
+		perform(request: request) { result in
+			switch result {
+			case .success(let data):
+				do {
+					let result = try self.decoder.decode(T.self, from: data)
+					completion(.success(result))
+				} catch {
+					completion(.failure(.failedToDecodeResponse(error)))
+				}
+			case .failure(let error):
+				completion(.failure(error))
+			}
+		}
+	}
+	
+	func fetch<T: Decodable>(
+		dataType: T.Type,
+		url: String,
+		completion: @escaping(Result<T, NetworkServiceError>) -> Void
+	) {
+		guard let url = URL(string: url) else {
+			completion(.failure(.invalidURL))
+			return
+		}
+		let request = URLRequest(url: url)
+		
 		perform(request: request) { result in
 			switch result {
 			case .success(let data):

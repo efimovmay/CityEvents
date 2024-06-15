@@ -17,6 +17,49 @@ protocol INetworkRequestData {
 	var parameters: [String: String] { get }
 }
 
+struct NetworkRequestDataCategories: INetworkRequestData {
+	var path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventCategories.description
+	var method = HTTPMethod.get
+	var parameters: [String : String]
+	
+	init(lang: String) {
+		parameters = [
+			"lang" : lang
+		]
+	}
+}
+
+struct NetworkRequestDataEvents: INetworkRequestData {
+	var path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventsPath.description
+	var method = HTTPMethod.get
+	var parameters: [String : String]
+	
+	init(
+		location: AllLocation,
+		actualSince: Double? = nil,
+		actualUntil: Double? = nil,
+		categories: String? = nil,
+		lang: String
+	) {
+		
+		parameters = [
+			"expand" : "place",
+			"fields" : "id,dates,title,place,price,images",
+			"lang" : lang,
+			"location": location.rawValue,
+		]
+		if let actualSince = actualSince {
+			parameters["actual_since"] = String(actualSince)
+		}
+		if let actualUntil = actualUntil {
+			parameters["actual_until"] = String(actualUntil)
+		}
+		if let categories = categories {
+			parameters["categories"] = categories
+		}
+	}
+}
+
 struct NetworkRequestDataDetailEvent: INetworkRequestData {
 	var path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventsPath.description
 	var method = HTTPMethod.get
@@ -27,27 +70,6 @@ struct NetworkRequestDataDetailEvent: INetworkRequestData {
 		parameters = [
 			"lang" : "ru"
 		]
-	}
-}
-
-struct NetworkRequestDataEvents: INetworkRequestData {
-	var path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventsPath.description
-	var method = HTTPMethod.get
-	var parameters: [String : String]
-	
-	init(location: AllLocation, actualSince: String? = nil, actualUntil: String? = nil) {
-
-		parameters = [
-			"fields" : "id,title,images,dates",
-			"lang": "ru",
-			"location": location.rawValue
-		]
-		if let actualSince = actualSince {
-			parameters["actual_since"] = actualSince
-		}
-		if let actualUntil = actualUntil {
-			parameters["actual_until"] = actualUntil
-		}
 	}
 }
 

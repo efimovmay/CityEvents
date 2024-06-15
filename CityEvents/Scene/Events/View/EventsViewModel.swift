@@ -7,11 +7,28 @@
 
 import Foundation
 
-struct EventsViewModel {
-	var eventList: [Model]
+enum EventsViewModel {
 	
-	struct Model {
+	enum Sections: Int, CaseIterable {
+		case location
+		case dates
+		case category
+		case	 events
+	}
+	
+	struct Category {
+		let slug: String
+		let name: String
+		var isActive: Bool = false
+	}
+	
+	struct Event {
+		let id: Int
 		let title: String
 		let image: String
+		let price: String
+		let place: String?
+		let date: String?
+		var isFavorite: Bool = false
 	}
 }

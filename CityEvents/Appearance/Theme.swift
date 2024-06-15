@@ -10,12 +10,14 @@ import UIKit
 enum Theme {
 	
 	static let mainColor = Colors.white
+	static let imageSticker = Colors.darkGray
+	static let tintElement = Colors.black
 	
 	enum ImageIcon {
 		static let heart = UIImage(systemName: "heart")
 		static let heartFill = UIImage(systemName: "heart.fill")
 		static let calendar = UIImage(systemName: "calendar")
-		static let location = UIImage(systemName: "mappin.and.ellipse")
+		static let location = UIImage(systemName: "location.fill")
 		static let comment = UIImage(systemName: "bubble")
 		static let search = UIImage(systemName: "magnifyingglass")
 		static let filter = UIImage(systemName: "arrow.up.arrow.down")

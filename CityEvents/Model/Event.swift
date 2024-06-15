@@ -15,7 +15,6 @@ struct EventDTO: Codable {
 	let place: Place
 	let description: String
 	let bodyText: String
-	let location: Location
 	let categories: [String]
 	let ageRestriction: String
 	let price: String
@@ -36,7 +35,6 @@ struct EventDTO: Codable {
 		case place
 		case description
 		case bodyText = "body_text"
-		case location
 		case categories
 		case ageRestriction = "age_restriction"
 		case price
@@ -53,16 +51,16 @@ struct EventDTO: Codable {
 }
 
 struct DateRange: Codable {
-	let start: Int
-	let end: Int
+	let start: Double
+	let end: Double
 }
 
 struct Place: Codable {
 	let id: Int
-}
-
-struct Location: Codable {
-	let slug: String
+	let title: String
+	let address: String
+	let subway: String
+	let coords: Coords
 }
 
 struct EventImages: Codable {
@@ -71,4 +69,9 @@ struct EventImages: Codable {
 
 struct Participant: Codable {
 	let id: Int
+}
+
+struct Coords: Codable {
+	let lat: Double
+	let lon: Double
 }

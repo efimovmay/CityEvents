@@ -8,7 +8,11 @@
 import UIKit
 
 protocol IEventsView: AnyObject {
-	func render(viewModel: EventsViewModel)
+	func setLocation(_ location: String)
+	func setDateLabel(text: String)
+	func addRowEventsCollection(startIndex: Int, endIndex: Int)
+	func reloadSection(_ section: Int)
+	func reloadCell(section: Int, cellIndex: Int)
 }
 
 final class EventsViewController: UIViewController {
@@ -18,9 +22,8 @@ final class EventsViewController: UIViewController {
 	
 	// MARK: - Private properties
 	
-
 	private lazy var contentView: EventsView = EventsView()
-	private var viewModel: EventsViewModel = .init(eventList: [])
+	private var datesText: String?
 	
 	// MARK: - Initialization
 	
@@ -43,8 +46,36 @@ final class EventsViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupUI()
-		
 		presenter.viewIsReady(view: self)
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		navigationController?.setNavigationBarHidden(true, animated: animated)
+	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		navigationController?.setNavigationBarHidden(false, animated: animated)
+	}
+}
+
+// MARK: - Action
+
+private extension EventsViewController {
+	@objc
+	func favoriteButtonTapped(_ sender: UIButton) {
+		print("like")
+	}
+	
+	@objc
+	func setLocationButtonTapped() {
+		print("Location")
+	}
+	
+	@objc
+	func setDateButtonTapped() {
+		presenter.changeDateEvents()
 	}
 }
 
@@ -52,16 +83,22 @@ final class EventsViewController: UIViewController {
 
 private extension EventsViewController {
 	func setupUI() {
-		navigationBarSetup()
 		eventsCollectionViewSetup()
 	}
 	
 	func navigationBarSetup() {
+		let titleLabel = UILabel()
+		titleLabel.attributedText = NSAttributedString(
+			string: L10n.EventsScreen.title,
+			attributes: [.font: UIFont.boldSystemFont(ofSize: Sizes.Font.title)]
+			)
+		titleLabel.sizeToFit()
+		navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
 	}
 	
 	func eventsCollectionViewSetup() {
-		contentView.eventsCollectionView.delegate = self
 		contentView.eventsCollectionView.dataSource = self
+		contentView.eventsCollectionView.delegate = self
 	}
 }
 
@@ -69,84 +106,145 @@ private extension EventsViewController {
 
 extension EventsViewController: UICollectionViewDataSource {
 	func numberOfSections(in collectionView: UICollectionView) -> Int {
-		EventsView.Sections.allCases.count
+		EventsViewModel.Sections.allCases.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		guard let sectionType = EventsView.Sections(rawValue: section) else {
+		guard let sectionType = EventsViewModel.Sections(rawValue: section) else {
 			return .zero
 		}
 		switch sectionType {
-		case .recomendation:
-			return viewModel.eventList.count
-		case .regular:
-			return viewModel.eventList.count
+		case .location:
+			return 1
+		case .dates:
+			return 1
+		case .category:
+			return presenter.categories.count
+		case .events:
+			return presenter.events.count
 		}
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		guard let sectionType = EventsView.Sections(rawValue: indexPath.section) else {
+		guard let sectionType = EventsViewModel.Sections(rawValue: indexPath.section) else {
 			return UICollectionViewCell()
 		}
 		switch sectionType {
-
-		case .recomendation:
+		case .location:
+			guard let cell = collectionView.dequeueReusableCell(
+				withReuseIdentifier: LocationCell.identifier,
+				for: indexPath
+			) as? LocationCell else {
+				return UICollectionViewCell()
+			}
+			cell.setLocationButton.addTarget(self, action: #selector(setLocationButtonTapped), for: .touchUpInside)
+			cell.locationLabel.text = "\(L10n.EventsScreen.title)\n\(AllLocation.spb.description)"
+			
+			return cell
+			
+		case .category:
+			guard let cell = collectionView.dequeueReusableCell(
+				withReuseIdentifier: CategoryCell.identifier,
+				for: indexPath
+			) as? CategoryCell else {
+				return UICollectionViewCell()
+			}
+			let category = presenter.categories[indexPath.row]
+			cell.configure(categoryName: category.name, isActive: category.isActive)
+			
+			return cell
+			
+		case .dates:
+			guard let cell = collectionView.dequeueReusableCell(
+				withReuseIdentifier: DatesCell.identifier,
+				for: indexPath
+			) as? DatesCell else {
+				return UICollectionViewCell()
+			}
+			cell.setDateButton.addTarget(self, action: #selector(setDateButtonTapped), for: .touchUpInside)
+			cell.datesLabel.text = datesText
+			return cell
+			
+		case .events:
 			guard let cell = collectionView.dequeueReusableCell(
 				withReuseIdentifier: EventViewCell.identifier,
 				for: indexPath
 			) as? EventViewCell else {
 				return UICollectionViewCell()
 			}
-			let event = viewModel.eventList[indexPath.row]
-			cell.configure(image: event.image, name: event.title)
+			let event = presenter.events[indexPath.row]
 			
+			cell.favoriteButton.removeTarget(nil, action: nil, for: .allEvents)
+			cell.favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped(_:)), for: .touchUpInside)
+			cell.configure(
+				image: event.image,
+				title: event.title,
+				date: event.date,
+				place: event.place,
+				price: event.price, 
+				isfavorite: event.isFavorite
+			)
 			return cell
-			
-		case .regular:
-			guard let cell = collectionView.dequeueReusableCell(
-				withReuseIdentifier: RegularEventViewCell.identifier,
-				for: indexPath
-			) as? RegularEventViewCell else {
-				return UICollectionViewCell()
-			}
-			let event = viewModel.eventList[indexPath.row]
-			cell.configure(image: event.image, name: event.title)
-			
-			return cell
-		}
-	}
-	
-	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-		guard let sectionType = EventsView.Sections(rawValue: indexPath.section) else {
-			return UICollectionReusableView()
-		}
-		switch sectionType {
-		case .recomendation:
-			guard let supplementaryView = collectionView.dequeueReusableSupplementaryView(
-				ofKind: kind,
-				withReuseIdentifier: EventsSectionHeaderView.identifier,
-				for: indexPath
-			) as? EventsSectionHeaderView else {
-				return UICollectionReusableView()
-			}
-			supplementaryView.configure(text: "Рекомендованные")
-			return supplementaryView
-			
-		case .regular:
-			return UICollectionReusableView()
 		}
 	}
 }
 
 extension EventsViewController: UICollectionViewDelegate {
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		guard let sectionType = EventsViewModel.Sections(rawValue: indexPath.section) else {
+			return
+		}
+		switch sectionType {
+		case.location:
+			break
+		case .category:
+			presenter.categoryDidSelect(at: indexPath.item)
+		case .dates:
+			break
+		case .events:
+			presenter.routeToDetailsScreen(indexEvent: indexPath.item)
+		}
+	}
 	
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+		if indexPath.item == presenter.events.count - 2 {
+			presenter.fetchNextPage()
+		}
+	}
 }
 
 // MARK: - IEventListViewController
 
 extension EventsViewController: IEventsView {
-	func render(viewModel: EventsViewModel) {
-		self.viewModel = viewModel
-		contentView.eventsCollectionView.reloadData()
+	func setLocation(_ location: String) {
+		let indexPath = IndexPath(row: .zero, section: EventsViewModel.Sections.location.rawValue)
+		guard let cell = contentView.eventsCollectionView.cellForItem(at: indexPath) as? LocationCell else { return }
+		cell.locationLabel.text = location
+	}
+	
+	func setDateLabel(text: String) {
+		datesText = text
+	}
+	
+	func addRowEventsCollection(startIndex: Int, endIndex: Int) {
+		var indexPaths: [IndexPath] = []
+		for index in startIndex...endIndex {
+			indexPaths.append(IndexPath(item: index, section: EventsViewModel.Sections.events.rawValue))
+		}
+		contentView.eventsCollectionView.performBatchUpdates({
+			contentView.eventsCollectionView.insertItems(at: indexPaths)
+		}, completion: nil)
+	}
+	
+	func reloadSection(_ section: Int) {
+		contentView.eventsCollectionView.performBatchUpdates({
+			let indexSet = IndexSet(integer: section)
+			contentView.eventsCollectionView.reloadSections(indexSet)
+		}, completion: nil)
+	}
+	
+	func reloadCell(section: Int, cellIndex: Int) {
+		let indexPath = IndexPath(row: cellIndex, section: section)
+		contentView.eventsCollectionView.reloadItems(at: [indexPath])
 	}
 }

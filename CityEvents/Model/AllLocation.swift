@@ -27,33 +27,33 @@ enum AllLocation: String {
 		switch self {
 			
 		case .spb:
-			"Санкт-Петербург"
+			L10n.Location.spb
 		case .msk:
-			"Москва"
+			L10n.Location.msk
 		case .nsk:
-			"Новосибирск"
+			L10n.Location.nsk
 		case .ekb:
-			"Екатеринбург"
+			L10n.Location.ekb
 		case .nnv:
-			"Нижний Новгород"
+			L10n.Location.nnv
 		case .kzn:
-			"Казань"
+			L10n.Location.kzn
 		case .bg:
-			"Выборг"
+			L10n.Location.bg
 		case .smr:
-			"Самара"
+			L10n.Location.smr
 		case .krd:
-			"Краснодар"
+			L10n.Location.krd
 		case .sochi:
-			"Сочи"
+			L10n.Location.sochi
 		case .ufa:
-			"Уфа"
+			L10n.Location.ufa
 		case .krasnoyarsk:
-			"Красноярск"
+			L10n.Location.krasnoyarsk
 		case .kev:
-			"Киев"
+			L10n.Location.kev
 		case .newYork:
-			"Нью-Йорк"
+			L10n.Location.newYork
 		}
 	}
 }
