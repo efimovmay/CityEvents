@@ -37,19 +37,21 @@ private extension LocationCell {
 		addSubview(setLocationButton)
 		
 		NSLayoutConstraint.activate([
-			locationLabel.topAnchor.constraint(equalTo: topAnchor),
+			locationLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
 			locationLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
 			
 			setLocationButton.widthAnchor.constraint(equalToConstant: Sizes.smallButton),
 			setLocationButton.heightAnchor.constraint(equalToConstant: Sizes.smallButton),
+			setLocationButton.topAnchor.constraint(equalTo: topAnchor, constant: Sizes.Padding.double),
 			setLocationButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-			setLocationButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+			setLocationButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Sizes.Padding.half),
 		])
 	}
 	
 	func makeLabel() -> UILabel {
 		let label = UILabel()
-		label.textAlignment = .justified
+		label.textAlignment = .left
+		label.numberOfLines = .zero
 		label.font = UIFont.boldSystemFont(ofSize: Sizes.Font.title)
 		label.translatesAutoresizingMaskIntoConstraints = false
 		return label

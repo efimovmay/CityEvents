@@ -26,7 +26,7 @@ enum Sizes {
 	}
 
 	enum Font {
-		static let title: CGFloat = 26
+		static let title: CGFloat = 28
 		static let regular: CGFloat = 16
 		static let titleEvent: CGFloat = 18
 	}
@@ -36,5 +36,6 @@ enum Sizes {
 		static let normal: CGFloat = 16
 		static let semiDouble: CGFloat = 24
 		static let double: CGFloat = 32
+		static let max: CGFloat = 40
 	}
 }

@@ -48,6 +48,16 @@ final class EventsViewController: UIViewController {
 		setupUI()
 		presenter.viewIsReady(view: self)
 	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		navigationController?.setNavigationBarHidden(true, animated: animated)
+	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		navigationController?.setNavigationBarHidden(false, animated: animated)
+	}
 }
 
 // MARK: - Action
@@ -73,7 +83,6 @@ private extension EventsViewController {
 
 private extension EventsViewController {
 	func setupUI() {
-		navigationBarSetup()
 		eventsCollectionViewSetup()
 	}
 	
@@ -129,7 +138,7 @@ extension EventsViewController: UICollectionViewDataSource {
 				return UICollectionViewCell()
 			}
 			cell.setLocationButton.addTarget(self, action: #selector(setLocationButtonTapped), for: .touchUpInside)
-			cell.locationLabel.text = AllLocation.spb.description
+			cell.locationLabel.text = "\(L10n.EventsScreen.title)\n\(AllLocation.spb.description)"
 			
 			return cell
 			
