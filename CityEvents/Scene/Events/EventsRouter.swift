@@ -39,12 +39,13 @@ final class EventsRouter: IEventsRouter {
 				return Sizes.CalendarScreen.screenHeigth
 			})]
 		}
-		
 		navigationController.present(viewController, animated: true, completion: nil)
 	}
 	
-	func routeToLocationScreen(compleation: AllLocation) -> Void {
-
+	func routeToLocationScreen(setLocationClosure: SetLocationClosure?) -> Void {
+		let presenter = LocationPresenter(router: self, setLocationClosure: setLocationClosure)
+		let viewController = LocationViewController(presenter: presenter)
+		navigationController.present(viewController, animated: true, completion: nil)
 	}
 	
 	func dismissModalScreen() {

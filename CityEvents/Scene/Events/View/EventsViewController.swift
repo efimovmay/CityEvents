@@ -8,11 +8,11 @@
 import UIKit
 
 protocol IEventsView: AnyObject {
-	func setLocation(_ location: String)
+	func setLocationLabel(text: String)
 	func setDateLabel(text: String)
-	func addRowEventsCollection(startIndex: Int, endIndex: Int)
 	func reloadSection(_ section: Int)
 	func reloadCell(section: Int, cellIndex: Int)
+	func addRowEventsCollection(startIndex: Int, endIndex: Int)
 }
 
 final class EventsViewController: UIViewController {
@@ -24,6 +24,7 @@ final class EventsViewController: UIViewController {
 	
 	private lazy var contentView: EventsView = EventsView()
 	private var datesText: String?
+	private var locationText: String?
 	
 	// MARK: - Initialization
 	
@@ -70,7 +71,7 @@ private extension EventsViewController {
 	
 	@objc
 	func setLocationButtonTapped() {
-		print("Location")
+		presenter.changeLocation()
 	}
 	
 	@objc
@@ -138,7 +139,7 @@ extension EventsViewController: UICollectionViewDataSource {
 				return UICollectionViewCell()
 			}
 			cell.setLocationButton.addTarget(self, action: #selector(setLocationButtonTapped), for: .touchUpInside)
-			cell.locationLabel.text = "\(L10n.EventsScreen.title)\n\(AllLocation.spb.description)"
+			cell.locationLabel.text = locationText
 			
 			return cell
 			
@@ -216,10 +217,9 @@ extension EventsViewController: UICollectionViewDelegate {
 // MARK: - IEventListViewController
 
 extension EventsViewController: IEventsView {
-	func setLocation(_ location: String) {
-		let indexPath = IndexPath(row: .zero, section: EventsViewModel.Sections.location.rawValue)
-		guard let cell = contentView.eventsCollectionView.cellForItem(at: indexPath) as? LocationCell else { return }
-		cell.locationLabel.text = location
+	
+	func setLocationLabel(text: String) {
+		locationText = text
 	}
 	
 	func setDateLabel(text: String) {

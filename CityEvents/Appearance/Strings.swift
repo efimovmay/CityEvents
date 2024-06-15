@@ -14,8 +14,17 @@ enum L10n {
 		static let done = NSLocalizedString("common.done", comment: "")
 		static let cancel = NSLocalizedString("common.cancel", comment: "")
 	}
+	
+	enum KeyUserDefault {
+		static let savedLocation = "savedLocation"
+	}
+	
 	enum CalendarScreen {
 		static let title = NSLocalizedString("calendarScreen.title", comment: "")
+	}
+	
+	enum LocationScreen {
+		static let title = NSLocalizedString("locationScreen.title", comment: "")
 	}
 	
 	enum EventsScreen {

@@ -1,5 +1,5 @@
 //
-//  AllLocation.swift
+//  Locations.swift
 //  CityEvents
 //
 //  Created by Aleksey Efimov on 09.06.2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AllLocation: String {
+enum Locations: String, CaseIterable {
 	case spb = "spb"
 	case msk = "msk"
 	case nsk = "nsk"
