@@ -13,6 +13,7 @@ protocol IEventsPresenter {
 	var categories: [EventsViewModel.Category] { get }
 	
 	func viewIsReady(view: IEventsView)
+	func changeLocation()
 	func changeDateEvents()
 	func categoryDidSelect(at index: Int)
 	func fetchNextPage()
@@ -26,25 +27,26 @@ final class EventsPresenter: IEventsPresenter {
 	private let network: INetworkService
 	private let router: EventsRouter
 	
-	// MARK: - Private properties
-	
-	private let dateFormatter = DateFormatter()
-	
-	var currentLocation: AllLocation
+	var currentLocation: Locations
 	var events: [EventsViewModel.Event] = []
 	var categories: [EventsViewModel.Category] = []
 	
+	// MARK: - Private properties
+	
+	private let dateFormatter = DateFormatter()
+
 	private var urlNextPage: String? = nil
 	private var activeCaregory: Set<String> = .init()
 	private var startDate: Date = .now
 	private var endDate: Date?
+	private var location: Locations = .spb
 	
 	// MARK: - Initialization
 	
 	init(router: EventsRouter, network: INetworkService) {
 		self.network = network
 		self.router = router
-		self.currentLocation = AllLocation.spb
+		self.currentLocation = Locations.spb
 	}
 	
 	// MARK: - Public methods
@@ -52,6 +54,7 @@ final class EventsPresenter: IEventsPresenter {
 	func viewIsReady(view: IEventsView) {
 		self.view = view
 		changeDateLabel()
+		changeLocationLabel()
 		fetchCategories()
 		fetchEvents()
 	}
@@ -72,6 +75,15 @@ final class EventsPresenter: IEventsPresenter {
 	
 	func routeToDetailsScreen(indexEvent: Int) {
 		router.routeToDetailScreen(idEvent: events[indexEvent].id)
+	}
+	
+	func changeLocation() {
+		router.routeToLocationScreen { location in
+			if location == self.location { return }
+			self.location = location
+			self.changeLocationLabel()
+			self.reloadEvents()
+		}
 	}
 	
 	func changeDateEvents() {
@@ -108,6 +120,11 @@ final class EventsPresenter: IEventsPresenter {
 }
 
 private extension EventsPresenter {
+	func changeLocationLabel() {
+		view?.setLocationLabel(text: "\(L10n.EventsScreen.title)\n\(location.description)")
+		view?.reloadSection(EventsViewModel.Sections.location.rawValue)
+	}
+	
 	func changeDateLabel() {
 		var text: String = ""
 	
@@ -172,7 +189,7 @@ private extension EventsPresenter {
 		network.fetch(
 			dataType: EventListDTO.self,
 			with: NetworkRequestDataEvents(
-				location: AllLocation.spb,
+				location: location,
 				actualSince: startDate.timeIntervalSince1970,
 				actualUntil: endDate?.timeIntervalSince1970,
 				categories: getActiveCategory(),

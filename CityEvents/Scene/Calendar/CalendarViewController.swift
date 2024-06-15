@@ -7,8 +7,6 @@
 
 import UIKit
 
-protocol ICalendarView: AnyObject {}
-
 final class CalendarViewController: UIViewController {
 	
 	private let presenter: ICalendarPresenter
@@ -34,7 +32,6 @@ final class CalendarViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupUI()
-		presenter.viewIsReady(view: self)
 	}
 }
 
@@ -97,5 +94,3 @@ extension CalendarViewController: UICalendarViewDelegate, UICalendarSelectionMul
 		true
 	}
 }
-
-extension CalendarViewController: ICalendarView {}

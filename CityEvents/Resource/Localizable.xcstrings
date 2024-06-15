@@ -392,6 +392,23 @@
           }
         }
       }
+    },
+    "locationScreen.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select city"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите город"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

@@ -35,7 +35,7 @@ struct NetworkRequestDataEvents: INetworkRequestData {
 	var parameters: [String : String]
 	
 	init(
-		location: AllLocation,
+		location: Locations,
 		actualSince: Double? = nil,
 		actualUntil: Double? = nil,
 		categories: String? = nil,
@@ -78,7 +78,7 @@ struct NetworkRequestDataOfDay: INetworkRequestData {
 	var method = HTTPMethod.get
 	var parameters: [String : String]
 	
-	init(location: AllLocation, page: Int = 1) {
+	init(location: Locations, page: Int = 1) {
 		parameters = [
 			"lang": "ru",
 			"page" : String(page),
