@@ -12,11 +12,11 @@ struct EventDTO: Codable {
 	let id: Int
 	let dates: [DateRange]
 	let title: String
-	let place: Place
+//	let place: Place
 	let description: String
 	let bodyText: String
 	let categories: [String]
-	let ageRestriction: String
+	let ageRestriction: Int
 	let price: String
 	let isFree: Bool
 	let images: [EventImages]
@@ -32,7 +32,7 @@ struct EventDTO: Codable {
 		case id
 		case dates
 		case title
-		case place
+//		case place
 		case description
 		case bodyText = "body_text"
 		case categories
@@ -57,10 +57,10 @@ struct DateRange: Codable {
 
 struct Place: Codable {
 	let id: Int
-	let title: String
-	let address: String
-	let subway: String
-	let coords: Coords
+	let title: String?
+	let address: String?
+	let subway: String?
+	let coords: Coords?
 }
 
 struct EventImages: Codable {

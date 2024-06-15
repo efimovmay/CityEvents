@@ -65,10 +65,10 @@ struct NetworkRequestDataDetailEvent: INetworkRequestData {
 	var method = HTTPMethod.get
 	var parameters: [String : String]
 	
-	init(ids: Int) {
-		path.append("/\(String(ids))")
+	init(idEvent: Int, lang: String = "ru") {
+		path.append("/\(String(idEvent))")
 		parameters = [
-			"lang" : "ru"
+			"lang" : lang
 		]
 	}
 }

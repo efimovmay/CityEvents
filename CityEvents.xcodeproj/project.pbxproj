@@ -19,6 +19,12 @@
 		5B661F1F2C1DD1E0003CCA50 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F1E2C1DD1E0003CCA50 /* LocationViewController.swift */; };
 		5B661F212C1DD1EB003CCA50 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F202C1DD1EB003CCA50 /* LocationView.swift */; };
 		5B661F232C1DEB8E003CCA50 /* UserDefaults+enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F222C1DEB8E003CCA50 /* UserDefaults+enum.swift */; };
+		5B661F252C1E128E003CCA50 /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F242C1E128E003CCA50 /* DetailPresenter.swift */; };
+		5B661F272C1E12A1003CCA50 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F262C1E12A1003CCA50 /* DetailViewController.swift */; };
+		5B661F292C1E12B2003CCA50 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F282C1E12B2003CCA50 /* DetailView.swift */; };
+		5B661F2B2C1E12BD003CCA50 /* DetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F2A2C1E12BD003CCA50 /* DetailRouter.swift */; };
+		5B661F2D2C1E12D4003CCA50 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F2C2C1E12D3003CCA50 /* DetailViewModel.swift */; };
+		5B661F2F2C1E12E9003CCA50 /* DetailAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F2E2C1E12E9003CCA50 /* DetailAssembly.swift */; };
 		5BA475982C16E49A00BF2D5D /* EventsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA475972C16E49A00BF2D5D /* EventsRouter.swift */; };
 		5BA4759A2C16E5B600BF2D5D /* EventsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA475992C16E5B600BF2D5D /* EventsAssembly.swift */; };
 		5BA4759D2C171E1D00BF2D5D /* String+CapitalizingFirst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA4759C2C171E1D00BF2D5D /* String+CapitalizingFirst.swift */; };
@@ -64,6 +70,12 @@
 		5B661F1E2C1DD1E0003CCA50 /* LocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		5B661F202C1DD1EB003CCA50 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		5B661F222C1DEB8E003CCA50 /* UserDefaults+enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+enum.swift"; sourceTree = "<group>"; };
+		5B661F242C1E128E003CCA50 /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
+		5B661F262C1E12A1003CCA50 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		5B661F282C1E12B2003CCA50 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		5B661F2A2C1E12BD003CCA50 /* DetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRouter.swift; sourceTree = "<group>"; };
+		5B661F2C2C1E12D3003CCA50 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		5B661F2E2C1E12E9003CCA50 /* DetailAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAssembly.swift; sourceTree = "<group>"; };
 		5BA475972C16E49A00BF2D5D /* EventsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsRouter.swift; sourceTree = "<group>"; };
 		5BA475992C16E5B600BF2D5D /* EventsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAssembly.swift; sourceTree = "<group>"; };
 		5BA4759C2C171E1D00BF2D5D /* String+CapitalizingFirst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CapitalizingFirst.swift"; sourceTree = "<group>"; };
@@ -130,9 +142,23 @@
 			path = Location;
 			sourceTree = "<group>";
 		};
+		5B661F302C1E1A5E003CCA50 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5B661F282C1E12B2003CCA50 /* DetailView.swift */,
+				5B661F2C2C1E12D3003CCA50 /* DetailViewModel.swift */,
+				5B661F262C1E12A1003CCA50 /* DetailViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		5BA4759B2C16E61A00BF2D5D /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				5B661F302C1E1A5E003CCA50 /* View */,
+				5B661F242C1E128E003CCA50 /* DetailPresenter.swift */,
+				5B661F2A2C1E12BD003CCA50 /* DetailRouter.swift */,
+				5B661F2E2C1E12E9003CCA50 /* DetailAssembly.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -359,9 +385,11 @@
 				5BCBBB142C15BD2E004C60AD /* NetworkError.swift in Sources */,
 				5B661F002C1991FB003CCA50 /* CategoryCell.swift in Sources */,
 				5BB997622C14A4E700E47C8F /* EventsView.swift in Sources */,
+				5B661F2F2C1E12E9003CCA50 /* DetailAssembly.swift in Sources */,
 				5B661F1A2C1D94AC003CCA50 /* UIImage+Resize.swift in Sources */,
 				5B661F092C1B35A6003CCA50 /* LocationCell.swift in Sources */,
 				5BB9976E2C14EC0E00E47C8F /* UIColor+Dynamic.swift in Sources */,
+				5B661F272C1E12A1003CCA50 /* DetailViewController.swift in Sources */,
 				5BB997602C149FFA00E47C8F /* EventsViewModel.swift in Sources */,
 				5BCBBB1A2C15E683004C60AD /* Locations.swift in Sources */,
 				5BCBBB0E2C15BC26004C60AD /* Event.swift in Sources */,
@@ -380,13 +408,17 @@
 				5BA475982C16E49A00BF2D5D /* EventsRouter.swift in Sources */,
 				5BA4759D2C171E1D00BF2D5D /* String+CapitalizingFirst.swift in Sources */,
 				5BB9975E2C149EC100E47C8F /* EventsPresenter.swift in Sources */,
+				5B661F2B2C1E12BD003CCA50 /* DetailRouter.swift in Sources */,
 				5B661EFE2C198D77003CCA50 /* CategoriesEvent.swift in Sources */,
+				5B661F2D2C1E12D4003CCA50 /* DetailViewModel.swift in Sources */,
 				5BB9974D2C1498A600E47C8F /* CityEvents.xcdatamodeld in Sources */,
+				5B661F292C1E12B2003CCA50 /* DetailView.swift in Sources */,
 				5BB997722C14EDDB00E47C8F /* Colors.swift in Sources */,
 				5BB997782C14F3B200E47C8F /* Strings.swift in Sources */,
 				5BB9976C2C14EBD000E47C8F /* Theme.swift in Sources */,
 				5BCBBB0B2C15BBBB004C60AD /* NetworkService.swift in Sources */,
 				5B661F1D2C1DD0D7003CCA50 /* LocationPresenter.swift in Sources */,
+				5B661F252C1E128E003CCA50 /* DetailPresenter.swift in Sources */,
 				5BB997702C14ECAD00E47C8F /* UIColor+Hex.swift in Sources */,
 				5B661F0E2C1B6EFA003CCA50 /* CalendarPresenter.swift in Sources */,
 				5BB997432C1498A600E47C8F /* AppDelegate.swift in Sources */,
