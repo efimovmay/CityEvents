@@ -16,11 +16,13 @@ final class EventViewCell: UICollectionViewCell {
 	lazy var favoriteButton: UIButton = makeLikeButton()
 	
 	private lazy var eventImageView: UIImageView = makeImageView()
+	private lazy var activityIndicator = UIActivityIndicatorView()
 	private lazy var titleLabel: UILabel = makeTitleLabel()
 	private lazy var dateView: UIView = makeDateView()
 	private lazy var dateLabel: UILabel = makeLabel()
 	private lazy var placeLabel: UILabel = makeLabel()
 	private lazy var priceLabel: UILabel = makeLabel()
+
 	
 	// MARK: - Initialization
 	
@@ -47,8 +49,9 @@ final class EventViewCell: UICollectionViewCell {
 		price: String,
 		isfavorite: Bool
 	) {
+		activityIndicator.startAnimating()
 		eventImageView.load(urlString: image) {
-			
+			self.activityIndicator.stopAnimating()
 		}
 		titleLabel.text = title
 		placeLabel.text = place
@@ -69,8 +72,11 @@ private extension EventViewCell {
 		addSubview(eventImageView)
 		eventImageView.addSubview(favoriteButton)
 		eventImageView.addSubview(dateView)
+		eventImageView.addSubview(activityIndicator)
 		dateView.addSubview(dateLabel)
 
+		activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+		
 		NSLayoutConstraint.activate([
 			priceLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
 			priceLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -97,6 +103,9 @@ private extension EventViewCell {
 			
 			dateLabel.centerXAnchor.constraint(equalTo: dateView.centerXAnchor),
 			dateLabel.centerYAnchor.constraint(equalTo: dateView.centerYAnchor),
+			
+			activityIndicator.centerXAnchor.constraint(equalTo: eventImageView.centerXAnchor),
+			activityIndicator.centerYAnchor.constraint(equalTo: eventImageView.centerYAnchor),
 			
 		])
 	}

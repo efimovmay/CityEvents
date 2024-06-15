@@ -112,6 +112,7 @@ private extension EventsPresenter {
 		var text: String = ""
 	
 		dateFormatter.dateFormat = "dd MMMM"
+		dateFormatter.timeZone = .gmt
 		let startDateString = dateFormatter.string(from: startDate)
 		
 		if let endDate = endDate {

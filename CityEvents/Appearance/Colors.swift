@@ -8,6 +8,7 @@
 import UIKit
 
 enum Colors {
+	
 	static let whiteFull = UIColor.color(
 		light: UIColor(hex: 0xFFFFFF),
 		dark: UIColor(hex: 0xFFFFFF)

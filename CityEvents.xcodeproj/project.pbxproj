@@ -14,6 +14,7 @@
 		5B661F0C2C1B6EBB003CCA50 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F0B2C1B6EBB003CCA50 /* CalendarViewController.swift */; };
 		5B661F0E2C1B6EFA003CCA50 /* CalendarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F0D2C1B6EFA003CCA50 /* CalendarPresenter.swift */; };
 		5B661F102C1B6F08003CCA50 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F0F2C1B6F08003CCA50 /* CalendarView.swift */; };
+		5B661F1A2C1D94AC003CCA50 /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F192C1D94AC003CCA50 /* UIImage+Resize.swift */; };
 		5BA475982C16E49A00BF2D5D /* EventsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA475972C16E49A00BF2D5D /* EventsRouter.swift */; };
 		5BA4759A2C16E5B600BF2D5D /* EventsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA475992C16E5B600BF2D5D /* EventsAssembly.swift */; };
 		5BA4759D2C171E1D00BF2D5D /* String+CapitalizingFirst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA4759C2C171E1D00BF2D5D /* String+CapitalizingFirst.swift */; };
@@ -54,6 +55,7 @@
 		5B661F0B2C1B6EBB003CCA50 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		5B661F0D2C1B6EFA003CCA50 /* CalendarPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPresenter.swift; sourceTree = "<group>"; };
 		5B661F0F2C1B6F08003CCA50 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		5B661F192C1D94AC003CCA50 /* UIImage+Resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
 		5BA475972C16E49A00BF2D5D /* EventsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsRouter.swift; sourceTree = "<group>"; };
 		5BA475992C16E5B600BF2D5D /* EventsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAssembly.swift; sourceTree = "<group>"; };
 		5BA4759C2C171E1D00BF2D5D /* String+CapitalizingFirst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CapitalizingFirst.swift"; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				5BB9976D2C14EC0E00E47C8F /* UIColor+Dynamic.swift */,
 				5BB9976F2C14ECAD00E47C8F /* UIColor+Hex.swift */,
 				5BA4759C2C171E1D00BF2D5D /* String+CapitalizingFirst.swift */,
+				5B661F192C1D94AC003CCA50 /* UIImage+Resize.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 				5BCBBB142C15BD2E004C60AD /* NetworkError.swift in Sources */,
 				5B661F002C1991FB003CCA50 /* CategoryCell.swift in Sources */,
 				5BB997622C14A4E700E47C8F /* EventsView.swift in Sources */,
+				5B661F1A2C1D94AC003CCA50 /* UIImage+Resize.swift in Sources */,
 				5B661F092C1B35A6003CCA50 /* LocationCell.swift in Sources */,
 				5BB9976E2C14EC0E00E47C8F /* UIColor+Dynamic.swift in Sources */,
 				5BB997602C149FFA00E47C8F /* EventsViewModel.swift in Sources */,
