@@ -36,6 +36,7 @@ final class LocationPresenter: ILocationPresenter {
 	}
 	
 	func LocationSetDone(index: Int) {
+		UserDefaults.standard.set(locations[index], forKey: L10n.KeyUserDefault.savedLocation)
 		setLocationClosure?(locations[index])
 		router.dismissModalScreen()
 	}

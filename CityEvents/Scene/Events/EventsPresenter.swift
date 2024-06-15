@@ -27,7 +27,6 @@ final class EventsPresenter: IEventsPresenter {
 	private let network: INetworkService
 	private let router: EventsRouter
 	
-	var currentLocation: Locations
 	var events: [EventsViewModel.Event] = []
 	var categories: [EventsViewModel.Category] = []
 	
@@ -46,13 +45,15 @@ final class EventsPresenter: IEventsPresenter {
 	init(router: EventsRouter, network: INetworkService) {
 		self.network = network
 		self.router = router
-		self.currentLocation = Locations.spb
 	}
 	
 	// MARK: - Public methods
 	
 	func viewIsReady(view: IEventsView) {
 		self.view = view
+		if let savedLocation: Locations = UserDefaults.standard.enumValue(forKey: L10n.KeyUserDefault.savedLocation) {
+			location = savedLocation
+		}
 		changeDateLabel()
 		changeLocationLabel()
 		fetchCategories()

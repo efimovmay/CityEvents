@@ -18,6 +18,7 @@
 		5B661F1D2C1DD0D7003CCA50 /* LocationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F1C2C1DD0D7003CCA50 /* LocationPresenter.swift */; };
 		5B661F1F2C1DD1E0003CCA50 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F1E2C1DD1E0003CCA50 /* LocationViewController.swift */; };
 		5B661F212C1DD1EB003CCA50 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F202C1DD1EB003CCA50 /* LocationView.swift */; };
+		5B661F232C1DEB8E003CCA50 /* UserDefaults+enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F222C1DEB8E003CCA50 /* UserDefaults+enum.swift */; };
 		5BA475982C16E49A00BF2D5D /* EventsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA475972C16E49A00BF2D5D /* EventsRouter.swift */; };
 		5BA4759A2C16E5B600BF2D5D /* EventsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA475992C16E5B600BF2D5D /* EventsAssembly.swift */; };
 		5BA4759D2C171E1D00BF2D5D /* String+CapitalizingFirst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA4759C2C171E1D00BF2D5D /* String+CapitalizingFirst.swift */; };
@@ -62,6 +63,7 @@
 		5B661F1C2C1DD0D7003CCA50 /* LocationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPresenter.swift; sourceTree = "<group>"; };
 		5B661F1E2C1DD1E0003CCA50 /* LocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		5B661F202C1DD1EB003CCA50 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
+		5B661F222C1DEB8E003CCA50 /* UserDefaults+enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+enum.swift"; sourceTree = "<group>"; };
 		5BA475972C16E49A00BF2D5D /* EventsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsRouter.swift; sourceTree = "<group>"; };
 		5BA475992C16E5B600BF2D5D /* EventsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAssembly.swift; sourceTree = "<group>"; };
 		5BA4759C2C171E1D00BF2D5D /* String+CapitalizingFirst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CapitalizingFirst.swift"; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				5BB9976F2C14ECAD00E47C8F /* UIColor+Hex.swift */,
 				5BA4759C2C171E1D00BF2D5D /* String+CapitalizingFirst.swift */,
 				5B661F192C1D94AC003CCA50 /* UIImage+Resize.swift */,
+				5B661F222C1DEB8E003CCA50 /* UserDefaults+enum.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 			files = (
 				5BA4759A2C16E5B600BF2D5D /* EventsAssembly.swift in Sources */,
 				5BCBBB102C15BC4A004C60AD /* EventList.swift in Sources */,
+				5B661F232C1DEB8E003CCA50 /* UserDefaults+enum.swift in Sources */,
 				5BB997472C1498A600E47C8F /* EventsViewController.swift in Sources */,
 				5BCBBB142C15BD2E004C60AD /* NetworkError.swift in Sources */,
 				5B661F002C1991FB003CCA50 /* CategoryCell.swift in Sources */,
