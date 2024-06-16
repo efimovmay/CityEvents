@@ -57,7 +57,7 @@ final class EventViewCell: UICollectionViewCell {
 		placeLabel.text = place
 		priceLabel.text = price
 		dateLabel.text = date
-		dateView.isHidden = date != nil ? false : true
+		dateView.isHidden = date == nil ? true : false
 		favoriteButton.tintColor = isfavorite ? .systemRed : .gray
 	}
 }

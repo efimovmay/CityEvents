@@ -8,15 +8,26 @@
 import Foundation
 
 protocol IDetailPresenter {
+	var images: [String] { get }
 	func viewIsReady(view: IDetailView)
 }
 
 final class DetailPresenter: IDetailPresenter {
+	// MARK: - Public properties
 	
+	var images: [String] = []
+	
+	// MARK: - Dependencies
+
 	private weak var view: IDetailView?
 	private let router: IDetailRouter
 	private let network: INetworkService
+	
+	// MARK: - Private properties
+
 	private let idEvent: Int
+	
+	// MARK: - Initialization
 	
 	init(router: IDetailRouter, network: INetworkService, idEvent: Int) {
 		self.router = router
@@ -24,11 +35,15 @@ final class DetailPresenter: IDetailPresenter {
 		self.idEvent = idEvent
 	}
 	
+	// MARK: - Public methods
+
 	func viewIsReady(view: IDetailView) {
 		self.view = view
 		fetchEvent()
 	}
 }
+
+// MARK: - Private methods
 
 private extension DetailPresenter {
 	func fetchEvent() {
@@ -45,20 +60,18 @@ private extension DetailPresenter {
 	}
 	
 	func makeViewModel(from data: EventDTO) {
-		var images: [String] = []
 		data.images.forEach { image in
-			images.append(image.image)
+			self.images.append(image.image)
 		}
-		
+		let address = NSAttributedString(string: "data.place?.address + data.place?.title")
 		let viewModel = DetailViewModel(
-			images: images,
 			isFavorite: false,
 			title: data.title,
-			date: generateDatesString(from: data.dates),
-			namePlace: data.place?.title,
+			dates: generateDatesString(from: data.dates),
+			price: data.price, 
 			address: data.place?.address,
 			description: decodeUnicodeString(data.description),
-			urlEvent: data.siteURL
+			siteUrl: data.siteURL
 		)
 		renderData(viewModel: viewModel)
 	}
@@ -66,18 +79,19 @@ private extension DetailPresenter {
 	func renderData(viewModel: DetailViewModel) {
 		DispatchQueue.main.async {
 			self.view?.render(viewModel: viewModel)
+			self.view?.reloadImagesCollection()
 		}
 	}
 	
-	func generateDatesString(from dates: [DateDetails]) -> [String] {
+	func generateDatesString(from dates: [DateDetails]) -> String {
 		let dateFormatter = DateFormatter()
 		dateFormatter.dateFormat = "d MMMM"
 		dateFormatter.timeZone = .gmt
 		
-		var result: [String] = []
+		var result: String = .init()
 		dates.forEach { date in
 			if date.endLess {
-				result = [L10n.DetailScreen.everyDay]
+				result = L10n.DetailScreen.everyDay
 				return
 			}
 			let startDate = Date(timeIntervalSince1970: date.start)
@@ -97,8 +111,11 @@ private extension DetailPresenter {
 			if let startTime = date.startTime, date.endTime == nil {
 				dateString.append(", \(L10n.DetailScreen.startAt) \(startTime.dropLast(3))")
 			}
-			result.append(dateString)
-			
+			if result.isEmpty {
+				result = dateString
+			} else {
+				result.append("\n\(dateString)")
+			}
 		}
 		return result
 	}

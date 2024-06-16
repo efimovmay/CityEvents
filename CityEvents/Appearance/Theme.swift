@@ -20,7 +20,7 @@ enum Theme {
 		static let location = UIImage(systemName: "location.fill")
 		static let comment = UIImage(systemName: "bubble")
 		static let search = UIImage(systemName: "magnifyingglass")
-		static let filter = UIImage(systemName: "arrow.up.arrow.down")
+		static let price = UIImage(systemName: "rublesign")
 		static let chevronDown = UIImage(systemName: "chevron.down")
 		static let chevronForvard = UIImage(systemName: "chevron.forward")
 	}
