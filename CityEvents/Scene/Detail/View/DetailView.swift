@@ -9,7 +9,11 @@ import UIKit
 
 final class DetailView: UIView {
 	
-
+	lazy var text: UITextView = {
+		let l = UITextView()
+		l.translatesAutoresizingMaskIntoConstraints = false
+		return l
+	}()
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -29,10 +33,13 @@ private extension DetailView {
 	}
 	
 	func setupLayout() {
-
+		addSubview(text)
 		
 		NSLayoutConstraint.activate([
-
+			text.topAnchor.constraint(equalTo: topAnchor),
+			text.leadingAnchor.constraint(equalTo: leadingAnchor),
+			text.trailingAnchor.constraint(equalTo: trailingAnchor),
+			text.bottomAnchor.constraint(equalTo: bottomAnchor),
 		])
 	}
 	

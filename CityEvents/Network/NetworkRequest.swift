@@ -68,6 +68,7 @@ struct NetworkRequestDataDetailEvent: INetworkRequestData {
 	init(idEvent: Int, lang: String = "ru") {
 		path.append("/\(String(idEvent))")
 		parameters = [
+			"expand" : "place",
 			"lang" : lang
 		]
 	}

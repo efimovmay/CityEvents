@@ -25,6 +25,7 @@
 		5B661F2B2C1E12BD003CCA50 /* DetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F2A2C1E12BD003CCA50 /* DetailRouter.swift */; };
 		5B661F2D2C1E12D4003CCA50 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F2C2C1E12D3003CCA50 /* DetailViewModel.swift */; };
 		5B661F2F2C1E12E9003CCA50 /* DetailAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F2E2C1E12E9003CCA50 /* DetailAssembly.swift */; };
+		5B661F322C1ED839003CCA50 /* StringOrInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F312C1ED839003CCA50 /* StringOrInt.swift */; };
 		5BA475982C16E49A00BF2D5D /* EventsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA475972C16E49A00BF2D5D /* EventsRouter.swift */; };
 		5BA4759A2C16E5B600BF2D5D /* EventsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA475992C16E5B600BF2D5D /* EventsAssembly.swift */; };
 		5BA4759D2C171E1D00BF2D5D /* String+CapitalizingFirst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA4759C2C171E1D00BF2D5D /* String+CapitalizingFirst.swift */; };
@@ -76,6 +77,7 @@
 		5B661F2A2C1E12BD003CCA50 /* DetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRouter.swift; sourceTree = "<group>"; };
 		5B661F2C2C1E12D3003CCA50 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		5B661F2E2C1E12E9003CCA50 /* DetailAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAssembly.swift; sourceTree = "<group>"; };
+		5B661F312C1ED839003CCA50 /* StringOrInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringOrInt.swift; sourceTree = "<group>"; };
 		5BA475972C16E49A00BF2D5D /* EventsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsRouter.swift; sourceTree = "<group>"; };
 		5BA475992C16E5B600BF2D5D /* EventsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAssembly.swift; sourceTree = "<group>"; };
 		5BA4759C2C171E1D00BF2D5D /* String+CapitalizingFirst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+CapitalizingFirst.swift"; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				5BA4759C2C171E1D00BF2D5D /* String+CapitalizingFirst.swift */,
 				5B661F192C1D94AC003CCA50 /* UIImage+Resize.swift */,
 				5B661F222C1DEB8E003CCA50 /* UserDefaults+enum.swift */,
+				5B661F312C1ED839003CCA50 /* StringOrInt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				5BCBBB042C15A17E004C60AD /* EventViewCell.swift in Sources */,
 				5BCBBB182C15E14E004C60AD /* HTTPMethod.swift in Sources */,
 				5B661F1F2C1DD1E0003CCA50 /* LocationViewController.swift in Sources */,
+				5B661F322C1ED839003CCA50 /* StringOrInt.swift in Sources */,
 				5BCBBB122C15BC78004C60AD /* UIImageView+load+cache.swift in Sources */,
 				5B661F212C1DD1EB003CCA50 /* LocationView.swift in Sources */,
 				5BCBBB072C15BBA9004C60AD /* NetworkEndpoints.swift in Sources */,
