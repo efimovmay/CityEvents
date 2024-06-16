@@ -8,7 +8,7 @@
 import UIKit
 
 protocol IDetailView: AnyObject {
-	func render(viewModel: String?)
+	func render(viewModel: DetailViewModel)
 }
 
 final class DetailViewController: UIViewController {
@@ -46,7 +46,11 @@ private extension DetailViewController {
 
 
 extension DetailViewController: IDetailView {
-	func render(viewModel: String?) {
-		contentView.text.text = viewModel
+	func render(viewModel: DetailViewModel) {
+		var string: String = ""
+		viewModel.date.forEach { date in
+			string.append("\(date) \n")
+		}
+		contentView.text.text = string
 	}
 }

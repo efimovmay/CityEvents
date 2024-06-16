@@ -184,7 +184,7 @@ private extension EventsPresenter {
 				id: event.id,
 				title: event.title.capitalizingFirstLetter(),
 				image: event.images[.zero].image,
-				price: event.price,
+				price: event.place?.title,
 				place: event.place?.title,
 				date: self.getLastDate(dateRange: event.dates)
 			))
@@ -244,7 +244,7 @@ private extension EventsPresenter {
 		
 		dateFormatter.dateStyle = .medium
 		dateFormatter.locale = Locale.current
-		let stringLastDate = "\(L10n.EventsScreen.until) \(String(dateFormatter.string(from: lastDate)))"
+		let stringLastDate = "\(L10n.EventsScreen.until) \(dateFormatter.string(from: lastDate))"
 		
 		return stringLastDate
 	}

@@ -46,7 +46,7 @@ final class EventViewCell: UICollectionViewCell {
 		title: String,
 		date: String?,
 		place: String?,
-		price: String,
+		price: String?,
 		isfavorite: Bool
 	) {
 		activityIndicator.startAnimating()
