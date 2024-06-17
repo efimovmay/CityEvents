@@ -69,6 +69,40 @@
         }
       }
     },
+    "detailScreen.isFree" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Free"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бесплатно"
+          }
+        }
+      }
+    },
+    "detailScreen.onSiteButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go to website"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перейти на сайт"
+          }
+        }
+      }
+    },
     "detailScreen.startAt" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -82,6 +116,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "начало в"
+          }
+        }
+      }
+    },
+    "detailScreen.textDescriptionLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Description"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Описание"
           }
         }
       }

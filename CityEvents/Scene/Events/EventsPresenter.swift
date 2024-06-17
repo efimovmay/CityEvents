@@ -177,21 +177,22 @@ private extension EventsPresenter {
 	func addDownloadEvents(_ data: EventListDTO) {
 		urlNextPage = data.next
 		if data.results.isEmpty { return }
-		
+
+		DispatchQueue.main.async {
 		let startIndex = self.events.count
 		data.results.forEach { event in
 			self.events.append(EventsViewModel.Event(
 				id: event.id,
-				title: event.title.capitalizingFirstLetter(),
+				title: event.title.capitalized,
 				image: event.images[.zero].image,
-				price: event.place?.title,
+				price: event.place?.title.capitalized,
 				place: event.place?.title,
 				date: self.getLastDate(dateRange: event.dates)
 			))
 		}
 		let endIndex = self.events.count - 1
-		DispatchQueue.main.async {
-			self.view?.addRowEventsCollection(startIndex: startIndex, endIndex: endIndex)
+
+		self.view?.addRowEventsCollection(startIndex: startIndex, endIndex: endIndex)
 		}
 	}
 	

@@ -10,6 +10,7 @@ import Foundation
 protocol IDetailPresenter {
 	var images: [String] { get }
 	func viewIsReady(view: IDetailView)
+	func openSite()
 }
 
 final class DetailPresenter: IDetailPresenter {
@@ -26,6 +27,7 @@ final class DetailPresenter: IDetailPresenter {
 	// MARK: - Private properties
 
 	private let idEvent: Int
+	private var siteUrl: String = ""
 	
 	// MARK: - Initialization
 	
@@ -41,6 +43,12 @@ final class DetailPresenter: IDetailPresenter {
 		self.view = view
 		fetchEvent()
 	}
+	
+	func openSite() {
+		if let url = URL(string: siteUrl) {
+			router.routeToSite(url: url)
+		}
+	}
 }
 
 // MARK: - Private methods
@@ -49,7 +57,7 @@ private extension DetailPresenter {
 	func fetchEvent() {
 		network.fetch(
 			dataType: EventDTO.self,
-			with: NetworkRequestDataDetailEvent(idEvent: idEvent)) { result in
+			with: NetworkRequestDataDetailEvent(idEvent: idEvent, lang: "en")) { result in
 				switch result {
 				case .success(let data):
 					self.makeViewModel(from: data)
@@ -60,28 +68,48 @@ private extension DetailPresenter {
 	}
 	
 	func makeViewModel(from data: EventDTO) {
-		data.images.forEach { image in
-			self.images.append(image.image)
+		siteUrl = data.siteURL
+		updateImagesCollection(data.images)
+		
+		let dates = generateDatesString(from: data.dates)
+		let price = data.isFree ? L10n.DetailScreen.isFree : data.price.capitalized
+
+		var address: String? = nil
+		if let place =  data.place {
+			address = ("\(place.title.capitalized)\n\(place.address)")
 		}
-		let address = NSAttributedString(string: "data.place?.address + data.place?.title")
+		
 		let viewModel = DetailViewModel(
 			isFavorite: false,
-			title: data.title,
-			dates: generateDatesString(from: data.dates),
-			price: data.price, 
-			address: data.place?.address,
-			description: decodeUnicodeString(data.description),
-			siteUrl: data.siteURL
+			title: data.title.capitalized,
+			dates: dates,
+			price: price,
+			address: address,
+			description: decodeUnicodeString(data.description)
 		)
-		renderData(viewModel: viewModel)
+		updateData(with: viewModel)
 	}
 	
-	func renderData(viewModel: DetailViewModel) {
+	func updateImagesCollection(_ images: [EventImages]) {
+		images.forEach { image in
+			self.images.append(image.image)
+		}
 		DispatchQueue.main.async {
-			self.view?.render(viewModel: viewModel)
 			self.view?.reloadImagesCollection()
 		}
 	}
+	
+	func updateData(with viewModel: DetailViewModel) {
+		DispatchQueue.main.async {
+			self.view?.render(viewModel: viewModel)
+		}
+	}
+
+}
+
+// MARK: - Additional methods
+
+private extension DetailPresenter {
 	
 	func generateDatesString(from dates: [DateDetails]) -> String {
 		let dateFormatter = DateFormatter()
@@ -128,7 +156,7 @@ private extension DetailPresenter {
 		return dateComponentsFirst.day == dateComponentsSecond.day &&
 		dateComponentsFirst.month == dateComponentsSecond.month
 	}
-
+	
 	func decodeUnicodeString(_ unicodeString: String) -> String? {
 		guard let data = unicodeString.data(using: .utf8) else { return nil }
 		

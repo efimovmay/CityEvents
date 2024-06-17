@@ -43,17 +43,34 @@ final class DetailViewController: UIViewController {
 	}
 }
 
-// MARK: - SetupUI
+// MARK: - Actions
 
 private extension DetailViewController {
-	func setupUI() {
-		contentView.imagesCollectionView.dataSource = self
+	@objc
+	func onSiteButtonPressed() {
+		presenter.openSite()
+	}
+	
+	@objc
+	func favoriteButtonPressed() {
+		printContent("like")
 	}
 }
 
 // MARK: - SetupUI
 
-extension DetailViewController: UICollectionViewDataSource {
+private extension DetailViewController {
+	func setupUI() {
+		contentView.imagesCollectionView.dataSource = self
+		contentView.imagesCollectionView.delegate = self
+		contentView.onSiteButton.addTarget(self, action: #selector(onSiteButtonPressed), for: .touchUpInside)
+		contentView.favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
+	}
+}
+
+// MARK: - SetupUI
+
+extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		presenter.images.count
 	}
@@ -75,16 +92,19 @@ extension DetailViewController: UICollectionViewDataSource {
 extension DetailViewController: IDetailView {
 	func render(viewModel: DetailViewModel) {
 		contentView.configure(
+			isFavorite: viewModel.isFavorite,
 			title: viewModel.title,
 			dates: viewModel.dates,
 			price: viewModel.price,
 			address: viewModel.address,
-			description: viewModel.description,
-			siteUrl: viewModel.siteUrl
+			description: viewModel.description
 		)
+		contentView.activityIndicator.stopAnimating()
+		contentView.contentStack.isHidden = false
 	}
 	
 	func reloadImagesCollection() {
 		contentView.imagesCollectionView.reloadData()
+		self.view.setNeedsLayout()
 	}
 }

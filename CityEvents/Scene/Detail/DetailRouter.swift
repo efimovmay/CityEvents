@@ -10,6 +10,8 @@ import UIKit
 protocol IDetailRouter {
 	/// Вернуться на предыдущий экран.
 	func backToPreviousScreen()
+	
+	func routeToSite(url: URL)
 }
 
 final class DetailRouter: IDetailRouter {
@@ -22,6 +24,10 @@ final class DetailRouter: IDetailRouter {
 	
 	func backToPreviousScreen() {
 		navigationController.popViewController(animated: true)
+	}
+	
+	func routeToSite(url: URL) {
+		UIApplication.shared.open(url, options: [:], completionHandler: nil)
 	}
 }
 

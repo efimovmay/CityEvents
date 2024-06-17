@@ -73,7 +73,7 @@ private extension EventsView {
 			guard let section = EventsViewModel.Sections(rawValue: sectionIndex) else { return nil }
 			switch section {
 			case.location:
-				return self.createDatesSection()
+				return self.createLocationSection()
 			case .category:
 				return self.createCategorySection()
 			case .dates:
@@ -87,6 +87,28 @@ private extension EventsView {
 		layout.configuration = config
 		
 		return layout
+	}
+	
+	func createLocationSection() -> NSCollectionLayoutSection {
+		let itemSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(1.0),
+			heightDimension: .fractionalHeight(1.0)
+		)
+		let item = NSCollectionLayoutItem(layoutSize: itemSize)
+		let groupSize = NSCollectionLayoutSize(
+			widthDimension: .fractionalWidth(1.0),
+			heightDimension: .absolute(85)
+		)
+		let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+		
+		let section = NSCollectionLayoutSection(group: group)
+		section.contentInsets = NSDirectionalEdgeInsets(
+			top: .zero,
+			leading: Sizes.Padding.normal,
+			bottom: .zero,
+			trailing: Sizes.Padding.normal
+		)
+		return section
 	}
 	
 	func createCategorySection() -> NSCollectionLayoutSection {

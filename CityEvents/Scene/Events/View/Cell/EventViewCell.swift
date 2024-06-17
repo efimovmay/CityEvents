@@ -13,7 +13,7 @@ final class EventViewCell: UICollectionViewCell {
 	
 	static let identifier = String(describing: EventViewCell.self)
 	
-	lazy var favoriteButton: UIButton = makeLikeButton()
+	lazy var favoriteButton: UIButton = makeFavoriteButton()
 	
 	private lazy var eventImageView: UIImageView = makeImageView()
 	private lazy var activityIndicator = UIActivityIndicatorView()
@@ -40,6 +40,8 @@ final class EventViewCell: UICollectionViewCell {
 		super.prepareForReuse()
 		eventImageView.image = nil
 	}
+	
+	// MARK: - Public methods
 	
 	func configure(
 		image: String,
@@ -147,7 +149,7 @@ private extension EventViewCell {
 		return view
 	}
 	
-	func makeLikeButton() -> UIButton {
+	func makeFavoriteButton() -> UIButton {
 		let button = UIButton(type: .system)
 		button.setImage(Theme.ImageIcon.heartFill, for: .normal)
 		button.backgroundColor = Theme.imageSticker
