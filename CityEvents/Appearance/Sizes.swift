@@ -24,9 +24,15 @@ enum Sizes {
 		static let screenHeigth: CGFloat = 500
 		static let doneButtonHeith: CGFloat = 50
 	}
+	
+	enum DetailScreen {
+		static let imagesCollectionHeigth: CGFloat = 270
+		static let iconSize: CGFloat = 30
+	}
 
 	enum Font {
 		static let title: CGFloat = 28
+		static let detailTitle: CGFloat = 22
 		static let regular: CGFloat = 16
 		static let titleEvent: CGFloat = 18
 	}

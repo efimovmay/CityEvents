@@ -26,7 +26,7 @@ enum EventsViewModel {
 		let id: Int
 		let title: String
 		let image: String
-		let price: String
+		let price: String?
 		let place: String?
 		let date: String?
 		var isFavorite: Bool = false

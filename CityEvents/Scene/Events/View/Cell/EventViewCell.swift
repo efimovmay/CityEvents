@@ -13,7 +13,7 @@ final class EventViewCell: UICollectionViewCell {
 	
 	static let identifier = String(describing: EventViewCell.self)
 	
-	lazy var favoriteButton: UIButton = makeLikeButton()
+	lazy var favoriteButton: UIButton = makeFavoriteButton()
 	
 	private lazy var eventImageView: UIImageView = makeImageView()
 	private lazy var activityIndicator = UIActivityIndicatorView()
@@ -41,12 +41,14 @@ final class EventViewCell: UICollectionViewCell {
 		eventImageView.image = nil
 	}
 	
+	// MARK: - Public methods
+	
 	func configure(
 		image: String,
 		title: String,
 		date: String?,
 		place: String?,
-		price: String,
+		price: String?,
 		isfavorite: Bool
 	) {
 		activityIndicator.startAnimating()
@@ -57,7 +59,7 @@ final class EventViewCell: UICollectionViewCell {
 		placeLabel.text = place
 		priceLabel.text = price
 		dateLabel.text = date
-		dateView.isHidden = date != nil ? false : true
+		dateView.isHidden = date == nil ? true : false
 		favoriteButton.tintColor = isfavorite ? .systemRed : .gray
 	}
 }
@@ -147,7 +149,7 @@ private extension EventViewCell {
 		return view
 	}
 	
-	func makeLikeButton() -> UIButton {
+	func makeFavoriteButton() -> UIButton {
 		let button = UIButton(type: .system)
 		button.setImage(Theme.ImageIcon.heartFill, for: .normal)
 		button.backgroundColor = Theme.imageSticker

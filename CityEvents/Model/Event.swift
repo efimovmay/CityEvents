@@ -10,13 +10,13 @@ import Foundation
 // MARK: - Event
 struct EventDTO: Codable {
 	let id: Int
-	let dates: [DateRange]
+	let dates: [DateDetails]
 	let title: String
-	let place: Place
+	let place: Place?
 	let description: String
 	let bodyText: String
 	let categories: [String]
-	let ageRestriction: String
+	let ageRestriction: StringOrInt?
 	let price: String
 	let isFree: Bool
 	let images: [EventImages]
@@ -50,16 +50,40 @@ struct EventDTO: Codable {
 	}
 }
 
-struct DateRange: Codable {
+struct DateDetails: Codable {
 	let start: Double
 	let end: Double
+	let startTime: String?
+	let endTime: String?
+	let endLess: Bool
+	let schedules: [Schedules]
+	
+	enum CodingKeys: String, CodingKey {
+		case start, end
+		case startTime = "start_time"
+		case endTime = "end_time"
+		case endLess = "is_endless"
+		case schedules
+	}
+}
+
+struct Schedules: Codable {
+	let dayOfWeak: [Int]
+	let startTime: String
+	let endTime: String?
+	
+	enum CodingKeys: String, CodingKey {
+		case dayOfWeak = "days_of_week"
+		case startTime = "start_time"
+		case endTime = "end_time"
+	}
 }
 
 struct Place: Codable {
 	let id: Int
 	let title: String
 	let address: String
-	let subway: String
+	let subway: String?
 	let coords: Coords
 }
 

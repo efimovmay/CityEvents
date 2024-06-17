@@ -39,10 +39,10 @@ private extension LocationCell {
 		NSLayoutConstraint.activate([
 			locationLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
 			locationLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+			locationLabel.topAnchor.constraint(equalTo: topAnchor),
 			
 			setLocationButton.widthAnchor.constraint(equalToConstant: Sizes.smallButton),
 			setLocationButton.heightAnchor.constraint(equalToConstant: Sizes.smallButton),
-			setLocationButton.topAnchor.constraint(equalTo: topAnchor, constant: Sizes.Padding.double),
 			setLocationButton.trailingAnchor.constraint(equalTo: trailingAnchor),
 			setLocationButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Sizes.Padding.half),
 		])

@@ -15,7 +15,10 @@ enum EventsAssembly {
 	}
 	
 	static func makeModule(dependencies: Dependencies) -> UIViewController {
-		let router = EventsRouter(navigationController: dependencies.navigationController)
+		let router = EventsRouter(
+			navigationController: dependencies.navigationController,
+			network: dependencies.network
+		)
 		let presenter = EventsPresenter(router: router, network: dependencies.network)
 		let viewController = EventsViewController(presenter: presenter)
 		

@@ -8,9 +8,17 @@
 import UIKit
 
 protocol IEventsRouter {
-	
-	/// Переход на экран DetailInfo.
+	/// Переход на экран DetailI.
+	/// - Parameter idEvent: id события для отображения.
 	func routeToDetailScreen(idEvent: Int)
+	
+	/// Переход на экран Calendar.
+	/// - Parameter setDateClosure: замыкание для обновления даты.
+	func routeToCalendarScreen(setDateClosure: SetDateClosure?) -> Void
+	
+	/// Переход на экран Location.
+	/// - Parameter setLocationClosure: замыкание для обновления локации.
+	func routeToLocationScreen(setLocationClosure: SetLocationClosure?) -> Void
 	
 	/// Закрвть модальный экран.
 	func dismissModalScreen()
@@ -19,33 +27,32 @@ protocol IEventsRouter {
 final class EventsRouter: IEventsRouter {
 
 	private let navigationController: UINavigationController
+	private let network: INetworkService
 
-	init(navigationController: UINavigationController) {
+	init(navigationController: UINavigationController, network: INetworkService) {
 		self.navigationController = navigationController
+		self.network = network
 	}
 
 	func routeToDetailScreen(idEvent: Int) {
 		navigationController.pushViewController(
-			getDetailInfoViewController(idEvent: idEvent),
+			makeDetailViewController(idEvent: idEvent),
 			animated: true
 		)
 	}
 	
 	func routeToCalendarScreen(setDateClosure: SetDateClosure?) -> Void {
-		let presenter = CalendarPresenter(router: self, setDateClosure: setDateClosure)
-		let viewController = CalendarViewController(presenter: presenter)
-		if let sheet = viewController.sheetPresentationController {
-			sheet.detents = [.custom(resolver: { context in
-				return Sizes.CalendarScreen.screenHeigth
-			})]
-		}
-		navigationController.present(viewController, animated: true, completion: nil)
+		navigationController.present(
+			makeCalendarViewController(setDateClosure: setDateClosure),
+			animated: true
+		)
 	}
 	
 	func routeToLocationScreen(setLocationClosure: SetLocationClosure?) -> Void {
-		let presenter = LocationPresenter(router: self, setLocationClosure: setLocationClosure)
-		let viewController = LocationViewController(presenter: presenter)
-		navigationController.present(viewController, animated: true, completion: nil)
+		navigationController.present(
+			makeLocationViewController(setLocationClosure: setLocationClosure),
+			animated: true
+		)
 	}
 	
 	func dismissModalScreen() {
@@ -54,11 +61,30 @@ final class EventsRouter: IEventsRouter {
 }
 
 private extension EventsRouter {
-	func getDetailInfoViewController(idEvent: Int) -> UIViewController {
-//		let dependencies = DetailInfoAssembly.Dependencies(navigationController: navigationController)
-//		let parameters = DetailInfoAssembly.Parameters(character: character)
-//		let viewConteroller = DetailInfoAssembly.makeModule(dependencies: dependencies, parameters: parameters)
-//		
-		return UIViewController()
+	func makeDetailViewController(idEvent: Int) -> UIViewController {
+		let dependencies = DetailAssembly.Dependencies(navigationController: navigationController, network: network)
+		let parameters = DetailAssembly.Parameters(idEvent: idEvent)
+		let viewConteroller = DetailAssembly.makeModule(dependencies: dependencies, parameters: parameters)
+		
+		return viewConteroller
+	}
+	
+	func makeCalendarViewController(setDateClosure: SetDateClosure?) -> UIViewController {
+		let presenter = CalendarPresenter(router: self, setDateClosure: setDateClosure)
+		let viewController = CalendarViewController(presenter: presenter)
+		if let sheet = viewController.sheetPresentationController {
+			sheet.detents = [.custom(resolver: { context in
+				return Sizes.CalendarScreen.screenHeigth
+			})]
+		}
+		
+		return viewController
+	}
+	
+	func makeLocationViewController(setLocationClosure: SetLocationClosure?) -> UIViewController {
+		let presenter = LocationPresenter(router: self, setLocationClosure: setLocationClosure)
+		let viewController = LocationViewController(presenter: presenter)
+		
+		return viewController
 	}
 }

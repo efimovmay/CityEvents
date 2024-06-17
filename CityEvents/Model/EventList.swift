@@ -22,3 +22,8 @@ struct EventListDTO: Decodable {
 		let images: [EventImages]
 	}
 }
+
+struct DateRange: Codable {
+	let start: Double
+	let end: Double
+}

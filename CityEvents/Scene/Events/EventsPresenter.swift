@@ -8,7 +8,6 @@
 import Foundation
 
 protocol IEventsPresenter {
-	
 	var events: [EventsViewModel.Event] { get }
 	var categories: [EventsViewModel.Category] { get }
 	
@@ -25,7 +24,7 @@ final class EventsPresenter: IEventsPresenter {
 	
 	private weak var view: IEventsView?
 	private let network: INetworkService
-	private let router: EventsRouter
+	private let router: IEventsRouter
 	
 	var events: [EventsViewModel.Event] = []
 	var categories: [EventsViewModel.Category] = []
@@ -42,7 +41,7 @@ final class EventsPresenter: IEventsPresenter {
 	
 	// MARK: - Initialization
 	
-	init(router: EventsRouter, network: INetworkService) {
+	init(router: IEventsRouter, network: INetworkService) {
 		self.network = network
 		self.router = router
 	}
@@ -121,6 +120,18 @@ final class EventsPresenter: IEventsPresenter {
 }
 
 private extension EventsPresenter {
+	func reloadEvents() {
+		events = []
+		view?.reloadSection(EventsViewModel.Sections.events.rawValue)
+		fetchEvents()
+	}
+	
+	func reloadSection(_ section: EventsViewModel.Sections) {
+		DispatchQueue.main.async {
+			self.view?.reloadSection(section.rawValue)
+		}
+	}
+	
 	func changeLocationLabel() {
 		view?.setLocationLabel(text: "\(L10n.EventsScreen.title)\n\(location.description)")
 		view?.reloadSection(EventsViewModel.Sections.location.rawValue)
@@ -163,14 +174,33 @@ private extension EventsPresenter {
 		view?.reloadSection(EventsViewModel.Sections.dates.rawValue)
 	}
 	
-	func reloadEvents() {
-		events = []
-		view?.reloadSection(EventsViewModel.Sections.events.rawValue)
-		fetchEvents()
+	func addDownloadEvents(_ data: EventListDTO) {
+		urlNextPage = data.next
+		if data.results.isEmpty { return }
+
+		DispatchQueue.main.async {
+		let startIndex = self.events.count
+		data.results.forEach { event in
+			self.events.append(EventsViewModel.Event(
+				id: event.id,
+				title: event.title.capitalized,
+				image: event.images[.zero].image,
+				price: event.place?.title.capitalized,
+				place: event.place?.title,
+				date: self.getLastDate(dateRange: event.dates)
+			))
+		}
+		let endIndex = self.events.count - 1
+
+		self.view?.addRowEventsCollection(startIndex: startIndex, endIndex: endIndex)
+		}
 	}
 	
 	func fetchCategories() {
-		network.fetch(dataType: [CategoriesEvent].self, with: NetworkRequestDataCategories(lang: "ru")) { result in
+		network.fetch(
+			dataType: [CategoriesEvent].self,
+			with: NetworkRequestDataCategories(lang: "ru")
+		) { result in
 			switch result {
 			case .success(let data):
 				data.forEach { category in
@@ -205,27 +235,6 @@ private extension EventsPresenter {
 			}
 	}
 	
-	func addDownloadEvents(_ data: EventListDTO) {
-		urlNextPage = data.next
-		guard !data.results.isEmpty else { return }
-		
-		let startIndex = self.events.count
-		data.results.forEach { event in
-			self.events.append(EventsViewModel.Event(
-				id: event.id,
-				title: event.title.capitalizingFirstLetter(),
-				image: event.images[0].image,
-				price: event.price,
-				place: event.place?.title,
-				date: self.getLastDate(dateRange: event.dates)
-			))
-		}
-		let endIndex = self.events.count - 1
-		DispatchQueue.main.async {
-			self.view?.addRowEventsCollection(startIndex: startIndex, endIndex: endIndex)
-		}
-	}
-	
 	func getLastDate(dateRange: [DateRange]) -> String? {
 		guard let date = dateRange.last?.end else { return nil }
 		let lastDate = Date(timeIntervalSince1970: date)
@@ -236,7 +245,7 @@ private extension EventsPresenter {
 		
 		dateFormatter.dateStyle = .medium
 		dateFormatter.locale = Locale.current
-		let stringLastDate = "\(L10n.EventsScreen.until) \(String(dateFormatter.string(from: lastDate)))"
+		let stringLastDate = "\(L10n.EventsScreen.until) \(dateFormatter.string(from: lastDate))"
 		
 		return stringLastDate
 	}
@@ -246,12 +255,6 @@ private extension EventsPresenter {
 			return nil
 		} else {
 			return activeCaregory.joined(separator: ",")
-		}
-	}
-	
-	func reloadSection(_ section: EventsViewModel.Sections) {
-		DispatchQueue.main.async {
-			self.view?.reloadSection(section.rawValue)
 		}
 	}
 }
