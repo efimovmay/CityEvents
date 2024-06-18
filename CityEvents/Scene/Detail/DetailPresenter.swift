@@ -8,17 +8,14 @@
 import Foundation
 
 protocol IDetailPresenter {
-	var images: [String] { get }
 	func viewIsReady(view: IDetailView)
+	func getImagesCount() -> Int
+	func getImageAtIndex(_ index: Int) -> String
 	func openSite()
 	func favoriteButtonPressed()
 }
 
 final class DetailPresenter: IDetailPresenter {
-	// MARK: - Public properties
-	
-	var images: [String] = []
-	
 	// MARK: - Dependencies
 
 	private weak var view: IDetailView?
@@ -29,7 +26,6 @@ final class DetailPresenter: IDetailPresenter {
 	// MARK: - Private properties
 
 	private let idEvent: Int
-	private var siteUrl: String = ""
 	private var eventModel: EventModel?
 	
 	// MARK: - Initialization
@@ -48,8 +44,16 @@ final class DetailPresenter: IDetailPresenter {
 		fetchEvent()
 	}
 	
+	func getImagesCount() -> Int {
+		return eventModel?.images.count ?? .zero
+	}
+	
+	func getImageAtIndex(_ index: Int) -> String {
+		return eventModel?.images[index] ?? ""
+	}
+	
 	func openSite() {
-		if let url = URL(string: siteUrl) {
+		if let eventModel = eventModel, let url = URL(string: eventModel.siteUrl) {
 			router.routeToSite(url: url)
 		}
 	}
@@ -84,14 +88,9 @@ private extension DetailPresenter {
 	}
 	
 	func makeViewModel(from data: EventDTO) {
-		siteUrl = data.siteURL
-		
 		let dates = generateDatesString(from: data.dates)
 		let price = data.isFree ? L10n.DetailScreen.isFree : data.price.capitalized
-		
-		data.images.forEach { image in
-			self.images.append(image.image)
-		}
+		let images = data.images.map { $0.image }
 		
 		eventModel = EventModel(
 			id: idEvent,

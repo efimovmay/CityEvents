@@ -21,7 +21,11 @@ enum EventsAssembly {
 			network: dependencies.network, 
 			storage: dependencies.storage
 		)
-		let presenter = EventsPresenter(router: router, network: dependencies.network)
+		let presenter = EventsPresenter(
+			router: router,
+			network: dependencies.network,
+			storage: dependencies.storage
+		)
 		let viewController = EventsViewController(presenter: presenter)
 		
 		return viewController

@@ -10,6 +10,7 @@ import UIKit
 protocol IEventsView: AnyObject {
 	func setLocationLabel(text: String)
 	func setDateLabel(text: String)
+	func changeFavoriteIcon(isFavorite: Bool, row: Int)
 	func reloadSection(_ section: Int)
 	func reloadCell(section: Int, cellIndex: Int)
 	func addRowEventsCollection(startIndex: Int, endIndex: Int)
@@ -66,7 +67,7 @@ final class EventsViewController: UIViewController {
 private extension EventsViewController {
 	@objc
 	func favoriteButtonTapped(_ sender: UIButton) {
-		print("like")
+		presenter.favoriteButtonPressed(index: sender.tag)
 	}
 	
 	@objc
@@ -175,6 +176,7 @@ extension EventsViewController: UICollectionViewDataSource {
 			}
 			let event = presenter.events[indexPath.row]
 			
+			cell.favoriteButton.tag = indexPath.row
 			cell.favoriteButton.removeTarget(nil, action: nil, for: .allEvents)
 			cell.favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped(_:)), for: .touchUpInside)
 			cell.configure(
@@ -234,6 +236,12 @@ extension EventsViewController: IEventsView {
 		contentView.eventsCollectionView.performBatchUpdates({
 			contentView.eventsCollectionView.insertItems(at: indexPaths)
 		}, completion: nil)
+	}
+	
+	func changeFavoriteIcon(isFavorite: Bool, row: Int) {
+		let indexPath = IndexPath(row: row, section: EventsViewModel.Sections.events.rawValue)
+		guard let cell = contentView.eventsCollectionView.cellForItem(at: indexPath) as? EventViewCell else { return }
+		cell.favoriteButton.tintColor = isFavorite ? .systemRed : .gray
 	}
 	
 	func reloadSection(_ section: Int) {

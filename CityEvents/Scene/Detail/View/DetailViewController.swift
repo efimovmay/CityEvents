@@ -73,7 +73,7 @@ private extension DetailViewController {
 
 extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		presenter.images.count
+		presenter.getImagesCount()
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -82,7 +82,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
 			for: indexPath
 		) as? DetailImageCell else { return UICollectionViewCell() }
 		
-		cell.configure(imageUrl: presenter.images[indexPath.item])
+		cell.configure(imageUrl: presenter.getImageAtIndex(indexPath.item))
 		
 		return cell
 	}

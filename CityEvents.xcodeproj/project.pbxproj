@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		5B4AAC2C2C216EAE008BD9F7 /* Event+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC2A2C216EAE008BD9F7 /* Event+CoreDataClass.swift */; };
 		5B4AAC2D2C216EAE008BD9F7 /* Event+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC2B2C216EAE008BD9F7 /* Event+CoreDataProperties.swift */; };
-		5B4AAC2F2C2172FB008BD9F7 /* EnentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC2E2C2172FB008BD9F7 /* EnentModel.swift */; };
+		5B4AAC2F2C2172FB008BD9F7 /* EventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC2E2C2172FB008BD9F7 /* EventModel.swift */; };
 		5B661EFE2C198D77003CCA50 /* CategoriesEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661EFD2C198D77003CCA50 /* CategoriesEvent.swift */; };
 		5B661F002C1991FB003CCA50 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661EFF2C1991FB003CCA50 /* CategoryCell.swift */; };
 		5B661F072C1B0646003CCA50 /* DatesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F062C1B0646003CCA50 /* DatesCell.swift */; };
@@ -65,7 +65,7 @@
 /* Begin PBXFileReference section */
 		5B4AAC2A2C216EAE008BD9F7 /* Event+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5B4AAC2B2C216EAE008BD9F7 /* Event+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		5B4AAC2E2C2172FB008BD9F7 /* EnentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnentModel.swift; sourceTree = "<group>"; };
+		5B4AAC2E2C2172FB008BD9F7 /* EventModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventModel.swift; sourceTree = "<group>"; };
 		5B661EFD2C198D77003CCA50 /* CategoriesEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesEvent.swift; sourceTree = "<group>"; };
 		5B661EFF2C1991FB003CCA50 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		5B661F062C1B0646003CCA50 /* DatesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatesCell.swift; sourceTree = "<group>"; };
@@ -316,7 +316,7 @@
 				5BCBBB1B2C16013B004C60AD /* EventOfDay.swift */,
 				5BCBBB192C15E683004C60AD /* Locations.swift */,
 				5B661EFD2C198D77003CCA50 /* CategoriesEvent.swift */,
-				5B4AAC2E2C2172FB008BD9F7 /* EnentModel.swift */,
+				5B4AAC2E2C2172FB008BD9F7 /* EventModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -429,7 +429,7 @@
 				5B661F2D2C1E12D4003CCA50 /* DetailViewModel.swift in Sources */,
 				5BB9974D2C1498A600E47C8F /* CityEvents.xcdatamodeld in Sources */,
 				5B661F292C1E12B2003CCA50 /* DetailView.swift in Sources */,
-				5B4AAC2F2C2172FB008BD9F7 /* EnentModel.swift in Sources */,
+				5B4AAC2F2C2172FB008BD9F7 /* EventModel.swift in Sources */,
 				5BB997722C14EDDB00E47C8F /* Colors.swift in Sources */,
 				5BB997782C14F3B200E47C8F /* Strings.swift in Sources */,
 				5B4AAC2D2C216EAE008BD9F7 /* Event+CoreDataProperties.swift in Sources */,
