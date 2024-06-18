@@ -21,7 +21,7 @@ enum Theme {
 		static let comment = UIImage(systemName: "bubble")
 		static let search = UIImage(systemName: "magnifyingglass")
 		static let price = UIImage(systemName: "rublesign")
-		static let chevronDown = UIImage(systemName: "chevron.down")
+		static let events = UIImage(systemName: "calendar.badge.checkmark")
 		static let chevronForvard = UIImage(systemName: "chevron.forward")
 	}
 }

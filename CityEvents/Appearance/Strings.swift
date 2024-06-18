@@ -19,6 +19,11 @@ enum L10n {
 		static let savedLocation = "savedLocation"
 	}
 	
+	enum TabBar {
+		static let events = NSLocalizedString("tabBar.events", comment: "")
+		static let favorite = NSLocalizedString("tabBar.favorite", comment: "")
+	}
+	
 	enum CalendarScreen {
 		static let title = NSLocalizedString("calendarScreen.title", comment: "")
 	}
