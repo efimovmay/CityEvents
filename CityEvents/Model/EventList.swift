@@ -23,7 +23,7 @@ struct EventListDTO: Decodable {
 	}
 }
 
-struct DateRange: Codable {
+struct DateRange: Decodable {
 	let start: Double
 	let end: Double
 }

@@ -8,9 +8,12 @@
 import UIKit
 
 protocol IDetailRouter {
+	
 	/// Вернуться на предыдущий экран.
 	func backToPreviousScreen()
 	
+	/// Открыть сайт в браузере.
+	/// - Parameter url: адрес сайта.
 	func routeToSite(url: URL)
 }
 

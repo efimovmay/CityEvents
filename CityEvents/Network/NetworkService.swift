@@ -7,7 +7,7 @@
 import Foundation
 
 protocol INetworkService {
-	
+
 	func fetch<T: Decodable>(
 		dataType: T.Type,
 		with requestData: INetworkRequestData,

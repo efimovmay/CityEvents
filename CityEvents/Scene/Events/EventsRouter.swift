@@ -28,10 +28,12 @@ final class EventsRouter: IEventsRouter {
 
 	private let navigationController: UINavigationController
 	private let network: INetworkService
+	private let storage: IEventsStorageService
 
-	init(navigationController: UINavigationController, network: INetworkService) {
+	init(navigationController: UINavigationController, network: INetworkService, storage: IEventsStorageService) {
 		self.navigationController = navigationController
 		self.network = network
+		self.storage = storage
 	}
 
 	func routeToDetailScreen(idEvent: Int) {
@@ -62,7 +64,11 @@ final class EventsRouter: IEventsRouter {
 
 private extension EventsRouter {
 	func makeDetailViewController(idEvent: Int) -> UIViewController {
-		let dependencies = DetailAssembly.Dependencies(navigationController: navigationController, network: network)
+		let dependencies = DetailAssembly.Dependencies(
+			navigationController: navigationController,
+			network: network, 
+			storage: storage
+		)
 		let parameters = DetailAssembly.Parameters(idEvent: idEvent)
 		let viewConteroller = DetailAssembly.makeModule(dependencies: dependencies, parameters: parameters)
 		

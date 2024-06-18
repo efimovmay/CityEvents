@@ -5,6 +5,8 @@
 //  Created by Aleksey Efimov on 09.06.2024.
 //
 
+//https://kudago.com/public-api/v1.4/events/?actual_since=1718636676.756109&fields=id,dates,title,place,description,age_restriction,price,is_free,images,favorites_count,comments_count,site_url,short_title,tags&expand=place,dates&lang=ru&location=msk
+
 import Foundation
 
 /// Протокол для создания сетевых запросов.
@@ -65,7 +67,7 @@ struct NetworkRequestDataDetailEvent: INetworkRequestData {
 	var method = HTTPMethod.get
 	var parameters: [String : String]
 	
-	init(idEvent: Int, lang: String) {
+	init(idEvent: Int, lang: String = "ru") {
 		path.append("/\(String(idEvent))")
 		parameters = [
 			"expand" : "place,dates",

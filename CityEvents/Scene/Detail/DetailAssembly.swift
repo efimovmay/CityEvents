@@ -15,13 +15,15 @@ enum DetailAssembly {
 	struct Dependencies {
 		let navigationController: UINavigationController
 		let network: INetworkService
+		let storage: IEventsStorageService
 	}
 	
 	static func makeModule(dependencies: Dependencies, parameters: Parameters) -> UIViewController {
 		let router = DetailRouter(navigationController: dependencies.navigationController)
 		let presenter = DetailPresenter(
 			router: router,
-			network: dependencies.network,
+			network: dependencies.network, 
+			storage: dependencies.storage,
 			idEvent: parameters.idEvent
 		)
 		let viewController = DetailViewController(presenter: presenter)

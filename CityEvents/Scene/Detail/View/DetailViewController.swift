@@ -10,6 +10,7 @@ import UIKit
 protocol IDetailView: AnyObject {
 	func render(viewModel: DetailViewModel)
 	func reloadImagesCollection()
+	func changeFavoriteIcon(isFavorite: Bool)
 }
 
 final class DetailViewController: UIViewController {
@@ -53,7 +54,7 @@ private extension DetailViewController {
 	
 	@objc
 	func favoriteButtonPressed() {
-		printContent("like")
+		presenter.favoriteButtonPressed()
 	}
 }
 
@@ -72,7 +73,7 @@ private extension DetailViewController {
 
 extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		presenter.images.count
+		presenter.getImagesCount()
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -81,7 +82,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
 			for: indexPath
 		) as? DetailImageCell else { return UICollectionViewCell() }
 		
-		cell.configure(imageUrl: presenter.images[indexPath.item])
+		cell.configure(imageUrl: presenter.getImageAtIndex(indexPath.item))
 		
 		return cell
 	}
@@ -93,11 +94,12 @@ extension DetailViewController: IDetailView {
 	func render(viewModel: DetailViewModel) {
 		contentView.configure(
 			isFavorite: viewModel.isFavorite,
-			title: viewModel.title,
-			dates: viewModel.dates,
-			price: viewModel.price,
-			address: viewModel.address,
-			description: viewModel.description
+			title: viewModel.eventInfo.title,
+			dates: viewModel.eventInfo.dates,
+			price: viewModel.eventInfo.price, 
+			place: viewModel.eventInfo.place,
+			address: viewModel.eventInfo.address,
+			description: viewModel.eventInfo.description
 		)
 		contentView.activityIndicator.stopAnimating()
 		contentView.contentStack.isHidden = false
@@ -106,5 +108,9 @@ extension DetailViewController: IDetailView {
 	func reloadImagesCollection() {
 		contentView.imagesCollectionView.reloadData()
 		self.view.setNeedsLayout()
+	}
+	
+	func changeFavoriteIcon(isFavorite: Bool) {
+		contentView.favoriteButton.tintColor = isFavorite ? .systemRed : .gray
 	}
 }

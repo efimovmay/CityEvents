@@ -57,17 +57,19 @@ final class DetailView: UIView {
 		title: String,
 		dates: String,
 		price: String,
+		place: String?,
 		address: String?,
 		description: String?
 	) {
 		titleLabel.text = title
 		dateLabel.text = dates
 		priceLabel.text = price
-		if address == nil {
-			addressStack.isHidden = true
-		} else {
+		
+		if let place = place, let address = address {
+			addressLabel.text = ("\(place)\n\(address)")
 			addressStack.isHidden = false
-			addressLabel.text = address
+		} else {
+			addressStack.isHidden = true
 		}
 		descriptionTitleLabel.text = L10n.DetailScreen.textDescriptionLabel
 		descriptionLabel.text = description

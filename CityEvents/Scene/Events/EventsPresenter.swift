@@ -12,6 +12,8 @@ protocol IEventsPresenter {
 	var categories: [EventsViewModel.Category] { get }
 	
 	func viewIsReady(view: IEventsView)
+	func favoriteButtonPressed(index: Int)
+	func reloadAllFavoriteButton()
 	func changeLocation()
 	func changeDateEvents()
 	func categoryDidSelect(at index: Int)
@@ -20,14 +22,16 @@ protocol IEventsPresenter {
 }
 
 final class EventsPresenter: IEventsPresenter {
+	
 	// MARK: - Dependencies
 	
 	private weak var view: IEventsView?
-	private let network: INetworkService
 	private let router: IEventsRouter
+	private let network: INetworkService
+	private let storage: IEventsStorageService
 	
-	var events: [EventsViewModel.Event] = []
-	var categories: [EventsViewModel.Category] = []
+	var events: [EventsViewModel.Event] = .init()
+	var categories: [EventsViewModel.Category] = .init()
 	
 	// MARK: - Private properties
 	
@@ -41,9 +45,10 @@ final class EventsPresenter: IEventsPresenter {
 	
 	// MARK: - Initialization
 	
-	init(router: IEventsRouter, network: INetworkService) {
-		self.network = network
+	init(router: IEventsRouter, network: INetworkService, storage: IEventsStorageService) {
 		self.router = router
+		self.network = network
+		self.storage = storage
 	}
 	
 	// MARK: - Public methods
@@ -57,6 +62,22 @@ final class EventsPresenter: IEventsPresenter {
 		changeLocationLabel()
 		fetchCategories()
 		fetchEvents()
+	}
+	
+	func favoriteButtonPressed(index: Int) {
+		if storage.eventExists(withId: events[index].id) {
+			storage.deleteEvent(withId: events[index].id)
+			reloadFavoriteButton(at: index)
+		} else {
+//			if let eventModel = eventModel {
+//				storage.saveEvent(eventModel)
+//			view?.changeFavoriteIcon(isFavorite: true, row: index)
+//			}
+		}
+	}
+	
+	func reloadAllFavoriteButton() {
+		
 	}
 	
 	func categoryDidSelect(at index: Int) {
@@ -132,6 +153,10 @@ private extension EventsPresenter {
 		}
 	}
 	
+	func reloadFavoriteButton(at index: Int) {
+		view?.changeFavoriteIcon(isFavorite: events[index].isFavorite, row: index)
+	}
+	
 	func changeLocationLabel() {
 		view?.setLocationLabel(text: "\(L10n.EventsScreen.title)\n\(location.description)")
 		view?.reloadSection(EventsViewModel.Sections.location.rawValue)
@@ -187,7 +212,8 @@ private extension EventsPresenter {
 				image: event.images[.zero].image,
 				price: event.place?.title.capitalized,
 				place: event.place?.title,
-				date: self.getLastDate(dateRange: event.dates)
+				date: self.getLastDate(dateRange: event.dates), 
+				isFavorite: self.storage.eventExists(withId: event.id)
 			))
 		}
 		let endIndex = self.events.count - 1
@@ -234,6 +260,18 @@ private extension EventsPresenter {
 				}
 			}
 	}
+}
+
+// MARK: - Additional methods
+
+private extension EventsPresenter {
+	func getActiveCategory() -> String? {
+		if activeCaregory.isEmpty {
+			return nil
+		} else {
+			return activeCaregory.joined(separator: ",")
+		}
+	}
 	
 	func getLastDate(dateRange: [DateRange]) -> String? {
 		guard let date = dateRange.last?.end else { return nil }
@@ -248,13 +286,5 @@ private extension EventsPresenter {
 		let stringLastDate = "\(L10n.EventsScreen.until) \(dateFormatter.string(from: lastDate))"
 		
 		return stringLastDate
-	}
-	
-	func getActiveCategory() -> String? {
-		if activeCaregory.isEmpty {
-			return nil
-		} else {
-			return activeCaregory.joined(separator: ",")
-		}
 	}
 }
