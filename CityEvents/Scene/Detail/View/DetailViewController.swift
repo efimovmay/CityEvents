@@ -63,15 +63,14 @@ private extension DetailViewController {
 private extension DetailViewController {
 	func setupUI() {
 		contentView.imagesCollectionView.dataSource = self
-		contentView.imagesCollectionView.delegate = self
 		contentView.onSiteButton.addTarget(self, action: #selector(onSiteButtonPressed), for: .touchUpInside)
 		contentView.favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)
 	}
 }
 
-// MARK: - SetupUI
+// MARK: - UICollectionViewDataSource
 
-extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension DetailViewController: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		presenter.getImagesCount()
 	}
