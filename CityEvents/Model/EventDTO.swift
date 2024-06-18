@@ -8,14 +8,12 @@
 import Foundation
 
 // MARK: - Event
-struct EventDTO: Codable {
+struct EventDTO: Decodable {
 	let id: Int
 	let dates: [DateDetails]
 	let title: String
 	let place: Place?
 	let description: String
-	let bodyText: String
-	let categories: [String]
 	let ageRestriction: StringOrInt?
 	let price: String
 	let isFree: Bool
@@ -25,8 +23,6 @@ struct EventDTO: Codable {
 	let siteURL: String
 	let shortTitle: String
 	let tags: [String]
-	let disableComments: Bool
-	let participants: [Participant]
 	
 	enum CodingKeys: String, CodingKey {
 		case id
@@ -34,8 +30,6 @@ struct EventDTO: Codable {
 		case title
 		case place
 		case description
-		case bodyText = "body_text"
-		case categories
 		case ageRestriction = "age_restriction"
 		case price
 		case isFree = "is_free"
@@ -45,12 +39,10 @@ struct EventDTO: Codable {
 		case siteURL = "site_url"
 		case shortTitle = "short_title"
 		case tags
-		case disableComments = "disable_comments"
-		case participants
 	}
 }
 
-struct DateDetails: Codable {
+struct DateDetails: Decodable {
 	let start: Double
 	let end: Double
 	let startTime: String?
@@ -67,7 +59,7 @@ struct DateDetails: Codable {
 	}
 }
 
-struct Schedules: Codable {
+struct Schedules: Decodable {
 	let dayOfWeak: [Int]
 	let startTime: String
 	let endTime: String?
@@ -79,7 +71,7 @@ struct Schedules: Codable {
 	}
 }
 
-struct Place: Codable {
+struct Place: Decodable {
 	let id: Int
 	let title: String
 	let address: String
@@ -87,15 +79,11 @@ struct Place: Codable {
 	let coords: Coords
 }
 
-struct EventImages: Codable {
+struct EventImages: Decodable {
 	let image: String
 }
 
-struct Participant: Codable {
-	let id: Int
-}
-
-struct Coords: Codable {
+struct Coords: Decodable {
 	let lat: Double
 	let lon: Double
 }

@@ -11,6 +11,7 @@ protocol IDetailPresenter {
 	var images: [String] { get }
 	func viewIsReady(view: IDetailView)
 	func openSite()
+	func favoriteButtonPressed()
 }
 
 final class DetailPresenter: IDetailPresenter {
@@ -23,17 +24,20 @@ final class DetailPresenter: IDetailPresenter {
 	private weak var view: IDetailView?
 	private let router: IDetailRouter
 	private let network: INetworkService
+	private let storage: IEventsStorageService
 	
 	// MARK: - Private properties
 
 	private let idEvent: Int
 	private var siteUrl: String = ""
+	private var eventModel: EventModel?
 	
 	// MARK: - Initialization
 	
-	init(router: IDetailRouter, network: INetworkService, idEvent: Int) {
+	init(router: IDetailRouter, network: INetworkService, storage: IEventsStorageService, idEvent: Int) {
 		self.router = router
 		self.network = network
+		self.storage = storage
 		self.idEvent = idEvent
 	}
 	
@@ -49,6 +53,18 @@ final class DetailPresenter: IDetailPresenter {
 			router.routeToSite(url: url)
 		}
 	}
+	
+	func favoriteButtonPressed() {
+		if storage.eventExists(withId: idEvent) {
+			storage.deleteEvent(withId: idEvent)
+			view?.changeFavoriteIcon(isFavorite: false)
+		} else {
+			if let eventModel = eventModel {
+				storage.saveEvent(eventModel)
+				view?.changeFavoriteIcon(isFavorite: true)
+			}
+		}
+	}
 }
 
 // MARK: - Private methods
@@ -57,7 +73,7 @@ private extension DetailPresenter {
 	func fetchEvent() {
 		network.fetch(
 			dataType: EventDTO.self,
-			with: NetworkRequestDataDetailEvent(idEvent: idEvent, lang: "en")) { result in
+			with: NetworkRequestDataDetailEvent(idEvent: idEvent)) { result in
 				switch result {
 				case .success(let data):
 					self.makeViewModel(from: data)
@@ -69,31 +85,36 @@ private extension DetailPresenter {
 	
 	func makeViewModel(from data: EventDTO) {
 		siteUrl = data.siteURL
-		updateImagesCollection(data.images)
 		
 		let dates = generateDatesString(from: data.dates)
 		let price = data.isFree ? L10n.DetailScreen.isFree : data.price.capitalized
-
-		var address: String? = nil
-		if let place =  data.place {
-			address = ("\(place.title.capitalized)\n\(place.address)")
+		
+		data.images.forEach { image in
+			self.images.append(image.image)
 		}
 		
-		let viewModel = DetailViewModel(
-			isFavorite: false,
+		eventModel = EventModel(
+			id: idEvent,
 			title: data.title.capitalized,
 			dates: dates,
 			price: price,
-			address: address,
-			description: decodeUnicodeString(data.description)
+			address: data.place?.address,
+			place: data.place?.title,
+			description: decodeUnicodeString(data.description) ?? "",
+			siteUrl: data.siteURL,
+			images: images
 		)
+		
+		let viewModel = DetailViewModel(
+			isFavorite: storage.eventExists(withId: idEvent),
+			eventInfo: eventModel!
+		)
+
 		updateData(with: viewModel)
+		updateImagesCollection()
 	}
 	
-	func updateImagesCollection(_ images: [EventImages]) {
-		images.forEach { image in
-			self.images.append(image.image)
-		}
+	func updateImagesCollection() {
 		DispatchQueue.main.async {
 			self.view?.reloadImagesCollection()
 		}

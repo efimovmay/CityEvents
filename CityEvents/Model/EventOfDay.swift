@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct EventOfDayDTO: Codable {
+struct EventOfDayDTO: Decodable {
 	let count: Int
 	let next: String?
 	let previous: String?
 	let results: [Results]
 	
-	struct Results: Codable {
+	struct Results: Decodable {
 		let object: MovieObject
 	}
 	
-	struct MovieObject: Codable {
+	struct MovieObject: Decodable {
 		let id: Int
 	}
 }

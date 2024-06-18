@@ -12,12 +12,14 @@ enum EventsAssembly {
 	struct Dependencies {
 		let navigationController: UINavigationController
 		let network: INetworkService
+		let storage: IEventsStorageService
 	}
 	
 	static func makeModule(dependencies: Dependencies) -> UIViewController {
 		let router = EventsRouter(
 			navigationController: dependencies.navigationController,
-			network: dependencies.network
+			network: dependencies.network, 
+			storage: dependencies.storage
 		)
 		let presenter = EventsPresenter(router: router, network: dependencies.network)
 		let viewController = EventsViewController(presenter: presenter)

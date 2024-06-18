@@ -16,19 +16,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		window = UIWindow(windowScene: windowScene)
 		
 		let network = NetworkService()
+		let storage = EventsStorageService()
 		
 		let navigationController = UINavigationController()
 		navigationController.pushViewController(
-			assemblyRootController(navigationController: navigationController, network: network),
+			assemblyRootController(navigationController: navigationController, network: network, storage: storage),
 			animated: false
 		)
-		
+
 		window?.rootViewController = navigationController
 		window?.makeKeyAndVisible()
 	}
 	
-	func assemblyRootController(navigationController: UINavigationController, network: INetworkService) -> UIViewController {
-		let dependencies = EventsAssembly.Dependencies(navigationController: navigationController, network: network)
+	func assemblyRootController(
+		navigationController: UINavigationController,
+		network: INetworkService,
+		storage: IEventsStorageService
+	) -> UIViewController {
+		let dependencies = EventsAssembly.Dependencies(
+			navigationController: navigationController,
+			network: network, 
+			storage: storage
+		)
 		let viewController = EventsAssembly.makeModule(dependencies: dependencies)
 		
 		return viewController
