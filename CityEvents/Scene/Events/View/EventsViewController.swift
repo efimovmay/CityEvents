@@ -54,6 +54,7 @@ final class EventsViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		navigationController?.setNavigationBarHidden(true, animated: animated)
+		presenter.reloadAllFavoriteButton()
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -180,11 +181,11 @@ extension EventsViewController: UICollectionViewDataSource {
 			cell.favoriteButton.removeTarget(nil, action: nil, for: .allEvents)
 			cell.favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped(_:)), for: .touchUpInside)
 			cell.configure(
-				image: event.image,
-				title: event.title,
-				date: event.date,
-				place: event.place,
-				price: event.price, 
+				image: event.eventInfo.images.first ?? "",
+				title: event.eventInfo.title,
+				date: event.eventInfo.lastDate,
+				place: event.eventInfo.place,
+				price: event.eventInfo.price,
 				isfavorite: event.isFavorite
 			)
 			return cell

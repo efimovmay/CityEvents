@@ -36,7 +36,7 @@ final class EventsPresenter: IEventsPresenter {
 	// MARK: - Private properties
 	
 	private let dateFormatter = DateFormatter()
-
+	
 	private var urlNextPage: String? = nil
 	private var activeCaregory: Set<String> = .init()
 	private var startDate: Date = .now
@@ -65,19 +65,22 @@ final class EventsPresenter: IEventsPresenter {
 	}
 	
 	func favoriteButtonPressed(index: Int) {
-		if storage.eventExists(withId: events[index].id) {
-			storage.deleteEvent(withId: events[index].id)
+		if storage.eventExists(withId: events[index].eventInfo.id) {
+			storage.deleteEvent(withId: events[index].eventInfo.id)
 			reloadFavoriteButton(at: index)
-		} else {
-//			if let eventModel = eventModel {
-//				storage.saveEvent(eventModel)
-//			view?.changeFavoriteIcon(isFavorite: true, row: index)
-//			}
+		} else if index < events.count {
+			storage.saveEvent(events[index].eventInfo)
+			view?.changeFavoriteIcon(isFavorite: true, row: index)
 		}
 	}
 	
 	func reloadAllFavoriteButton() {
-		
+		events.enumerated().forEach { index, event in
+			view?.changeFavoriteIcon(
+				isFavorite: storage.eventExists(withId: events[index].eventInfo.id),
+				row: index
+			)
+		}
 	}
 	
 	func categoryDidSelect(at index: Int) {
@@ -95,7 +98,7 @@ final class EventsPresenter: IEventsPresenter {
 	}
 	
 	func routeToDetailsScreen(indexEvent: Int) {
-		router.routeToDetailScreen(idEvent: events[indexEvent].id)
+		router.routeToDetailScreen(idEvent: events[indexEvent].eventInfo.id)
 	}
 	
 	func changeLocation() {
@@ -154,7 +157,7 @@ private extension EventsPresenter {
 	}
 	
 	func reloadFavoriteButton(at index: Int) {
-		view?.changeFavoriteIcon(isFavorite: events[index].isFavorite, row: index)
+		view?.changeFavoriteIcon(isFavorite: storage.eventExists(withId: events[index].eventInfo.id), row: index)
 	}
 	
 	func changeLocationLabel() {
@@ -164,7 +167,7 @@ private extension EventsPresenter {
 	
 	func changeDateLabel() {
 		var text: String = ""
-	
+		
 		dateFormatter.dateFormat = "dd MMMM"
 		dateFormatter.timeZone = .gmt
 		let startDateString = dateFormatter.string(from: startDate)
@@ -194,38 +197,54 @@ private extension EventsPresenter {
 		} else {
 			text = "\(L10n.DatePrefix.from) \(startDateString)"
 		}
-
+		
 		view?.setDateLabel(text: text)
 		view?.reloadSection(EventsViewModel.Sections.dates.rawValue)
 	}
 	
 	func addDownloadEvents(_ data: EventListDTO) {
 		urlNextPage = data.next
+		
 		if data.results.isEmpty { return }
-
-		DispatchQueue.main.async {
 		let startIndex = self.events.count
+		
 		data.results.forEach { event in
-			self.events.append(EventsViewModel.Event(
-				id: event.id,
-				title: event.title.capitalized,
-				image: event.images[.zero].image,
-				price: event.place?.title.capitalized,
-				place: event.place?.title,
-				date: self.getLastDate(dateRange: event.dates), 
-				isFavorite: self.storage.eventExists(withId: event.id)
-			))
+			
+			let dates = generateDatesString(from: event.dates)
+			let lastDate = getLastDate(from: event.dates)
+			let price = event.isFree ? L10n.DetailScreen.isFree : event.price.capitalized
+			let images = event.images.map { $0.image }
+			
+			
+			let event = EventsViewModel.Event(
+				isFavorite: storage.eventExists(withId: event.id),
+				eventInfo: EventModel(
+					id: event.id,
+					title: event.title.capitalized,
+					dates: dates,
+					price: price,
+					address: event.place?.address,
+					place: event.place?.title,
+					description: decodeUnicodeString(event.description) ?? "",
+					siteUrl: event.siteURL,
+					images: images,
+					lastDate: lastDate,
+					shortTitle: event.shortTitle
+				)
+			)
+			events.append(event)
 		}
+		
 		let endIndex = self.events.count - 1
-
-		self.view?.addRowEventsCollection(startIndex: startIndex, endIndex: endIndex)
+		DispatchQueue.main.async {
+			self.view?.addRowEventsCollection(startIndex: startIndex, endIndex: endIndex)
 		}
 	}
 	
 	func fetchCategories() {
 		network.fetch(
 			dataType: [CategoriesEvent].self,
-			with: NetworkRequestDataCategories(lang: "ru")
+			with: NetworkRequestDataCategories()
 		) { result in
 			switch result {
 			case .success(let data):
@@ -249,8 +268,7 @@ private extension EventsPresenter {
 				location: location,
 				actualSince: startDate.timeIntervalSince1970,
 				actualUntil: endDate?.timeIntervalSince1970,
-				categories: getActiveCategory(),
-				lang: "ru"
+				categories: getActiveCategory()
 			)) { result in
 				switch result {
 				case .success(let data):
@@ -273,18 +291,81 @@ private extension EventsPresenter {
 		}
 	}
 	
-	func getLastDate(dateRange: [DateRange]) -> String? {
-		guard let date = dateRange.last?.end else { return nil }
-		let lastDate = Date(timeIntervalSince1970: date)
+	func generateDatesString(from dates: [DateDetails]) -> String {
+		var result: String = .init()
+		dates.forEach { date in
+			if date.endLess {
+				result = L10n.DatePrefix.everyDay
+				return
+			}
+			let startDate = Date(timeIntervalSince1970: date.start)
+			let endDate = Date(timeIntervalSince1970: date.end)
+			if endDate < .now { return }
+			
+			var dateString: String = ""
+			if isSameDayAndMonth(firstDate: startDate, secondDate: endDate)  {
+				dateString.append(dateFormatter.string(from: startDate))
+			} else {
+				dateString.append("\(dateFormatter.string(from: startDate)) - \(dateFormatter.string(from: endDate))")
+			}
+			
+			if let startTime = date.startTime, let endTime = date.endTime {
+				dateString.append(", \(L10n.DatePrefix.startAt) \(startTime.dropLast(3)) \(L10n.DatePrefix.toTime) \(endTime.dropLast(3))")
+			}
+			if let startTime = date.startTime, date.endTime == nil {
+				dateString.append(", \(L10n.DatePrefix.startAt) \(startTime.dropLast(3))")
+			}
+			if result.isEmpty {
+				result = dateString
+			} else {
+				result.append("\n\(dateString)")
+			}
+		}
+		return result
+	}
+	
+	func isSameDayAndMonth(firstDate: Date, secondDate: Date) -> Bool {
+		let calendar = Calendar.current
+		let dateComponentsFirst = calendar.dateComponents([.day, .month], from: firstDate)
+		let dateComponentsSecond = calendar.dateComponents([.day, .month], from: secondDate)
 		
-		let currentDate = Date()
-		guard let dateBeforeYear = Calendar.current.date(byAdding: .year, value: 1, to: currentDate) else { return nil }
-		if lastDate <= currentDate || lastDate > dateBeforeYear { return nil }
+		return dateComponentsFirst.day == dateComponentsSecond.day &&
+		dateComponentsFirst.month == dateComponentsSecond.month
+	}
+	
+	func getLastDate(from dates: [DateDetails]) -> String {
+		var isEveryDay = false
+		var lastDate = Date(timeIntervalSince1970: dates.first!.end)
 		
-		dateFormatter.dateStyle = .medium
-		dateFormatter.locale = Locale.current
-		let stringLastDate = "\(L10n.DatePrefix.until) \(dateFormatter.string(from: lastDate))"
+		dates.forEach { date in
+			if date.endLess {
+				isEveryDay = true
+				return
+			}
+			if Date(timeIntervalSince1970: date.end) > lastDate  {
+				lastDate = Date(timeIntervalSince1970: date.end)
+			}
+		}
 		
-		return stringLastDate
+		if isEveryDay {
+			return L10n.DatePrefix.everyDay
+		} else {
+			return "\(L10n.DatePrefix.until) \(dateFormatter.string(from: lastDate))"
+		}
+	}
+	
+	func decodeUnicodeString(_ unicodeString: String) -> String? {
+		guard let data = unicodeString.data(using: .utf8) else { return nil }
+		
+		let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
+			.documentType: NSAttributedString.DocumentType.html,
+			.characterEncoding: String.Encoding.utf8.rawValue
+		]
+		guard let attributedString = try? NSAttributedString(
+			data: data,
+			options: options,
+			documentAttributes: nil
+		) else { return nil }
+		return attributedString.string
 	}
 }
