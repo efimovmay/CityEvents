@@ -19,17 +19,15 @@ protocol IEventsView: AnyObject {
 final class EventsViewController: UIViewController {
 	// MARK: - Dependencies
 	
-	private let presenter: IEventsPresenter
+	private let presenter: EventsPresenter
 	
 	// MARK: - Private properties
 	
 	private lazy var contentView: EventsView = EventsView()
-	private var datesText: String?
-	private var locationText: String?
 	
 	// MARK: - Initialization
 	
-	init(presenter: IEventsPresenter) {
+	init(presenter: EventsPresenter) {
 		self.presenter = presenter
 		super.init(nibName: nil, bundle: nil)
 	}
@@ -54,6 +52,7 @@ final class EventsViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		navigationController?.setNavigationBarHidden(true, animated: animated)
+		presenter.reloadAllFavoriteButton()
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -72,12 +71,12 @@ private extension EventsViewController {
 	
 	@objc
 	func setLocationButtonTapped() {
-		presenter.changeLocation()
+		presenter.changeLocationButtonPressed()
 	}
 	
 	@objc
 	func setDateButtonTapped() {
-		presenter.changeDateEvents()
+		presenter.changeDateButtonPressed()
 	}
 }
 
@@ -140,8 +139,7 @@ extension EventsViewController: UICollectionViewDataSource {
 				return UICollectionViewCell()
 			}
 			cell.setLocationButton.addTarget(self, action: #selector(setLocationButtonTapped), for: .touchUpInside)
-			cell.locationLabel.text = locationText
-			
+			cell.locationLabel.text = presenter.getLocationLabel()
 			return cell
 			
 		case .category:
@@ -164,7 +162,8 @@ extension EventsViewController: UICollectionViewDataSource {
 				return UICollectionViewCell()
 			}
 			cell.setDateButton.addTarget(self, action: #selector(setDateButtonTapped), for: .touchUpInside)
-			cell.datesLabel.text = datesText
+			cell.datesLabel.text = presenter.getDateLabel()
+			
 			return cell
 			
 		case .events:
@@ -180,11 +179,11 @@ extension EventsViewController: UICollectionViewDataSource {
 			cell.favoriteButton.removeTarget(nil, action: nil, for: .allEvents)
 			cell.favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped(_:)), for: .touchUpInside)
 			cell.configure(
-				image: event.image,
-				title: event.title,
-				date: event.date,
-				place: event.place,
-				price: event.price, 
+				image: event.event.images.first ?? "",
+				title: event.event.title,
+				date: event.event.lastDate,
+				place: event.event.place,
+				price: event.event.price,
 				isfavorite: event.isFavorite
 			)
 			return cell
@@ -221,11 +220,15 @@ extension EventsViewController: UICollectionViewDelegate {
 extension EventsViewController: IEventsView {
 	
 	func setLocationLabel(text: String) {
-		locationText = text
+		let indexPath = IndexPath(row: .zero, section: EventsViewModel.Sections.location.rawValue)
+		guard let cell = contentView.eventsCollectionView.cellForItem(at: indexPath) as? LocationCell else { return }
+		cell.locationLabel.text = text
 	}
 	
 	func setDateLabel(text: String) {
-		datesText = text
+		let indexPath = IndexPath(row: .zero, section: EventsViewModel.Sections.dates.rawValue)
+		guard let cell = contentView.eventsCollectionView.cellForItem(at: indexPath) as? DatesCell else { return }
+		cell.datesLabel.text = text
 	}
 	
 	func addRowEventsCollection(startIndex: Int, endIndex: Int) {
@@ -235,7 +238,7 @@ extension EventsViewController: IEventsView {
 		}
 		contentView.eventsCollectionView.performBatchUpdates({
 			contentView.eventsCollectionView.insertItems(at: indexPaths)
-		}, completion: nil)
+		})
 	}
 	
 	func changeFavoriteIcon(isFavorite: Bool, row: Int) {
@@ -248,7 +251,7 @@ extension EventsViewController: IEventsView {
 		contentView.eventsCollectionView.performBatchUpdates({
 			let indexSet = IndexSet(integer: section)
 			contentView.eventsCollectionView.reloadSections(indexSet)
-		}, completion: nil)
+		})
 	}
 	
 	func reloadCell(section: Int, cellIndex: Int) {

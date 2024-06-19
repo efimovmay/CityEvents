@@ -23,12 +23,7 @@ enum EventsViewModel {
 	}
 	
 	struct Event {
-		let id: Int
-		let title: String
-		let image: String
-		let price: String?
-		let place: String?
-		let date: String?
 		var isFavorite: Bool
+		let event: EventModel
 	}
 }

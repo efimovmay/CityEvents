@@ -26,14 +26,7 @@ final class DetailPresenter: IDetailPresenter {
 	// MARK: - Private properties
 
 	private let idEvent: Int
-	private var eventModel: EventModel?
-	
-	private let dateFormatter: DateFormatter = {
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = "d MMMM"
-		dateFormatter.timeZone = .gmt
-		return dateFormatter
-	}()
+	private var viewModel: DetailViewModel?
 	
 	// MARK: - Initialization
 	
@@ -48,19 +41,19 @@ final class DetailPresenter: IDetailPresenter {
 
 	func viewIsReady(view: IDetailView) {
 		self.view = view
-		fetchEvent()
+		loadData()
 	}
 	
 	func getImagesCount() -> Int {
-		return eventModel?.images.count ?? .zero
+		return viewModel?.eventInfo.images.count ?? .zero
 	}
 	
 	func getImageAtIndex(_ index: Int) -> String {
-		return eventModel?.images[index] ?? ""
+		return viewModel?.eventInfo.images[index] ?? ""
 	}
 	
 	func openSite() {
-		if let eventModel = eventModel, let url = URL(string: eventModel.siteUrl) {
+		if let viewModel = viewModel, let url = URL(string: viewModel.eventInfo.siteUrl) {
 			router.routeToSite(url: url)
 		}
 	}
@@ -70,8 +63,8 @@ final class DetailPresenter: IDetailPresenter {
 			storage.deleteEvent(withId: idEvent)
 			view?.changeFavoriteIcon(isFavorite: false)
 		} else {
-			if let eventModel = eventModel {
-				storage.saveEvent(eventModel)
+			if let viewModel = viewModel {
+				storage.saveEvent(viewModel.eventInfo)
 				view?.changeFavoriteIcon(isFavorite: true)
 			}
 		}
@@ -81,6 +74,16 @@ final class DetailPresenter: IDetailPresenter {
 // MARK: - Private methods
 
 private extension DetailPresenter {
+	
+	func loadData() {
+		if let event = storage.getEvent(withId: idEvent) {
+			viewModel = DetailViewModel(isFavorite: true, eventInfo: EventModel(from: event))
+			updateView()
+		} else {
+			fetchEvent()
+		}
+	}
+	
 	func fetchEvent() {
 		network.fetch(
 			dataType: EventDTO.self,
@@ -95,127 +98,19 @@ private extension DetailPresenter {
 	}
 	
 	func makeViewModel(from data: EventDTO) {
-		let dates = generateDatesString(from: data.dates)
-		let lastDate = getLastDate(from: data.dates)
-		let price = data.isFree ? L10n.DetailScreen.isFree : data.price.capitalized
-		let images = data.images.map { $0.image }
-		
-		eventModel = EventModel(
-			id: idEvent,
-			title: data.title.capitalized,
-			dates: dates,
-			price: price,
-			address: data.place?.address,
-			place: data.place?.title,
-			description: decodeUnicodeString(data.description) ?? "",
-			siteUrl: data.siteURL,
-			images: images, 
-			lastDate: lastDate, 
-			shortTitle: data.shortTitle
-		)
-		
-		let viewModel = DetailViewModel(
+		viewModel = DetailViewModel(
 			isFavorite: storage.eventExists(withId: idEvent),
-			eventInfo: eventModel!
+			eventInfo: EventModel(from: data)
 		)
-
-		updateData(with: viewModel)
-		updateImagesCollection()
+		updateView()
 	}
 	
-	func updateImagesCollection() {
+	func updateView() {
+		guard let viewModel = viewModel else { return }
+		
 		DispatchQueue.main.async {
 			self.view?.reloadImagesCollection()
-		}
-	}
-	
-	func updateData(with viewModel: DetailViewModel) {
-		DispatchQueue.main.async {
 			self.view?.render(viewModel: viewModel)
 		}
-	}
-}
-
-// MARK: - Additional methods
-
-private extension DetailPresenter {
-	
-	func generateDatesString(from dates: [DateDetails]) -> String {
-		var result: String = .init()
-		dates.forEach { date in
-			if date.endLess {
-				result = L10n.DatePrefix.everyDay
-				return
-			}
-			let startDate = Date(timeIntervalSince1970: date.start)
-			let endDate = Date(timeIntervalSince1970: date.end)
-			if endDate < .now { return }
-			
-			var dateString: String = ""
-			if isSameDayAndMonth(firstDate: startDate, secondDate: endDate)  {
-				dateString.append(dateFormatter.string(from: startDate))
-			} else {
-				dateString.append("\(dateFormatter.string(from: startDate)) - \(dateFormatter.string(from: endDate))")
-			}
-			
-			if let startTime = date.startTime, let endTime = date.endTime {
-				dateString.append(", \(L10n.DatePrefix.startAt) \(startTime.dropLast(3)) \(L10n.DatePrefix.toTime) \(endTime.dropLast(3))")
-			}
-			if let startTime = date.startTime, date.endTime == nil {
-				dateString.append(", \(L10n.DatePrefix.startAt) \(startTime.dropLast(3))")
-			}
-			if result.isEmpty {
-				result = dateString
-			} else {
-				result.append("\n\(dateString)")
-			}
-		}
-		return result
-	}
-	
-	func getLastDate(from dates: [DateDetails]) -> String {
-		var isEveryDay = false
-		var lastDate = Date(timeIntervalSince1970: dates.first!.end)
-		
-		dates.forEach { date in
-			if date.endLess {
-				isEveryDay = true
-				return
-			}
-			if Date(timeIntervalSince1970: date.end) > lastDate  {
-				lastDate = Date(timeIntervalSince1970: date.end)
-			}
-		}
-		
-		if isEveryDay {
-			return L10n.DatePrefix.everyDay
-		} else {
-			return "\(L10n.DatePrefix.until) \(dateFormatter.string(from: lastDate))"
-		}
-	}
-	
-	
-	func isSameDayAndMonth(firstDate: Date, secondDate: Date) -> Bool {
-		let calendar = Calendar.current
-		let dateComponentsFirst = calendar.dateComponents([.day, .month], from: firstDate)
-		let dateComponentsSecond = calendar.dateComponents([.day, .month], from: secondDate)
-		
-		return dateComponentsFirst.day == dateComponentsSecond.day &&
-		dateComponentsFirst.month == dateComponentsSecond.month
-	}
-	
-	func decodeUnicodeString(_ unicodeString: String) -> String? {
-		guard let data = unicodeString.data(using: .utf8) else { return nil }
-		
-		let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
-			.documentType: NSAttributedString.DocumentType.html,
-			.characterEncoding: String.Encoding.utf8.rawValue
-		]
-		guard let attributedString = try? NSAttributedString(
-			data: data,
-			options: options,
-			documentAttributes: nil
-		) else { return nil }
-		return attributedString.string
 	}
 }

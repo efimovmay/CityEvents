@@ -7,21 +7,11 @@
 
 import Foundation
 
-protocol IEventsPresenter {
-	var events: [EventsViewModel.Event] { get }
-	var categories: [EventsViewModel.Category] { get }
+final class EventsPresenter {
+	// MARK: - Public properties
 	
-	func viewIsReady(view: IEventsView)
-	func favoriteButtonPressed(index: Int)
-	func reloadAllFavoriteButton()
-	func changeLocation()
-	func changeDateEvents()
-	func categoryDidSelect(at index: Int)
-	func fetchNextPage()
-	func routeToDetailsScreen(indexEvent: Int)
-}
-
-final class EventsPresenter: IEventsPresenter {
+	var events: [EventsViewModel.Event] = []
+	var categories: [EventsViewModel.Category] = []
 	
 	// MARK: - Dependencies
 	
@@ -30,12 +20,7 @@ final class EventsPresenter: IEventsPresenter {
 	private let network: INetworkService
 	private let storage: IEventsStorageService
 	
-	var events: [EventsViewModel.Event] = .init()
-	var categories: [EventsViewModel.Category] = .init()
-	
 	// MARK: - Private properties
-	
-	private let dateFormatter = DateFormatter()
 
 	private var urlNextPage: String? = nil
 	private var activeCaregory: Set<String> = .init()
@@ -58,26 +43,27 @@ final class EventsPresenter: IEventsPresenter {
 		if let savedLocation: Locations = UserDefaults.standard.enumValue(forKey: L10n.KeyUserDefault.savedLocation) {
 			location = savedLocation
 		}
-		changeDateLabel()
-		changeLocationLabel()
 		fetchCategories()
 		fetchEvents()
 	}
 	
 	func favoriteButtonPressed(index: Int) {
-		if storage.eventExists(withId: events[index].id) {
-			storage.deleteEvent(withId: events[index].id)
+		if storage.eventExists(withId: events[index].event.id) {
+			storage.deleteEvent(withId: events[index].event.id)
 			reloadFavoriteButton(at: index)
-		} else {
-//			if let eventModel = eventModel {
-//				storage.saveEvent(eventModel)
-//			view?.changeFavoriteIcon(isFavorite: true, row: index)
-//			}
+		} else if index < events.count {
+			storage.saveEvent(events[index].event)
+			view?.changeFavoriteIcon(isFavorite: true, row: index)
 		}
 	}
 	
 	func reloadAllFavoriteButton() {
-		
+		events.enumerated().forEach { index, event in
+			view?.changeFavoriteIcon(
+				isFavorite: storage.eventExists(withId: events[index].event.id),
+				row: index
+			)
+		}
 	}
 	
 	func categoryDidSelect(at index: Int) {
@@ -89,25 +75,26 @@ final class EventsPresenter: IEventsPresenter {
 		} else {
 			activeCaregory.remove(categories[index].slug)
 		}
-		events = []
-		reloadSection(.events)
-		fetchEvents()
+		reloadEvents()
 	}
 	
 	func routeToDetailsScreen(indexEvent: Int) {
-		router.routeToDetailScreen(idEvent: events[indexEvent].id)
+		router.routeToDetailScreen(idEvent: events[indexEvent].event.id)
 	}
 	
-	func changeLocation() {
+	func changeLocationButtonPressed() {
 		router.routeToLocationScreen { location in
-			if location == self.location { return }
 			self.location = location
-			self.changeLocationLabel()
+			self.view?.setLocationLabel(text: self.getLocationLabel())
 			self.reloadEvents()
 		}
 	}
 	
-	func changeDateEvents() {
+	func getLocationLabel() -> String {
+		return "\(L10n.EventsScreen.title)\n\(location.description)"
+	}
+	
+	func changeDateButtonPressed() {
 		router.routeToCalendarScreen { startDate, endDate in
 			if let startDate = startDate {
 				self.startDate = startDate
@@ -121,8 +108,40 @@ final class EventsPresenter: IEventsPresenter {
 				self.startDate = .now
 				self.endDate = nil
 			}
-			self.changeDateLabel()
-			self.reloadEvents()
+			self.view?.setDateLabel(text: self.getDateLabel())
+		}
+	}
+	
+	func getDateLabel() -> String {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "dd MMMM"
+		dateFormatter.timeZone = .gmt
+		let startDateString = dateFormatter.string(from: startDate)
+		
+		if let endDate = endDate {
+			let calendar = Calendar.current
+			let componenetStartDate = calendar.dateComponents(in: .gmt, from: startDate)
+			let componenetEndDate = calendar.dateComponents(in: .gmt, from: endDate)
+			
+			if componenetStartDate.day == componenetEndDate.day &&
+				componenetStartDate.month == componenetEndDate.month {
+				return "\(startDateString)"
+				
+			} else if componenetStartDate.day != componenetEndDate.day &&
+						componenetStartDate.month == componenetEndDate.month {
+				dateFormatter.dateFormat = "dd"
+				let startDay = dateFormatter.string(from: startDate)
+				let endDay = dateFormatter.string(from: endDate)
+				dateFormatter.dateFormat = "MMMM"
+				let mounth = dateFormatter.string(from: startDate)
+				return "\(startDay) - \(endDay) \(mounth)"
+				
+			} else {
+				let endDateString = dateFormatter.string(from: endDate)
+				return "\(startDateString) - \(endDateString)"
+			}
+		} else {
+			return "\(L10n.DatePrefix.from) \(startDateString)"
 		}
 	}
 	
@@ -143,7 +162,7 @@ final class EventsPresenter: IEventsPresenter {
 private extension EventsPresenter {
 	func reloadEvents() {
 		events = []
-		view?.reloadSection(EventsViewModel.Sections.events.rawValue)
+		reloadSection(.events)
 		fetchEvents()
 	}
 	
@@ -154,78 +173,16 @@ private extension EventsPresenter {
 	}
 	
 	func reloadFavoriteButton(at index: Int) {
-		view?.changeFavoriteIcon(isFavorite: events[index].isFavorite, row: index)
-	}
-	
-	func changeLocationLabel() {
-		view?.setLocationLabel(text: "\(L10n.EventsScreen.title)\n\(location.description)")
-		view?.reloadSection(EventsViewModel.Sections.location.rawValue)
-	}
-	
-	func changeDateLabel() {
-		var text: String = ""
-	
-		dateFormatter.dateFormat = "dd MMMM"
-		dateFormatter.timeZone = .gmt
-		let startDateString = dateFormatter.string(from: startDate)
-		
-		if let endDate = endDate {
-			let calendar = Calendar.current
-			let componenetStartDate = calendar.dateComponents(in: .gmt, from: startDate)
-			let componenetEndDate = calendar.dateComponents(in: .gmt, from: endDate)
-			
-			if componenetStartDate.day == componenetEndDate.day &&
-				componenetStartDate.month == componenetEndDate.month {
-				text = "\(startDateString)"
-				
-			} else if componenetStartDate.day != componenetEndDate.day &&
-						componenetStartDate.month == componenetEndDate.month {
-				dateFormatter.dateFormat = "dd"
-				let startDay = dateFormatter.string(from: startDate)
-				let endDay = dateFormatter.string(from: endDate)
-				dateFormatter.dateFormat = "MMMM"
-				let mounth = dateFormatter.string(from: startDate)
-				text = "\(startDay) - \(endDay) \(mounth)"
-				
-			} else {
-				let endDateString = dateFormatter.string(from: endDate)
-				text = "\(L10n.DatePrefix.from) \(startDateString) \(L10n.DatePrefix.toTime) \(endDateString)"
-			}
-		} else {
-			text = "\(L10n.DatePrefix.from) \(startDateString)"
-		}
-
-		view?.setDateLabel(text: text)
-		view?.reloadSection(EventsViewModel.Sections.dates.rawValue)
-	}
-	
-	func addDownloadEvents(_ data: EventListDTO) {
-		urlNextPage = data.next
-		if data.results.isEmpty { return }
-
-		DispatchQueue.main.async {
-		let startIndex = self.events.count
-		data.results.forEach { event in
-			self.events.append(EventsViewModel.Event(
-				id: event.id,
-				title: event.title.capitalized,
-				image: event.images[.zero].image,
-				price: event.place?.title.capitalized,
-				place: event.place?.title,
-				date: self.getLastDate(dateRange: event.dates), 
-				isFavorite: self.storage.eventExists(withId: event.id)
-			))
-		}
-		let endIndex = self.events.count - 1
-
-		self.view?.addRowEventsCollection(startIndex: startIndex, endIndex: endIndex)
-		}
+		view?.changeFavoriteIcon(
+			isFavorite: storage.eventExists(withId: events[index].event.id),
+			row: index
+		)
 	}
 	
 	func fetchCategories() {
 		network.fetch(
 			dataType: [CategoriesEvent].self,
-			with: NetworkRequestDataCategories(lang: "ru")
+			with: NetworkRequestDataCategories()
 		) { result in
 			switch result {
 			case .success(let data):
@@ -249,8 +206,7 @@ private extension EventsPresenter {
 				location: location,
 				actualSince: startDate.timeIntervalSince1970,
 				actualUntil: endDate?.timeIntervalSince1970,
-				categories: getActiveCategory(),
-				lang: "ru"
+				categories: getActiveCategory()
 			)) { result in
 				switch result {
 				case .success(let data):
@@ -260,31 +216,26 @@ private extension EventsPresenter {
 				}
 			}
 	}
-}
+	
+	func addDownloadEvents(_ data: EventListDTO) {
+		urlNextPage = data.next
+		
+		if data.results.isEmpty { return }
+		let startIndex = events.count
+		data.results.forEach { event in
+			events.append(EventsViewModel.Event(
+				isFavorite: storage.eventExists(withId: event.id),
+				event: EventModel(from: event)
+			))
+		}
+		let endIndex = events.count - 1
 
-// MARK: - Additional methods
-
-private extension EventsPresenter {
-	func getActiveCategory() -> String? {
-		if activeCaregory.isEmpty {
-			return nil
-		} else {
-			return activeCaregory.joined(separator: ",")
+		DispatchQueue.main.async {
+			self.view?.addRowEventsCollection(startIndex: startIndex, endIndex: endIndex)
 		}
 	}
 	
-	func getLastDate(dateRange: [DateRange]) -> String? {
-		guard let date = dateRange.last?.end else { return nil }
-		let lastDate = Date(timeIntervalSince1970: date)
-		
-		let currentDate = Date()
-		guard let dateBeforeYear = Calendar.current.date(byAdding: .year, value: 1, to: currentDate) else { return nil }
-		if lastDate <= currentDate || lastDate > dateBeforeYear { return nil }
-		
-		dateFormatter.dateStyle = .medium
-		dateFormatter.locale = Locale.current
-		let stringLastDate = "\(L10n.DatePrefix.until) \(dateFormatter.string(from: lastDate))"
-		
-		return stringLastDate
+	func getActiveCategory() -> String? {
+		return activeCaregory.isEmpty ? nil : activeCaregory.joined(separator: ",")
 	}
 }

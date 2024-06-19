@@ -11,7 +11,8 @@ import CoreData
 protocol IEventsStorageService {
 	func saveEvent(_ eventForSave: EventModel)
 	func deleteEvent(withId id: Int)
-	func getAllEvents() -> [Event]
+	func getEvent(withId id: Int) -> EventData?
+	func getAllEvents() -> [EventData]
 	func eventExists(withId id: Int) -> Bool
 }
 
@@ -29,7 +30,7 @@ final class EventsStorageService: IEventsStorageService {
 	
 	func saveEvent(_ eventForSave: EventModel) {
 		let context = persistentContainer.viewContext
-		let event = Event(context: context)
+		let event = EventData(context: context)
 		event.id = Int64(eventForSave.id)
 		event.address = eventForSave.address
 		event.dates = eventForSave.dates
@@ -41,12 +42,13 @@ final class EventsStorageService: IEventsStorageService {
 		event.images = eventForSave.images
 		event.lastDate = eventForSave.lastDate
 		event.shortTitle = eventForSave.shortTitle
+		
 		saveContext()
 	}
 	
 	func deleteEvent(withId id: Int) {
 		let context = persistentContainer.viewContext
-		let fetchRequest: NSFetchRequest<Event> = Event.fetchRequest()
+		let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
 		fetchRequest.predicate = NSPredicate(format: "id == %d", id)
 		
 		do {
@@ -62,9 +64,23 @@ final class EventsStorageService: IEventsStorageService {
 		}
 	}
 	
-	func getAllEvents() -> [Event] {
+	func getEvent(withId id: Int) -> EventData? {
 		let context = persistentContainer.viewContext
-		let fetchRequest: NSFetchRequest<Event> = Event.fetchRequest()
+		let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
+		fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+		fetchRequest.fetchLimit = 1
+		
+		do {
+			return try context.fetch(fetchRequest).first
+		} catch {
+			print("Fetch event by id failed: \(error)")
+			return nil
+		}
+	}
+
+	func getAllEvents() -> [EventData] {
+		let context = persistentContainer.viewContext
+		let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
 		
 		do {
 			return try context.fetch(fetchRequest)
@@ -76,7 +92,7 @@ final class EventsStorageService: IEventsStorageService {
 	
 	func eventExists(withId id: Int) -> Bool {
 		let context = persistentContainer.viewContext
-		let fetchRequest: NSFetchRequest<Event> = Event.fetchRequest()
+		let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
 		fetchRequest.predicate = NSPredicate(format: "id == %d", id)
 		fetchRequest.fetchLimit = 1
 		

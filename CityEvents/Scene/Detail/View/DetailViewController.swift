@@ -108,7 +108,6 @@ extension DetailViewController: IDetailView {
 	
 	func reloadImagesCollection() {
 		contentView.imagesCollectionView.reloadData()
-		self.view.setNeedsLayout()
 	}
 	
 	func changeFavoriteIcon(isFavorite: Bool) {
