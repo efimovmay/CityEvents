@@ -30,6 +30,10 @@ enum Sizes {
 		static let iconSize: CGFloat = 30
 	}
 
+	enum FavoriteScreen {
+		static let rowHeigth: CGFloat = 130
+	}
+
 	enum Font {
 		static let title: CGFloat = 28
 		static let detailTitle: CGFloat = 22

@@ -17,6 +17,7 @@ struct EventModel {
 	let description: String
 	let siteUrl: String
 	let images: [String]
+	let lastDate: String
 }
 
 extension EventModel {
@@ -28,7 +29,8 @@ extension EventModel {
 		self.place = event.place
 		self.address = event.address
 		self.siteUrl = event.siteURL
-		self.description = event.body ?? ""
+		self.description = event.body
 		self.images = event.images ?? []
+		self.lastDate = event.lastDate
 	}
 }

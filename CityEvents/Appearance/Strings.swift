@@ -24,6 +24,14 @@ enum L10n {
 		static let favorite = NSLocalizedString("tabBar.favorite", comment: "")
 	}
 	
+	enum DatePrefix {
+		static let everyDay = NSLocalizedString("datePrefix.everyDay", comment: "")
+		static let until = NSLocalizedString("datePrefix.until", comment: "")
+		static let from = NSLocalizedString("datePrefix.from", comment: "")
+		static let startAt = NSLocalizedString("datePrefix.startAt", comment: "")
+		static let toTime = NSLocalizedString("datePrefix.toTime", comment: "")
+	}
+	
 	enum CalendarScreen {
 		static let title = NSLocalizedString("calendarScreen.title", comment: "")
 	}
@@ -32,9 +40,11 @@ enum L10n {
 		static let title = NSLocalizedString("locationScreen.title", comment: "")
 	}
 	
+	enum FavoriteScreen {
+		static let noEvents = NSLocalizedString("favoriteScreen.noEvents", comment: "")
+	}
+	
 	enum DetailScreen {
-		static let startAt = NSLocalizedString("detailScreen.startAt", comment: "")
-		static let everyDay = NSLocalizedString("detailScreen.everyDay", comment: "")
 		static let onSiteButtonTitle = NSLocalizedString("detailScreen.onSiteButtonTitle", comment: "")
 		static let textDescriptionLabel = NSLocalizedString("detailScreen.textDescriptionLabel", comment: "")
 		static let isFree = NSLocalizedString("detailScreen.isFree", comment: "")
@@ -42,9 +52,6 @@ enum L10n {
 	
 	enum EventsScreen {
 		static let title = NSLocalizedString("eventsScreen.title", comment: "")
-		static let until = NSLocalizedString("eventsScreen.until", comment: "")
-		static let from = NSLocalizedString("eventsScreen.from", comment: "")
-		static let to = NSLocalizedString("eventsScreen.to", comment: "")
 		static let setDateTitle = NSLocalizedString("eventsScreen.set", comment: "")
 	}
 	

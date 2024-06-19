@@ -189,10 +189,10 @@ private extension EventsPresenter {
 				
 			} else {
 				let endDateString = dateFormatter.string(from: endDate)
-				text = "\(L10n.EventsScreen.from) \(startDateString) \(L10n.EventsScreen.to) \(endDateString)"
+				text = "\(L10n.DatePrefix.from) \(startDateString) \(L10n.DatePrefix.toTime) \(endDateString)"
 			}
 		} else {
-			text = "\(L10n.EventsScreen.from) \(startDateString)"
+			text = "\(L10n.DatePrefix.from) \(startDateString)"
 		}
 
 		view?.setDateLabel(text: text)
@@ -283,7 +283,7 @@ private extension EventsPresenter {
 		
 		dateFormatter.dateStyle = .medium
 		dateFormatter.locale = Locale.current
-		let stringLastDate = "\(L10n.EventsScreen.until) \(dateFormatter.string(from: lastDate))"
+		let stringLastDate = "\(L10n.DatePrefix.until) \(dateFormatter.string(from: lastDate))"
 		
 		return stringLastDate
 	}

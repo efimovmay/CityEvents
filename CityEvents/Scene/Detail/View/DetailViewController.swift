@@ -62,6 +62,8 @@ private extension DetailViewController {
 
 private extension DetailViewController {
 	func setupUI() {
+		navigationItem.largeTitleDisplayMode = .never
+		
 		contentView.imagesCollectionView.dataSource = self
 		contentView.onSiteButton.addTarget(self, action: #selector(onSiteButtonPressed), for: .touchUpInside)
 		contentView.favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed), for: .touchUpInside)

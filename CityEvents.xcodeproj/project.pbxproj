@@ -16,6 +16,7 @@
 		5B4AAC382C2194CB008BD9F7 /* FavoriteRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC372C2194CB008BD9F7 /* FavoriteRouter.swift */; };
 		5B4AAC3A2C2194E1008BD9F7 /* FavoriteAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC392C2194E1008BD9F7 /* FavoriteAssembly.swift */; };
 		5B4AAC3C2C219BB2008BD9F7 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC3B2C219BB2008BD9F7 /* TabBarController.swift */; };
+		5B4AAC3F2C22148B008BD9F7 /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC3E2C22148B008BD9F7 /* FavoriteCell.swift */; };
 		5B661EFE2C198D77003CCA50 /* CategoriesEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661EFD2C198D77003CCA50 /* CategoriesEvent.swift */; };
 		5B661F002C1991FB003CCA50 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661EFF2C1991FB003CCA50 /* CategoryCell.swift */; };
 		5B661F072C1B0646003CCA50 /* DatesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F062C1B0646003CCA50 /* DatesCell.swift */; };
@@ -78,6 +79,7 @@
 		5B4AAC372C2194CB008BD9F7 /* FavoriteRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRouter.swift; sourceTree = "<group>"; };
 		5B4AAC392C2194E1008BD9F7 /* FavoriteAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAssembly.swift; sourceTree = "<group>"; };
 		5B4AAC3B2C219BB2008BD9F7 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		5B4AAC3E2C22148B008BD9F7 /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
 		5B661EFD2C198D77003CCA50 /* CategoriesEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesEvent.swift; sourceTree = "<group>"; };
 		5B661EFF2C1991FB003CCA50 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		5B661F062C1B0646003CCA50 /* DatesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatesCell.swift; sourceTree = "<group>"; };
@@ -147,13 +149,22 @@
 		5B4AAC322C2193D7008BD9F7 /* Favorite */ = {
 			isa = PBXGroup;
 			children = (
-				5B4AAC302C2193CE008BD9F7 /* FavoriteViewController.swift */,
+				5B4AAC3D2C221467008BD9F7 /* View */,
 				5B4AAC332C219434008BD9F7 /* FavoritePresenter.swift */,
-				5B4AAC352C2194B2008BD9F7 /* FavoriteView.swift */,
 				5B4AAC372C2194CB008BD9F7 /* FavoriteRouter.swift */,
 				5B4AAC392C2194E1008BD9F7 /* FavoriteAssembly.swift */,
 			);
 			path = Favorite;
+			sourceTree = "<group>";
+		};
+		5B4AAC3D2C221467008BD9F7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5B4AAC302C2193CE008BD9F7 /* FavoriteViewController.swift */,
+				5B4AAC352C2194B2008BD9F7 /* FavoriteView.swift */,
+				5B4AAC3E2C22148B008BD9F7 /* FavoriteCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		5B661F0A2C1B6E99003CCA50 /* Calendar */ = {
@@ -434,6 +445,7 @@
 				5BB9976E2C14EC0E00E47C8F /* UIColor+Dynamic.swift in Sources */,
 				5B4AAC312C2193CE008BD9F7 /* FavoriteViewController.swift in Sources */,
 				5B661F272C1E12A1003CCA50 /* DetailViewController.swift in Sources */,
+				5B4AAC3F2C22148B008BD9F7 /* FavoriteCell.swift in Sources */,
 				5BB997602C149FFA00E47C8F /* EventsViewModel.swift in Sources */,
 				5BCBBB1A2C15E683004C60AD /* Locations.swift in Sources */,
 				5BCBBB0E2C15BC26004C60AD /* EventDTO.swift in Sources */,
