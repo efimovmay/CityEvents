@@ -7,9 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B4AAC2C2C216EAE008BD9F7 /* Event+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC2A2C216EAE008BD9F7 /* Event+CoreDataClass.swift */; };
-		5B4AAC2D2C216EAE008BD9F7 /* Event+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC2B2C216EAE008BD9F7 /* Event+CoreDataProperties.swift */; };
 		5B4AAC2F2C2172FB008BD9F7 /* EventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC2E2C2172FB008BD9F7 /* EventModel.swift */; };
+		5B4AAC312C2193CE008BD9F7 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC302C2193CE008BD9F7 /* FavoriteViewController.swift */; };
+		5B4AAC342C219434008BD9F7 /* FavoritePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC332C219434008BD9F7 /* FavoritePresenter.swift */; };
+		5B4AAC362C2194B2008BD9F7 /* FavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC352C2194B2008BD9F7 /* FavoriteView.swift */; };
+		5B4AAC382C2194CB008BD9F7 /* FavoriteRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC372C2194CB008BD9F7 /* FavoriteRouter.swift */; };
+		5B4AAC3A2C2194E1008BD9F7 /* FavoriteAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC392C2194E1008BD9F7 /* FavoriteAssembly.swift */; };
+		5B4AAC3C2C219BB2008BD9F7 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC3B2C219BB2008BD9F7 /* TabBarController.swift */; };
+		5B4AAC3F2C22148B008BD9F7 /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC3E2C22148B008BD9F7 /* FavoriteCell.swift */; };
+		5B4AAC4A2C22FB03008BD9F7 /* Event+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC482C22FB03008BD9F7 /* Event+CoreDataClass.swift */; };
+		5B4AAC4B2C22FB03008BD9F7 /* Event+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AAC492C22FB03008BD9F7 /* Event+CoreDataProperties.swift */; };
 		5B661EFE2C198D77003CCA50 /* CategoriesEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661EFD2C198D77003CCA50 /* CategoriesEvent.swift */; };
 		5B661F002C1991FB003CCA50 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661EFF2C1991FB003CCA50 /* CategoryCell.swift */; };
 		5B661F072C1B0646003CCA50 /* DatesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B661F062C1B0646003CCA50 /* DatesCell.swift */; };
@@ -63,9 +70,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5B4AAC2A2C216EAE008BD9F7 /* Event+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+CoreDataClass.swift"; sourceTree = "<group>"; };
-		5B4AAC2B2C216EAE008BD9F7 /* Event+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5B4AAC2E2C2172FB008BD9F7 /* EventModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventModel.swift; sourceTree = "<group>"; };
+		5B4AAC302C2193CE008BD9F7 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
+		5B4AAC332C219434008BD9F7 /* FavoritePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePresenter.swift; sourceTree = "<group>"; };
+		5B4AAC352C2194B2008BD9F7 /* FavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteView.swift; sourceTree = "<group>"; };
+		5B4AAC372C2194CB008BD9F7 /* FavoriteRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRouter.swift; sourceTree = "<group>"; };
+		5B4AAC392C2194E1008BD9F7 /* FavoriteAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteAssembly.swift; sourceTree = "<group>"; };
+		5B4AAC3B2C219BB2008BD9F7 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		5B4AAC3E2C22148B008BD9F7 /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
+		5B4AAC482C22FB03008BD9F7 /* Event+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+CoreDataClass.swift"; sourceTree = "<group>"; };
+		5B4AAC492C22FB03008BD9F7 /* Event+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5B661EFD2C198D77003CCA50 /* CategoriesEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesEvent.swift; sourceTree = "<group>"; };
 		5B661EFF2C1991FB003CCA50 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		5B661F062C1B0646003CCA50 /* DatesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatesCell.swift; sourceTree = "<group>"; };
@@ -132,6 +146,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B4AAC322C2193D7008BD9F7 /* Favorite */ = {
+			isa = PBXGroup;
+			children = (
+				5B4AAC3D2C221467008BD9F7 /* View */,
+				5B4AAC332C219434008BD9F7 /* FavoritePresenter.swift */,
+				5B4AAC372C2194CB008BD9F7 /* FavoriteRouter.swift */,
+				5B4AAC392C2194E1008BD9F7 /* FavoriteAssembly.swift */,
+			);
+			path = Favorite;
+			sourceTree = "<group>";
+		};
+		5B4AAC3D2C221467008BD9F7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5B4AAC302C2193CE008BD9F7 /* FavoriteViewController.swift */,
+				5B4AAC352C2194B2008BD9F7 /* FavoriteView.swift */,
+				5B4AAC3E2C22148B008BD9F7 /* FavoriteCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		5B661F0A2C1B6E99003CCA50 /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,8 +255,8 @@
 		5BB9975A2C149E5400E47C8F /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				5B4AAC2A2C216EAE008BD9F7 /* Event+CoreDataClass.swift */,
-				5B4AAC2B2C216EAE008BD9F7 /* Event+CoreDataProperties.swift */,
+				5B4AAC482C22FB03008BD9F7 /* Event+CoreDataClass.swift */,
+				5B4AAC492C22FB03008BD9F7 /* Event+CoreDataProperties.swift */,
 				5BB9974B2C1498A600E47C8F /* CityEvents.xcdatamodeld */,
 				5B661F352C206DEE003CCA50 /* EventsStorageService.swift */,
 			);
@@ -231,6 +266,8 @@
 		5BB9975B2C149E6000E47C8F /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				5B4AAC3B2C219BB2008BD9F7 /* TabBarController.swift */,
+				5B4AAC322C2193D7008BD9F7 /* Favorite */,
 				5B661F1B2C1DD0BE003CCA50 /* Location */,
 				5B661F0A2C1B6E99003CCA50 /* Calendar */,
 				5BB9975C2C149E6900E47C8F /* Events */,
@@ -395,6 +432,7 @@
 			files = (
 				5BA4759A2C16E5B600BF2D5D /* EventsAssembly.swift in Sources */,
 				5BCBBB102C15BC4A004C60AD /* EventList.swift in Sources */,
+				5B4AAC3A2C2194E1008BD9F7 /* FavoriteAssembly.swift in Sources */,
 				5B661F232C1DEB8E003CCA50 /* UserDefaults+enum.swift in Sources */,
 				5BB997472C1498A600E47C8F /* EventsViewController.swift in Sources */,
 				5BCBBB142C15BD2E004C60AD /* NetworkError.swift in Sources */,
@@ -403,9 +441,10 @@
 				5B661F2F2C1E12E9003CCA50 /* DetailAssembly.swift in Sources */,
 				5B661F1A2C1D94AC003CCA50 /* UIImage+Resize.swift in Sources */,
 				5B661F092C1B35A6003CCA50 /* LocationCell.swift in Sources */,
-				5B4AAC2C2C216EAE008BD9F7 /* Event+CoreDataClass.swift in Sources */,
 				5BB9976E2C14EC0E00E47C8F /* UIColor+Dynamic.swift in Sources */,
+				5B4AAC312C2193CE008BD9F7 /* FavoriteViewController.swift in Sources */,
 				5B661F272C1E12A1003CCA50 /* DetailViewController.swift in Sources */,
+				5B4AAC3F2C22148B008BD9F7 /* FavoriteCell.swift in Sources */,
 				5BB997602C149FFA00E47C8F /* EventsViewModel.swift in Sources */,
 				5BCBBB1A2C15E683004C60AD /* Locations.swift in Sources */,
 				5BCBBB0E2C15BC26004C60AD /* EventDTO.swift in Sources */,
@@ -416,12 +455,15 @@
 				5B661F322C1ED839003CCA50 /* StringOrInt.swift in Sources */,
 				5BCBBB122C15BC78004C60AD /* UIImageView+load+cache.swift in Sources */,
 				5B661F212C1DD1EB003CCA50 /* LocationView.swift in Sources */,
+				5B4AAC3C2C219BB2008BD9F7 /* TabBarController.swift in Sources */,
 				5BCBBB072C15BBA9004C60AD /* NetworkEndpoints.swift in Sources */,
 				5B661F0C2C1B6EBB003CCA50 /* CalendarViewController.swift in Sources */,
 				5BCBBB162C15DF79004C60AD /* NetworkRequest.swift in Sources */,
 				5B661F072C1B0646003CCA50 /* DatesCell.swift in Sources */,
+				5B4AAC4B2C22FB03008BD9F7 /* Event+CoreDataProperties.swift in Sources */,
 				5BB997662C14AE6800E47C8F /* Sizes.swift in Sources */,
 				5B661F102C1B6F08003CCA50 /* CalendarView.swift in Sources */,
+				5B4AAC362C2194B2008BD9F7 /* FavoriteView.swift in Sources */,
 				5BA475982C16E49A00BF2D5D /* EventsRouter.swift in Sources */,
 				5BB9975E2C149EC100E47C8F /* EventsPresenter.swift in Sources */,
 				5B661F2B2C1E12BD003CCA50 /* DetailRouter.swift in Sources */,
@@ -432,7 +474,6 @@
 				5B4AAC2F2C2172FB008BD9F7 /* EventModel.swift in Sources */,
 				5BB997722C14EDDB00E47C8F /* Colors.swift in Sources */,
 				5BB997782C14F3B200E47C8F /* Strings.swift in Sources */,
-				5B4AAC2D2C216EAE008BD9F7 /* Event+CoreDataProperties.swift in Sources */,
 				5BB9976C2C14EBD000E47C8F /* Theme.swift in Sources */,
 				5B661F362C206DEE003CCA50 /* EventsStorageService.swift in Sources */,
 				5BCBBB0B2C15BBBB004C60AD /* NetworkService.swift in Sources */,
@@ -440,8 +481,11 @@
 				5B661F252C1E128E003CCA50 /* DetailPresenter.swift in Sources */,
 				5BB997702C14ECAD00E47C8F /* UIColor+Hex.swift in Sources */,
 				5B661F0E2C1B6EFA003CCA50 /* CalendarPresenter.swift in Sources */,
+				5B4AAC4A2C22FB03008BD9F7 /* Event+CoreDataClass.swift in Sources */,
 				5BB997432C1498A600E47C8F /* AppDelegate.swift in Sources */,
+				5B4AAC382C2194CB008BD9F7 /* FavoriteRouter.swift in Sources */,
 				5BB997452C1498A600E47C8F /* SceneDelegate.swift in Sources */,
+				5B4AAC342C219434008BD9F7 /* FavoritePresenter.swift in Sources */,
 				5B661F342C1F46C3003CCA50 /* DetailImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

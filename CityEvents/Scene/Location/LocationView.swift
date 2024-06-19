@@ -8,12 +8,14 @@
 import UIKit
 
 final class LocationView: UIView {
+	// MARK: - Properties
 	
 	static let cellIdentifier = "locationCell"
 	lazy var locationTableView: UITableView = makeLocationTableView()
 	
-	
 	private lazy var titleLabel: UILabel = makeTitleLabel()
+	
+	// MARK: - Initialization
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -26,6 +28,8 @@ final class LocationView: UIView {
 		fatalError("init(coder:) has not been implemented")
 	}
 }
+
+// MARK: - SetupUI
 
 private extension LocationView {
 	func setupUI() {

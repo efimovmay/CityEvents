@@ -28,6 +28,13 @@ final class DetailPresenter: IDetailPresenter {
 	private let idEvent: Int
 	private var eventModel: EventModel?
 	
+	private let dateFormatter: DateFormatter = {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "d MMMM"
+		dateFormatter.timeZone = .gmt
+		return dateFormatter
+	}()
+	
 	// MARK: - Initialization
 	
 	init(router: IDetailRouter, network: INetworkService, storage: IEventsStorageService, idEvent: Int) {
@@ -89,6 +96,7 @@ private extension DetailPresenter {
 	
 	func makeViewModel(from data: EventDTO) {
 		let dates = generateDatesString(from: data.dates)
+		let lastDate = getLastDate(from: data.dates)
 		let price = data.isFree ? L10n.DetailScreen.isFree : data.price.capitalized
 		let images = data.images.map { $0.image }
 		
@@ -101,7 +109,9 @@ private extension DetailPresenter {
 			place: data.place?.title,
 			description: decodeUnicodeString(data.description) ?? "",
 			siteUrl: data.siteURL,
-			images: images
+			images: images, 
+			lastDate: lastDate, 
+			shortTitle: data.shortTitle
 		)
 		
 		let viewModel = DetailViewModel(
@@ -124,7 +134,6 @@ private extension DetailPresenter {
 			self.view?.render(viewModel: viewModel)
 		}
 	}
-
 }
 
 // MARK: - Additional methods
@@ -132,14 +141,10 @@ private extension DetailPresenter {
 private extension DetailPresenter {
 	
 	func generateDatesString(from dates: [DateDetails]) -> String {
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = "d MMMM"
-		dateFormatter.timeZone = .gmt
-		
 		var result: String = .init()
 		dates.forEach { date in
 			if date.endLess {
-				result = L10n.DetailScreen.everyDay
+				result = L10n.DatePrefix.everyDay
 				return
 			}
 			let startDate = Date(timeIntervalSince1970: date.start)
@@ -154,10 +159,10 @@ private extension DetailPresenter {
 			}
 			
 			if let startTime = date.startTime, let endTime = date.endTime {
-				dateString.append(", c \(startTime.dropLast(3)) по \(endTime.dropLast(3))")
+				dateString.append(", \(L10n.DatePrefix.startAt) \(startTime.dropLast(3)) \(L10n.DatePrefix.toTime) \(endTime.dropLast(3))")
 			}
 			if let startTime = date.startTime, date.endTime == nil {
-				dateString.append(", \(L10n.DetailScreen.startAt) \(startTime.dropLast(3))")
+				dateString.append(", \(L10n.DatePrefix.startAt) \(startTime.dropLast(3))")
 			}
 			if result.isEmpty {
 				result = dateString
@@ -167,6 +172,28 @@ private extension DetailPresenter {
 		}
 		return result
 	}
+	
+	func getLastDate(from dates: [DateDetails]) -> String {
+		var isEveryDay = false
+		var lastDate = Date(timeIntervalSince1970: dates.first!.end)
+		
+		dates.forEach { date in
+			if date.endLess {
+				isEveryDay = true
+				return
+			}
+			if Date(timeIntervalSince1970: date.end) > lastDate  {
+				lastDate = Date(timeIntervalSince1970: date.end)
+			}
+		}
+		
+		if isEveryDay {
+			return L10n.DatePrefix.everyDay
+		} else {
+			return "\(L10n.DatePrefix.until) \(dateFormatter.string(from: lastDate))"
+		}
+	}
+	
 	
 	func isSameDayAndMonth(firstDate: Date, secondDate: Date) -> Bool {
 		let calendar = Calendar.current

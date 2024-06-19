@@ -52,7 +52,7 @@
         }
       }
     },
-    "detailScreen.everyDay" : {
+    "datePrefix.everyDay" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -65,6 +65,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Каждый день"
+          }
+        }
+      }
+    },
+    "datePrefix.from" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С"
+          }
+        }
+      }
+    },
+    "datePrefix.startAt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "start at"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "начало в"
+          }
+        }
+      }
+    },
+    "datePrefix.toTime" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "to"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "до"
+          }
+        }
+      }
+    },
+    "datePrefix.until" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "until"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "до"
           }
         }
       }
@@ -103,23 +171,6 @@
         }
       }
     },
-    "detailScreen.startAt" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "start at"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "начало в"
-          }
-        }
-      }
-    },
     "detailScreen.textDescriptionLabel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -150,23 +201,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ошибка"
-          }
-        }
-      }
-    },
-    "eventsScreen.from" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "From"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "С"
           }
         }
       }
@@ -205,36 +239,19 @@
         }
       }
     },
-    "eventsScreen.to" : {
+    "favoriteScreen.noEvents" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "to"
+            "value" : "No favorite events"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "до"
-          }
-        }
-      }
-    },
-    "eventsScreen.until" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "until"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "до"
+            "value" : "Пока здеcь пусто :("
           }
         }
       }
@@ -490,6 +507,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Выберите город"
+          }
+        }
+      }
+    },
+    "tabBar.events" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Events"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "События"
+          }
+        }
+      }
+    },
+    "tabBar.favorite" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorite"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Избранное"
           }
         }
       }

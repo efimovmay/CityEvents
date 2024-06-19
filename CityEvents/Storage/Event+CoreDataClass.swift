@@ -2,7 +2,7 @@
 //  Event+CoreDataClass.swift
 //  CityEvents
 //
-//  Created by Aleksey Efimov on 18.06.2024.
+//  Created by Aleksey Efimov on 19.06.2024.
 //
 //
 
