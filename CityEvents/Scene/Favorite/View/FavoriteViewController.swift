@@ -76,7 +76,7 @@ extension FavoriteViewController: UITableViewDataSource {
 		) as? FavoriteCell else { return UITableViewCell() }
 		
 		let event = presenter.getEventAtIndex(indexPath.row)
-		cell.configure(nameEvent: event.title, lastDate: event.lastDate, image: event.images.first ?? nil)
+		cell.configure(nameEvent: event.shortTitle, lastDate: event.lastDate, image: event.images.first ?? nil)
 		
 		return cell
 	}

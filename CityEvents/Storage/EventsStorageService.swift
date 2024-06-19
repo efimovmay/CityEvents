@@ -40,6 +40,7 @@ final class EventsStorageService: IEventsStorageService {
 		event.title = eventForSave.title
 		event.images = eventForSave.images
 		event.lastDate = eventForSave.lastDate
+		event.shortTitle = eventForSave.shortTitle
 		saveContext()
 	}
 	

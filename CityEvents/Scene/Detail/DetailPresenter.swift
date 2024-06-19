@@ -110,7 +110,8 @@ private extension DetailPresenter {
 			description: decodeUnicodeString(data.description) ?? "",
 			siteUrl: data.siteURL,
 			images: images, 
-			lastDate: lastDate
+			lastDate: lastDate, 
+			shortTitle: data.shortTitle
 		)
 		
 		let viewModel = DetailViewModel(

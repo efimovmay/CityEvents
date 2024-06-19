@@ -9,6 +9,7 @@
         <attribute name="lastDate" optional="YES" attributeType="String"/>
         <attribute name="place" optional="YES" attributeType="String"/>
         <attribute name="price" attributeType="String"/>
+        <attribute name="shortTitle" optional="YES" attributeType="String"/>
         <attribute name="siteURL" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
     </entity>
