@@ -42,7 +42,7 @@ final class FavoritePresenter: IFavoritePresenter {
 	
 	func reloadEvents() {
 		events = []
-		events = storage.getAllEvents().map { EventModel(event: $0) }
+		events = storage.getAllEvents().map { EventModel(from: $0) }
 		if events.isEmpty {
 			view?.hideTable()
 		} else {

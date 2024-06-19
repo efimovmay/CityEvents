@@ -24,6 +24,6 @@ enum EventsViewModel {
 	
 	struct Event {
 		var isFavorite: Bool
-		let eventInfo: EventModel
+		let event: EventModel
 	}
 }
