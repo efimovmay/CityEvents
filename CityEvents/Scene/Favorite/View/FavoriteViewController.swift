@@ -12,6 +12,7 @@ protocol IFavoriteView: AnyObject {
 	func deleteRow(at index: Int)
 	func showTable() 
 	func hideTable()
+	func setImage(dataImage: Data?, indexRow: Int)
 }
 
 final class FavoriteViewController: UIViewController {
@@ -76,7 +77,8 @@ extension FavoriteViewController: UITableViewDataSource {
 		) as? FavoriteCell else { return UITableViewCell() }
 		
 		let event = presenter.getEventAtIndex(indexPath.row)
-		cell.configure(nameEvent: event.shortTitle, lastDate: event.lastDate, image: event.images.first ?? nil)
+		presenter.loadImage(from: event.images.first, index: indexPath.row)
+		cell.configure(nameEvent: event.shortTitle, lastDate: event.lastDate)
 		
 		return cell
 	}
@@ -117,5 +119,14 @@ extension FavoriteViewController: IFavoriteView {
 	func hideTable() {
 		contentView.favoriteTableView.isHidden = true
 		contentView.emptyTableLabel.isHidden = false
+	}
+	
+	func setImage(dataImage: Data?, indexRow: Int) {
+		let indexPath = IndexPath(item: indexRow, section: .zero)
+		guard let cell = contentView.favoriteTableView.cellForRow(at: indexPath) as? FavoriteCell else { return }
+		if let dataImage = dataImage {
+			cell.activityIndicator.stopAnimating()
+			cell.eventImageView.image = UIImage(data: dataImage)
+		}
 	}
 }

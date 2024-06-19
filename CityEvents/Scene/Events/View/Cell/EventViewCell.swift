@@ -14,9 +14,9 @@ final class EventViewCell: UICollectionViewCell {
 	static let identifier = String(describing: EventViewCell.self)
 	
 	lazy var favoriteButton: UIButton = makeFavoriteButton()
+	lazy var activityIndicator = UIActivityIndicatorView()
+	lazy var eventImageView: UIImageView = makeImageView()
 	
-	private lazy var eventImageView: UIImageView = makeImageView()
-	private lazy var activityIndicator = UIActivityIndicatorView()
 	private lazy var titleLabel: UILabel = makeTitleLabel()
 	private lazy var dateView: UIView = makeDateView()
 	private lazy var dateLabel: UILabel = makeLabel()
@@ -44,17 +44,12 @@ final class EventViewCell: UICollectionViewCell {
 	// MARK: - Public methods
 	
 	func configure(
-		image: String,
 		title: String,
 		date: String?,
 		place: String?,
 		price: String?,
 		isfavorite: Bool
 	) {
-		activityIndicator.startAnimating()
-		eventImageView.load(urlString: image) {
-			self.activityIndicator.stopAnimating()
-		}
 		titleLabel.text = title
 		placeLabel.text = place
 		priceLabel.text = price

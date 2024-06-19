@@ -14,6 +14,7 @@ protocol IEventsView: AnyObject {
 	func reloadSection(_ section: Int)
 	func reloadCell(section: Int, cellIndex: Int)
 	func addRowEventsCollection(startIndex: Int, endIndex: Int)
+	func setImage(dataImage: Data?, indexItem: Int)
 }
 
 final class EventsViewController: UIViewController {
@@ -179,13 +180,15 @@ extension EventsViewController: UICollectionViewDataSource {
 			cell.favoriteButton.removeTarget(nil, action: nil, for: .allEvents)
 			cell.favoriteButton.addTarget(self, action: #selector(favoriteButtonTapped(_:)), for: .touchUpInside)
 			cell.configure(
-				image: event.event.images.first ?? "",
 				title: event.event.title,
 				date: event.event.lastDate,
 				place: event.event.place,
 				price: event.event.price,
 				isfavorite: event.isFavorite
 			)
+			presenter.loadImage(from: event.event.images.first, index: indexPath.item)
+			cell.activityIndicator.startAnimating()
+			
 			return cell
 		}
 	}
@@ -257,5 +260,14 @@ extension EventsViewController: IEventsView {
 	func reloadCell(section: Int, cellIndex: Int) {
 		let indexPath = IndexPath(row: cellIndex, section: section)
 		contentView.eventsCollectionView.reloadItems(at: [indexPath])
+	}
+	
+	func setImage(dataImage: Data?, indexItem: Int) {
+		let indexPath = IndexPath(item: indexItem, section: EventsViewModel.Sections.events.rawValue)
+		guard let cell = contentView.eventsCollectionView.cellForItem(at: indexPath) as? EventViewCell else { return }
+		if let dataImage = dataImage {
+			cell.activityIndicator.stopAnimating()
+			cell.eventImageView.image = UIImage(data: dataImage)
+		}
 	}
 }

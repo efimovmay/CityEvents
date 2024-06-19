@@ -14,6 +14,7 @@ protocol IFavoritePresenter {
 	func getEventAtIndex(_ index: Int) -> EventModel
 	func deleteEventTaped(at index: Int)
 	func routeToDetailScreen(eventIndex: Int)
+	func loadImage(from url: String?, index: Int)
 }
 
 final class FavoritePresenter: IFavoritePresenter {
@@ -22,6 +23,7 @@ final class FavoritePresenter: IFavoritePresenter {
 	private weak var view: IFavoriteView?
 	private let router: IFavoriteRouter
 	private let storage: IEventsStorageService
+	private let imageService: IImageLoadService
 	
 	// MARK: - Private properties
 	
@@ -29,9 +31,10 @@ final class FavoritePresenter: IFavoritePresenter {
 	
 	// MARK: - Initialization
 	
-	init(router: IFavoriteRouter, storage: IEventsStorageService) {
+	init(router: IFavoriteRouter, storage: IEventsStorageService, imageService: IImageLoadService) {
 		self.router = router
 		self.storage = storage
+		self.imageService = imageService
 	}
 	
 	// MARK: - Public methods
@@ -67,5 +70,14 @@ final class FavoritePresenter: IFavoritePresenter {
 	
 	func routeToDetailScreen(eventIndex: Int) {
 		router.routeToDetailScreen(idEvent: events[eventIndex].id)
+	}
+	
+	func loadImage(from url: String?, index: Int) {
+		guard let url = url else { return }
+		imageService.fetchImage(at: url) { dataImage in
+			DispatchQueue.main.async {
+				self.view?.setImage(dataImage: dataImage, indexRow: index)
+			}
+		}
 	}
 }

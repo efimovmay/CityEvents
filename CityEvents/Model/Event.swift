@@ -130,7 +130,6 @@ extension EventModel {
 				lastDate = Date(timeIntervalSince1970: date.end)
 			}
 		}
-		
 		if isEveryDay {
 			return L10n.DatePrefix.everyDay
 		} else {

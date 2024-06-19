@@ -19,6 +19,7 @@ final class EventsPresenter {
 	private let router: IEventsRouter
 	private let network: INetworkService
 	private let storage: IEventsStorageService
+	private let imageService: IImageLoadService
 	
 	// MARK: - Private properties
 
@@ -30,10 +31,11 @@ final class EventsPresenter {
 	
 	// MARK: - Initialization
 	
-	init(router: IEventsRouter, network: INetworkService, storage: IEventsStorageService) {
+	init(router: IEventsRouter, network: INetworkService, storage: IEventsStorageService, imageService: IImageLoadService) {
 		self.router = router
 		self.network = network
 		self.storage = storage
+		self.imageService = imageService
 	}
 	
 	// MARK: - Public methods
@@ -142,6 +144,15 @@ final class EventsPresenter {
 			}
 		} else {
 			return "\(L10n.DatePrefix.from) \(startDateString)"
+		}
+	}
+	
+	func loadImage(from url: String?, index: Int) {
+		guard let url = url else { return }
+		imageService.fetchImage(at: url) { dataImage in
+			DispatchQueue.main.async {
+				self.view?.setImage(dataImage: dataImage, indexItem: index)
+			}
 		}
 	}
 	

@@ -10,7 +10,6 @@ import Foundation
 enum Sizes {
 	
 	// Common
-	static let borderWidth: CGFloat = 1
 	static let cornerRadius: CGFloat = 10
 	
 	// EventsScreen

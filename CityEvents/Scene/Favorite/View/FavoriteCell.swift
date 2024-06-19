@@ -15,6 +15,7 @@ final class FavoriteCell: UITableViewCell {
 	lazy var eventImageView: UIImageView = makeImageView()
 	lazy var nameEventLabel: UILabel = makeLabel()
 	lazy var lastDateLabel: UILabel = makeLabel()
+	lazy var activityIndicator = UIActivityIndicatorView()
 	
 	// MARK: - Initialization
 	
@@ -31,9 +32,7 @@ final class FavoriteCell: UITableViewCell {
 	
 	// MARK: - Public methods
 	
-	func configure(nameEvent: String, lastDate: String, image: String?) {
-		eventImageView.load(urlString: image!) {
-		}
+	func configure(nameEvent: String, lastDate: String) {
 		nameEventLabel.text = nameEvent	
 		lastDateLabel.text = lastDate
 	}
@@ -45,12 +44,14 @@ private extension FavoriteCell {
 	func setupUI() {
 		nameEventLabel.font = UIFont.boldSystemFont(ofSize: Sizes.Font.regular)
 		lastDateLabel.font = UIFont.systemFont(ofSize: Sizes.Font.regular)
+		activityIndicator.startAnimating()
 	}
 	
 	func setupLayout() {
 		addSubview(eventImageView)
 		addSubview(nameEventLabel)
 		addSubview(lastDateLabel)
+		eventImageView.addSubview(activityIndicator)
 		
 		NSLayoutConstraint.activate([
 			eventImageView.topAnchor.constraint(equalTo: topAnchor, constant: Sizes.Padding.half),
@@ -66,6 +67,9 @@ private extension FavoriteCell {
 			lastDateLabel.leadingAnchor.constraint(equalTo: eventImageView.trailingAnchor, constant: Sizes.Padding.normal),
 			lastDateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Sizes.Padding.normal),
 			lastDateLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -Sizes.Padding.half),
+			
+			activityIndicator.centerXAnchor.constraint(equalTo: eventImageView.centerXAnchor),
+			activityIndicator.centerYAnchor.constraint(equalTo: eventImageView.centerYAnchor),
 		])
 	}
 	
