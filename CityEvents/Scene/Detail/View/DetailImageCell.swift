@@ -12,8 +12,7 @@ final class DetailImageCell: UICollectionViewCell {
 	
 	static let identifier = String(describing: DetailImageCell.self)
 	lazy var eventImageView: UIImageView = makeImageView()
-	
-	private lazy var activityIndicator = UIActivityIndicatorView()
+	lazy var activityIndicator = UIActivityIndicatorView()
 	
 	// MARK: - Initialization
 	
@@ -30,13 +29,6 @@ final class DetailImageCell: UICollectionViewCell {
 	override func prepareForReuse() {
 		super.prepareForReuse()
 		eventImageView.image = nil
-	}
-	
-	func configure(imageUrl: String) {
-		activityIndicator.startAnimating()
-		eventImageView.load(urlString: imageUrl) {
-			self.activityIndicator.stopAnimating()
-		}
 	}
 }
 

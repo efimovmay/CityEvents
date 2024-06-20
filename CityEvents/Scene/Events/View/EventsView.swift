@@ -11,6 +11,7 @@ final class EventsView: UIView {
 	// MARK: - Properties
 	
 	lazy var eventsCollectionView: UICollectionView = makeEventsCollectionView()
+	lazy var activityIndicator: UIActivityIndicatorView = makeActivityIndicator()
 	
 	// MARK: - Initialization
 	
@@ -30,17 +31,21 @@ final class EventsView: UIView {
 
 private extension EventsView {
 	func setupUI() {
-		backgroundColor = Colors.white
+		backgroundColor = .systemBackground
 	}
 	
 	func setupLayout() {
 		addSubview(eventsCollectionView)
+		addSubview(activityIndicator)
 		
 		NSLayoutConstraint.activate([
 			eventsCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
 			eventsCollectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
 			eventsCollectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
 			eventsCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+			
+			activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+			activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Sizes.Padding.double),
 		])
 	}
 	
@@ -179,5 +184,12 @@ private extension EventsView {
 			trailing: Sizes.Padding.normal
 		)
 		return section
+	}
+	
+	func makeActivityIndicator() -> UIActivityIndicatorView {
+		let indicator = UIActivityIndicatorView()
+		indicator.style = .large
+		indicator.translatesAutoresizingMaskIntoConstraints = false
+		return indicator
 	}
 }

@@ -13,6 +13,7 @@ protocol IDetailPresenter {
 	func getImageAtIndex(_ index: Int) -> String
 	func openSite()
 	func favoriteButtonPressed()
+	func loadImage(from url: String?, index: Int)
 }
 
 final class DetailPresenter: IDetailPresenter {
@@ -22,6 +23,7 @@ final class DetailPresenter: IDetailPresenter {
 	private let router: IDetailRouter
 	private let network: INetworkService
 	private let storage: IEventsStorageService
+	private let imageService: IImageLoadService
 	
 	// MARK: - Private properties
 
@@ -30,10 +32,17 @@ final class DetailPresenter: IDetailPresenter {
 	
 	// MARK: - Initialization
 	
-	init(router: IDetailRouter, network: INetworkService, storage: IEventsStorageService, idEvent: Int) {
+	init(
+		router: IDetailRouter,
+		network: INetworkService,
+		storage: IEventsStorageService,
+		imageService: IImageLoadService,
+		idEvent: Int
+	) {
 		self.router = router
 		self.network = network
 		self.storage = storage
+		self.imageService = imageService
 		self.idEvent = idEvent
 	}
 	
@@ -69,6 +78,15 @@ final class DetailPresenter: IDetailPresenter {
 			}
 		}
 	}
+	
+	func loadImage(from url: String?, index: Int) {
+		guard let url = url else { return }
+		imageService.fetchImage(at: url) { dataImage in
+			DispatchQueue.main.async {
+				self.view?.setImage(dataImage: dataImage, indexItem: index)
+			}
+		}
+	}
 }
 
 // MARK: - Private methods
@@ -87,12 +105,15 @@ private extension DetailPresenter {
 	func fetchEvent() {
 		network.fetch(
 			dataType: EventDTO.self,
-			with: NetworkRequestDataDetailEvent(idEvent: idEvent)) { result in
+			with: NetworkRequestDataDetailEvent(idEvent: idEvent)) { [weak self] result in
 				switch result {
 				case .success(let data):
-					self.makeViewModel(from: data)
+					self?.makeViewModel(from: data)
 				case .failure(let error):
-					print(error.localizedDescription)
+					DispatchQueue.main.asyncAndWait {
+						self?.view?.showDownloadEnd()
+						self?.router.showAlert(with: error.localizedDescription)
+					}
 				}
 			}
 	}

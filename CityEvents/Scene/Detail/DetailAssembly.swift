@@ -16,6 +16,7 @@ enum DetailAssembly {
 		let navigationController: UINavigationController
 		let network: INetworkService
 		let storage: IEventsStorageService
+		let imageService: IImageLoadService
 	}
 	
 	static func makeModule(dependencies: Dependencies, parameters: Parameters) -> UIViewController {
@@ -23,7 +24,8 @@ enum DetailAssembly {
 		let presenter = DetailPresenter(
 			router: router,
 			network: dependencies.network, 
-			storage: dependencies.storage,
+			storage: dependencies.storage, 
+			imageService: dependencies.imageService,
 			idEvent: parameters.idEvent
 		)
 		let viewController = DetailViewController(presenter: presenter)

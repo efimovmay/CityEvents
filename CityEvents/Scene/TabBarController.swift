@@ -12,6 +12,7 @@ class TabBarController: UITabBarController {
 	
 	private var network = NetworkService()
 	private var storage = EventsStorageService()
+	private var imageService = ImageLoadService()
 	
 	// MARK: - Lifecycle
 	
@@ -19,6 +20,7 @@ class TabBarController: UITabBarController {
 		super.viewDidLoad()
 		self.delegate = self
 		setupTabs()
+		imageService.network = network
 	}
 }
 // MARK: - Private methods
@@ -52,7 +54,8 @@ private extension TabBarController {
 		let dependencies = EventsAssembly.Dependencies(
 			navigationController: navigationController,
 			network: network,
-			storage: storage
+			storage: storage,
+			imageService: imageService
 		)
 		let viewController = EventsAssembly.makeModule(dependencies: dependencies)
 		navigationController.pushViewController(viewController, animated: false)
@@ -65,7 +68,8 @@ private extension TabBarController {
 		let dependencies = FavoriteAssembly.Dependencies(
 			navigationController: navigationController,
 			network: network,
-			storage: storage
+			storage: storage, 
+			imageService: imageService
 		)
 		let viewController = FavoriteAssembly.makeModule(dependencies: dependencies)
 		navigationController.pushViewController(viewController, animated: false)

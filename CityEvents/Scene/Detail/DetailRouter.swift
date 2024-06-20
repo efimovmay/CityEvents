@@ -15,6 +15,10 @@ protocol IDetailRouter {
 	/// Открыть сайт в браузере.
 	/// - Parameter url: адрес сайта.
 	func routeToSite(url: URL)
+	
+	/// Показать alert controller.
+	/// - Parameter error: текст ошибки.
+	func showAlert(with error: String)
 }
 
 final class DetailRouter: IDetailRouter {
@@ -31,6 +35,19 @@ final class DetailRouter: IDetailRouter {
 	
 	func routeToSite(url: URL) {
 		UIApplication.shared.open(url, options: [:], completionHandler: nil)
+	}
+	
+	func showAlert(with error: String) {
+		let alert = UIAlertController(
+			title: L10n.Common.error.capitalized,
+			message: error,
+			preferredStyle: UIAlertController.Style.alert
+		)
+		alert.addAction(UIAlertAction(
+			title: L10n.Common.ok,
+			style: UIAlertAction.Style.default, handler: nil
+		))
+		navigationController.present(alert, animated: true, completion: nil)
 	}
 }
 

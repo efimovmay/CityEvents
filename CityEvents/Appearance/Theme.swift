@@ -23,5 +23,6 @@ enum Theme {
 		static let price = UIImage(systemName: "rublesign")
 		static let events = UIImage(systemName: "calendar.badge.checkmark")
 		static let chevronForvard = UIImage(systemName: "chevron.forward")
+		static let imageFail = UIImage(systemName: "tv.slash")
 	}
 }
