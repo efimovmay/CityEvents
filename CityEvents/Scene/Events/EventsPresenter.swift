@@ -211,6 +211,7 @@ private extension EventsPresenter {
 	}
 	
 	func fetchEvents() {
+		view?.showStartDownload()
 		network.fetch(
 			dataType: EventListDTO.self,
 			with: NetworkRequestDataEvents(
@@ -242,6 +243,7 @@ private extension EventsPresenter {
 		let endIndex = events.count - 1
 
 		DispatchQueue.main.async {
+			self.view?.showDownloadEnd()
 			self.view?.addRowEventsCollection(startIndex: startIndex, endIndex: endIndex)
 		}
 	}

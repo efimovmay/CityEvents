@@ -21,8 +21,6 @@ final class EventViewCell: UICollectionViewCell {
 	private lazy var dateView: UIView = makeDateView()
 	private lazy var dateLabel: UILabel = makeLabel()
 	private lazy var placeLabel: UILabel = makeLabel()
-	private lazy var priceLabel: UILabel = makeLabel()
-
 	
 	// MARK: - Initialization
 	
@@ -47,12 +45,10 @@ final class EventViewCell: UICollectionViewCell {
 		title: String,
 		date: String?,
 		place: String?,
-		price: String?,
 		isfavorite: Bool
 	) {
 		titleLabel.text = title
 		placeLabel.text = place
-		priceLabel.text = price
 		dateLabel.text = date
 		dateView.isHidden = date == nil ? true : false
 		favoriteButton.tintColor = isfavorite ? .systemRed : .gray
@@ -64,7 +60,7 @@ final class EventViewCell: UICollectionViewCell {
 private extension EventViewCell {
 	
 	func setupLayout() {
-		addSubview(priceLabel)
+		addSubview(placeLabel)
 		addSubview(titleLabel)
 		addSubview(eventImageView)
 		eventImageView.addSubview(favoriteButton)
@@ -75,13 +71,13 @@ private extension EventViewCell {
 		activityIndicator.translatesAutoresizingMaskIntoConstraints = false
 		
 		NSLayoutConstraint.activate([
-			priceLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-			priceLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-			priceLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+			placeLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+			placeLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+			placeLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
 			
 			titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
 			titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-			titleLabel.bottomAnchor.constraint(equalTo: priceLabel.topAnchor, constant: -Sizes.Padding.half),
+			titleLabel.bottomAnchor.constraint(equalTo: placeLabel.topAnchor, constant: -Sizes.Padding.half),
 			
 			eventImageView.topAnchor.constraint(equalTo: topAnchor),
 			eventImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -111,6 +107,7 @@ private extension EventViewCell {
 		let image = UIImageView()
 		image.layer.cornerRadius = Sizes.cornerRadius
 		image.contentMode = .scaleAspectFill
+		image.tintColor = .gray
 		image.clipsToBounds = true
 		image.isUserInteractionEnabled = true
 		image.translatesAutoresizingMaskIntoConstraints = false

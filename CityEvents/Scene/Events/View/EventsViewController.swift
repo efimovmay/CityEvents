@@ -15,6 +15,8 @@ protocol IEventsView: AnyObject {
 	func reloadCell(section: Int, cellIndex: Int)
 	func addRowEventsCollection(startIndex: Int, endIndex: Int)
 	func setImage(dataImage: Data?, indexItem: Int)
+	func showStartDownload()
+	func showDownloadEnd()
 }
 
 final class EventsViewController: UIViewController {
@@ -183,7 +185,6 @@ extension EventsViewController: UICollectionViewDataSource {
 				title: event.event.title,
 				date: event.event.lastDate,
 				place: event.event.place,
-				price: event.event.price,
 				isfavorite: event.isFavorite
 			)
 			presenter.loadImage(from: event.event.images.first, index: indexPath.item)
@@ -265,9 +266,21 @@ extension EventsViewController: IEventsView {
 	func setImage(dataImage: Data?, indexItem: Int) {
 		let indexPath = IndexPath(item: indexItem, section: EventsViewModel.Sections.events.rawValue)
 		guard let cell = contentView.eventsCollectionView.cellForItem(at: indexPath) as? EventViewCell else { return }
+		cell.activityIndicator.stopAnimating()
 		if let dataImage = dataImage {
-			cell.activityIndicator.stopAnimating()
+			cell.eventImageView.contentMode = .scaleAspectFill
 			cell.eventImageView.image = UIImage(data: dataImage)
+		} else {
+			cell.eventImageView.contentMode = .center
+			cell.eventImageView.image = Theme.ImageIcon.imageFail
 		}
+	}
+	
+	func showStartDownload() {
+		contentView.activityIndicator.startAnimating()
+	}
+	
+	func showDownloadEnd() {
+		contentView.activityIndicator.stopAnimating()
 	}
 }

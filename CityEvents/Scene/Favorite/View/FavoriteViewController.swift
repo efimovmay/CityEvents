@@ -124,9 +124,13 @@ extension FavoriteViewController: IFavoriteView {
 	func setImage(dataImage: Data?, indexRow: Int) {
 		let indexPath = IndexPath(item: indexRow, section: .zero)
 		guard let cell = contentView.favoriteTableView.cellForRow(at: indexPath) as? FavoriteCell else { return }
+		cell.activityIndicator.stopAnimating()
 		if let dataImage = dataImage {
-			cell.activityIndicator.stopAnimating()
+			cell.eventImageView.contentMode = .scaleAspectFill
 			cell.eventImageView.image = UIImage(data: dataImage)
+		} else {
+			cell.eventImageView.contentMode = .center
+			cell.eventImageView.image = Theme.ImageIcon.imageFail
 		}
 	}
 }

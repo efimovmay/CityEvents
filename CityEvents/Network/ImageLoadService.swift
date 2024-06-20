@@ -31,7 +31,6 @@ final class ImageLoadService: IImageLoadService {
 			completion(nil)
 			return
 		}
-		print(imageCahe.accessibilityElementCount())
 		let request = URLRequest(url: url)
 		network?.perform(request: request) { result in
 			switch result {
@@ -43,7 +42,7 @@ final class ImageLoadService: IImageLoadService {
 				} else {
 					completion(nil)
 				}
-			case .failure(let error):
+			case .failure(_):
 				completion(nil)
 				return
 			}

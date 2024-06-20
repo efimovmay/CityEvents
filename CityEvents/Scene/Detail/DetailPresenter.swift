@@ -13,6 +13,7 @@ protocol IDetailPresenter {
 	func getImageAtIndex(_ index: Int) -> String
 	func openSite()
 	func favoriteButtonPressed()
+	func loadImage(from url: String?, index: Int)
 }
 
 final class DetailPresenter: IDetailPresenter {
@@ -22,6 +23,7 @@ final class DetailPresenter: IDetailPresenter {
 	private let router: IDetailRouter
 	private let network: INetworkService
 	private let storage: IEventsStorageService
+	private let imageService: IImageLoadService
 	
 	// MARK: - Private properties
 
@@ -30,10 +32,17 @@ final class DetailPresenter: IDetailPresenter {
 	
 	// MARK: - Initialization
 	
-	init(router: IDetailRouter, network: INetworkService, storage: IEventsStorageService, idEvent: Int) {
+	init(
+		router: IDetailRouter,
+		network: INetworkService,
+		storage: IEventsStorageService,
+		imageService: IImageLoadService,
+		idEvent: Int
+	) {
 		self.router = router
 		self.network = network
 		self.storage = storage
+		self.imageService = imageService
 		self.idEvent = idEvent
 	}
 	
@@ -66,6 +75,15 @@ final class DetailPresenter: IDetailPresenter {
 			if let viewModel = viewModel {
 				storage.saveEvent(viewModel.eventInfo)
 				view?.changeFavoriteIcon(isFavorite: true)
+			}
+		}
+	}
+	
+	func loadImage(from url: String?, index: Int) {
+		guard let url = url else { return }
+		imageService.fetchImage(at: url) { dataImage in
+			DispatchQueue.main.async {
+				self.view?.setImage(dataImage: dataImage, indexItem: index)
 			}
 		}
 	}

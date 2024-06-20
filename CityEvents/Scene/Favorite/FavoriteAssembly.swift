@@ -20,7 +20,8 @@ enum FavoriteAssembly {
 		let router = FavoriteRouter(
 			navigationController: dependencies.navigationController,
 			network: dependencies.network,
-			storage: dependencies.storage
+			storage: dependencies.storage, 
+			imageService: dependencies.imageService
 		)
 		let presenter = FavoritePresenter(
 			router: router,

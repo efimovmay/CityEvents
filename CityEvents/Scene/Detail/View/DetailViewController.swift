@@ -11,6 +11,7 @@ protocol IDetailView: AnyObject {
 	func render(viewModel: DetailViewModel)
 	func reloadImagesCollection()
 	func changeFavoriteIcon(isFavorite: Bool)
+	func setImage(dataImage: Data?, indexItem: Int)
 }
 
 final class DetailViewController: UIViewController {
@@ -82,8 +83,9 @@ extension DetailViewController: UICollectionViewDataSource {
 			withReuseIdentifier: DetailImageCell.identifier,
 			for: indexPath
 		) as? DetailImageCell else { return UICollectionViewCell() }
-		
-		cell.configure(imageUrl: presenter.getImageAtIndex(indexPath.item))
+		let image = presenter.getImageAtIndex(indexPath.item)
+		cell.activityIndicator.startAnimating()
+		presenter.loadImage(from: image, index: indexPath.item)
 		
 		return cell
 	}
@@ -112,5 +114,18 @@ extension DetailViewController: IDetailView {
 	
 	func changeFavoriteIcon(isFavorite: Bool) {
 		contentView.favoriteButton.tintColor = isFavorite ? .systemRed : .gray
+	}
+	
+	func setImage(dataImage: Data?, indexItem: Int) {
+		let indexPath = IndexPath(item: indexItem, section: .zero)
+		guard let cell = contentView.imagesCollectionView.cellForItem(at: indexPath) as? DetailImageCell else { return }
+		cell.activityIndicator.stopAnimating()
+		if let dataImage = dataImage {
+			cell.eventImageView.contentMode = .scaleAspectFill
+			cell.eventImageView.image = UIImage(data: dataImage)
+		} else {
+			cell.eventImageView.contentMode = .center
+			cell.eventImageView.image = Theme.ImageIcon.imageFail
+		}
 	}
 }
