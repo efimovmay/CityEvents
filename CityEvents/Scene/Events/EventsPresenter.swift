@@ -86,6 +86,7 @@ final class EventsPresenter {
 	
 	func changeLocationButtonPressed() {
 		router.routeToLocationScreen { location in
+			if self.location == location { return }
 			self.location = location
 			self.view?.setLocationLabel(text: self.getLocationLabel())
 			self.reloadEvents()
@@ -158,15 +159,15 @@ final class EventsPresenter {
 			}
 		}
 	}
-}
-
-private extension EventsPresenter {
+	
 	func reloadEvents() {
 		events = []
 		reloadSection(.events)
 		fetchEvents()
 	}
-	
+}
+
+private extension EventsPresenter {
 	func reloadSection(_ section: EventsViewModel.Sections) {
 		DispatchQueue.main.async {
 			self.view?.reloadSection(section.rawValue)

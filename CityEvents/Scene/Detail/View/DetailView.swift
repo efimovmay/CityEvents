@@ -63,7 +63,7 @@ final class DetailView: UIView {
 	) {
 		titleLabel.text = title
 		dateLabel.text = dates
-		priceLabel.text = price
+		priceLabel.text = price.capitalized
 		
 		if let place = place, let address = address {
 			addressLabel.text = ("\(place)\n\(address)")

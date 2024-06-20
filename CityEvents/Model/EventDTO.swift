@@ -60,8 +60,8 @@ struct DateDetails: Decodable {
 }
 
 struct Schedules: Decodable {
-	let dayOfWeak: [Int]
-	let startTime: String
+	let dayOfWeak: [Int?]
+	let startTime: String?
 	let endTime: String?
 	
 	enum CodingKeys: String, CodingKey {

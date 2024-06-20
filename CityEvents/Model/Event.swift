@@ -79,7 +79,7 @@ extension EventModel {
 			}
 			
 			if let startTime = date.startTime, let endTime = date.endTime {
-				dateString.append(", \(L10n.DatePrefix.startAt) \(startTime.dropLast(3)) \(L10n.DatePrefix.toTime) \(endTime.dropLast(3))")
+				dateString.append(", \(L10n.DatePrefix.from) \(startTime.dropLast(3)) \(L10n.DatePrefix.toTime) \(endTime.dropLast(3))")
 			}
 			if let startTime = date.startTime, date.endTime == nil {
 				dateString.append(", \(L10n.DatePrefix.startAt) \(startTime.dropLast(3))")

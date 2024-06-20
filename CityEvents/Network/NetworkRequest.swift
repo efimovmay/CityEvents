@@ -41,7 +41,6 @@ struct NetworkRequestDataEvents: INetworkRequestData {
 		categories: String? = nil,
 		lang: String = "ru"
 	) {
-		
 		parameters = [
 			"expand" : "place,dates",
 			"fields" : "id,dates,title,place,description,age_restriction,price,is_free,images,favorites_count,comments_count,site_url,short_title,tags",
