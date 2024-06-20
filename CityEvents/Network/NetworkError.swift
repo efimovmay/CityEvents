@@ -21,3 +21,22 @@ enum NetworkServiceError: Error {
 	/// Не удалось декодировать ответ.
 	case failedToDecodeResponse(Error)
 }
+
+extension NetworkServiceError: LocalizedError {
+	var errorDescription: String? {
+		switch self {
+		case .invalidURL:
+			return L10n.networkError.invalidURL
+		case .networkError:
+			return L10n.networkError.networkError
+		case .invalidResponse:
+			return L10n.networkError.invalidResponse
+		case .invalidStatusCode(let code):
+			return "\(L10n.networkError.invalidStatusCode) (\(code))"
+		case .noData:
+			return L10n.networkError.noData
+		case .failedToDecodeResponse:
+			return L10n.networkError.failedToDecodeResponse
+		}
+	}
+}

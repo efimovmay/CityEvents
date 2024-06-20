@@ -22,6 +22,10 @@ protocol IEventsRouter {
 	
 	/// Закрвть модальный экран.
 	func dismissModalScreen()
+	
+	/// Показать alert controller.
+	/// - Parameter error: текст ошибки.
+	func showAlert(with error: String)
 }
 
 final class EventsRouter: IEventsRouter {
@@ -66,6 +70,19 @@ final class EventsRouter: IEventsRouter {
 	
 	func dismissModalScreen() {
 		navigationController.dismiss(animated: true)
+	}
+	
+	func showAlert(with error: String) {
+		let alert = UIAlertController(
+			title: L10n.Common.error,
+			message: error,
+			preferredStyle: UIAlertController.Style.alert
+		)
+		alert.addAction(UIAlertAction(
+			title: L10n.Common.ok,
+			style: UIAlertAction.Style.default, handler: nil
+		))
+		navigationController.present(alert, animated: true, completion: nil)
 	}
 }
 

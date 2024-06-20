@@ -97,20 +97,8 @@ final class EventsPresenter {
 	}
 	
 	func changeDateButtonPressed() {
-		router.routeToCalendarScreen { startDate, endDate in
-			if let startDate = startDate {
-				self.startDate = startDate
-				
-				if let endDate = endDate {
-					self.endDate = endDate
-				} else {
-					self.endDate = startDate.addingTimeInterval(23 * 60 * 60)
-				}
-			} else {
-				self.startDate = .now
-				self.endDate = nil
-			}
-			self.view?.setDateLabel(text: self.getDateLabel())
+		router.routeToCalendarScreen { [weak self] startDate, endDate in
+			self?.setNewDate(start: startDate, end: endDate)
 		}
 	}
 	
@@ -149,21 +137,23 @@ final class EventsPresenter {
 	
 	func loadImage(from url: String?, index: Int) {
 		guard let url = url else { return }
-		imageService.fetchImage(at: url) { dataImage in
+		imageService.fetchImage(at: url) { [weak self] dataImage in
 			DispatchQueue.main.async {
-				self.view?.setImage(dataImage: dataImage, indexItem: index)
+				self?.view?.setImage(dataImage: dataImage, indexItem: index)
 			}
 		}
 	}
 	
 	func fetchNextPage() {
 		if let url = urlNextPage {
-			network.fetch(dataType: EventListDTO.self, url: url) { result in
+			network.fetch(dataType: EventListDTO.self, url: url) { [weak self] result in
 				switch result {
 				case .success(let data):
-					self.addDownloadEvents(data)
+					self?.addDownloadEvents(data)
 				case .failure(let error):
-					print(error.localizedDescription)
+					DispatchQueue.main.asyncAndWait {
+						self?.router.showAlert(with: error.localizedDescription)
+					}
 				}
 			}
 		}
@@ -194,18 +184,18 @@ private extension EventsPresenter {
 		network.fetch(
 			dataType: [CategoriesEvent].self,
 			with: NetworkRequestDataCategories()
-		) { result in
+		) { [weak self] result in
 			switch result {
 			case .success(let data):
 				data.forEach { category in
-					self.categories.append(EventsViewModel.Category(
+					self?.categories.append(EventsViewModel.Category(
 						slug: category.slug,
 						name: category.name
 					))
 				}
-				self.reloadSection(.category)
-			case .failure(let error):
-				print(error.localizedDescription)
+				self?.reloadSection(.category)
+			case .failure(_):
+				break
 			}
 		}
 	}
@@ -219,12 +209,15 @@ private extension EventsPresenter {
 				actualSince: startDate.timeIntervalSince1970,
 				actualUntil: endDate?.timeIntervalSince1970,
 				categories: getActiveCategory()
-			)) { result in
+			)) { [weak self] result in
 				switch result {
 				case .success(let data):
-					self.addDownloadEvents(data)
+					self?.addDownloadEvents(data)
 				case .failure(let error):
-					print(error.localizedDescription)
+					DispatchQueue.main.asyncAndWait {
+						self?.view?.showDownloadEnd()
+						self?.router.showAlert(with: error.localizedDescription)
+					}
 				}
 			}
 	}
@@ -246,6 +239,21 @@ private extension EventsPresenter {
 			self.view?.showDownloadEnd()
 			self.view?.addRowEventsCollection(startIndex: startIndex, endIndex: endIndex)
 		}
+	}
+	
+	func setNewDate(start: Date?, end: Date?) {
+		if let newStartDate = start {
+			startDate = newStartDate
+			if let newEndDate = end {
+				endDate = newEndDate
+			} else {
+				endDate = startDate.addingTimeInterval(23 * 60 * 60)
+			}
+		} else {
+			startDate = .now
+			endDate = nil
+		}
+		view?.setDateLabel(text: getDateLabel())
 	}
 	
 	func getActiveCategory() -> String? {
