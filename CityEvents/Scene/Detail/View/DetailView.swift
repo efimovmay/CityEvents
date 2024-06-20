@@ -107,7 +107,7 @@ private extension DetailView {
 			
 			contentStack.topAnchor.constraint(equalTo:  imagesCollectionView.bottomAnchor, constant: Sizes.Padding.normal),
 			contentStack.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-			contentStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+			contentStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -Sizes.Padding.half),
 			contentStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -Sizes.Padding.double),
 			
 			onSiteButton.heightAnchor.constraint(equalToConstant: Sizes.CalendarScreen.doneButtonHeith),

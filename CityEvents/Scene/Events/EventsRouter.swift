@@ -74,7 +74,7 @@ final class EventsRouter: IEventsRouter {
 	
 	func showAlert(with error: String) {
 		let alert = UIAlertController(
-			title: L10n.Common.error,
+			title: L10n.Common.error.capitalized,
 			message: error,
 			preferredStyle: UIAlertController.Style.alert
 		)

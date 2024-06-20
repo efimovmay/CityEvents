@@ -105,12 +105,15 @@ private extension DetailPresenter {
 	func fetchEvent() {
 		network.fetch(
 			dataType: EventDTO.self,
-			with: NetworkRequestDataDetailEvent(idEvent: idEvent)) { result in
+			with: NetworkRequestDataDetailEvent(idEvent: idEvent)) { [weak self] result in
 				switch result {
 				case .success(let data):
-					self.makeViewModel(from: data)
+					self?.makeViewModel(from: data)
 				case .failure(let error):
-					print(error.localizedDescription)
+					DispatchQueue.main.asyncAndWait {
+						self?.view?.showDownloadEnd()
+						self?.router.showAlert(with: error.localizedDescription)
+					}
 				}
 			}
 	}

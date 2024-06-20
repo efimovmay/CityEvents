@@ -12,6 +12,7 @@ protocol IDetailView: AnyObject {
 	func reloadImagesCollection()
 	func changeFavoriteIcon(isFavorite: Bool)
 	func setImage(dataImage: Data?, indexItem: Int)
+	func showDownloadEnd()
 }
 
 final class DetailViewController: UIViewController {
@@ -114,6 +115,10 @@ extension DetailViewController: IDetailView {
 	
 	func changeFavoriteIcon(isFavorite: Bool) {
 		contentView.favoriteButton.tintColor = isFavorite ? .systemRed : .gray
+	}
+	
+	func showDownloadEnd() {
+		contentView.activityIndicator.stopAnimating()
 	}
 	
 	func setImage(dataImage: Data?, indexItem: Int) {
