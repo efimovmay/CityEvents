@@ -61,10 +61,12 @@ final class EventsPresenter {
 	
 	func reloadAllFavoriteButton() {
 		events.enumerated().forEach { index, event in
+			events[index].isFavorite = storage.eventExists(withId: events[index].event.id)
 			view?.changeFavoriteIcon(
-				isFavorite: storage.eventExists(withId: events[index].event.id),
+				isFavorite: events[index].isFavorite,
 				row: index
 			)
+			
 		}
 	}
 	
@@ -86,6 +88,7 @@ final class EventsPresenter {
 	
 	func changeLocationButtonPressed() {
 		router.routeToLocationScreen { location in
+			if self.location == location { return }
 			self.location = location
 			self.view?.setLocationLabel(text: self.getLocationLabel())
 			self.reloadEvents()
@@ -99,6 +102,7 @@ final class EventsPresenter {
 	func changeDateButtonPressed() {
 		router.routeToCalendarScreen { [weak self] startDate, endDate in
 			self?.setNewDate(start: startDate, end: endDate)
+			self?.reloadEvents()
 		}
 	}
 	
@@ -158,15 +162,15 @@ final class EventsPresenter {
 			}
 		}
 	}
-}
-
-private extension EventsPresenter {
+	
 	func reloadEvents() {
 		events = []
 		reloadSection(.events)
 		fetchEvents()
 	}
-	
+}
+
+private extension EventsPresenter {
 	func reloadSection(_ section: EventsViewModel.Sections) {
 		DispatchQueue.main.async {
 			self.view?.reloadSection(section.rawValue)

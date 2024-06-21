@@ -16,6 +16,7 @@ final class DetailView: UIView {
 	lazy var onSiteButton: UIButton = makeButton()
 	lazy var favoriteButton: UIButton = makeFavoriteButton()
 	lazy var activityIndicator: UIActivityIndicatorView = makeActivityIndicator()
+	lazy var pageControl: UIPageControl = makePageControl()
 	
 	private lazy var scrollView: UIScrollView = makeScrollView()
 	
@@ -63,13 +64,19 @@ final class DetailView: UIView {
 	) {
 		titleLabel.text = title
 		dateLabel.text = dates
-		priceLabel.text = price
+		priceLabel.text = price.capitalizedSentence
 		
 		if let place = place, let address = address {
-			addressLabel.text = ("\(place)\n\(address)")
+			addressLabel.text = ("\(place.capitalizedSentence)\n\(address)")
 			addressStack.isHidden = false
 		} else {
 			addressStack.isHidden = true
+		}
+		if price.isEmpty {
+			priceStack.isHidden = true
+		} else {
+			priceLabel.text = price
+			priceStack.isHidden = false
 		}
 		descriptionTitleLabel.text = L10n.DetailScreen.textDescriptionLabel
 		descriptionLabel.text = description
@@ -90,6 +97,7 @@ private extension DetailView {
 		addSubview(activityIndicator)
 		scrollView.addSubview(imagesCollectionView)
 		scrollView.addSubview(contentStack)
+		imagesCollectionView.addSubview(pageControl)
 		
 		NSLayoutConstraint.activate([
 			scrollView.topAnchor.constraint(equalTo:  safeAreaLayoutGuide.topAnchor),
@@ -114,6 +122,12 @@ private extension DetailView {
 			
 			activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
 			activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
+			
+			pageControl.centerXAnchor.constraint(equalTo: imagesCollectionView.centerXAnchor),
+			pageControl.bottomAnchor.constraint(
+				equalTo: imagesCollectionView.topAnchor,
+				constant: Sizes.DetailScreen.imagesCollectionHeigth - Sizes.Padding.normal
+			),
 		])
 		addViewInStack()
 	}
@@ -122,6 +136,7 @@ private extension DetailView {
 		let collection = UICollectionView(frame: .zero, collectionViewLayout: createCollectionLayout())
 		collection.register(DetailImageCell.self, forCellWithReuseIdentifier: DetailImageCell.identifier)
 		collection.backgroundColor = .clear
+		collection.isPagingEnabled = true
 		collection.translatesAutoresizingMaskIntoConstraints = false
 		return collection
 	}
@@ -140,6 +155,11 @@ private extension DetailView {
 		
 		let section = NSCollectionLayoutSection(group: group)
 		section.orthogonalScrollingBehavior = .paging
+		
+		section.visibleItemsInvalidationHandler = { [weak self] (items, offset, environment) in
+			let page = Int((offset.x + environment.container.contentSize.width / 2) / environment.container.contentSize.width)
+			self?.pageControl.currentPage = page
+		}
 		
 		return UICollectionViewCompositionalLayout(section: section)
 	}
@@ -243,5 +263,15 @@ private extension DetailView {
 		indicator.startAnimating()
 		indicator.translatesAutoresizingMaskIntoConstraints = false
 		return indicator
+	}
+	
+	func makePageControl() -> UIPageControl {
+		let pageControl = UIPageControl()
+		pageControl.currentPage = .zero
+		pageControl.backgroundColor = .black.withAlphaComponent(0.5)
+		pageControl.layer.cornerRadius = Sizes.cornerRadius
+		pageControl.isUserInteractionEnabled = false
+		pageControl.translatesAutoresizingMaskIntoConstraints = false
+		return pageControl
 	}
 }

@@ -12,6 +12,7 @@ final class EventsView: UIView {
 	
 	lazy var eventsCollectionView: UICollectionView = makeEventsCollectionView()
 	lazy var activityIndicator: UIActivityIndicatorView = makeActivityIndicator()
+	lazy var refreshControl: UIRefreshControl = UIRefreshControl()
 	
 	// MARK: - Initialization
 	
@@ -32,11 +33,13 @@ final class EventsView: UIView {
 private extension EventsView {
 	func setupUI() {
 		backgroundColor = .systemBackground
+		refreshControl.tintColor = .systemBackground
 	}
 	
 	func setupLayout() {
 		addSubview(eventsCollectionView)
 		addSubview(activityIndicator)
+		eventsCollectionView.addSubview(refreshControl)
 		
 		NSLayoutConstraint.activate([
 			eventsCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),

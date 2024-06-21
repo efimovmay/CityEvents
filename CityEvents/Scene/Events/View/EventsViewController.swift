@@ -81,6 +81,12 @@ private extension EventsViewController {
 	func setDateButtonTapped() {
 		presenter.changeDateButtonPressed()
 	}
+	
+	@objc
+	func refresh() {
+		presenter.reloadEvents()
+		contentView.refreshControl.endRefreshing()
+	}
 }
 
 // MARK: - SetupUI
@@ -103,6 +109,7 @@ private extension EventsViewController {
 	func eventsCollectionViewSetup() {
 		contentView.eventsCollectionView.dataSource = self
 		contentView.eventsCollectionView.delegate = self
+		contentView.refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
 	}
 }
 
@@ -282,5 +289,6 @@ extension EventsViewController: IEventsView {
 	
 	func showDownloadEnd() {
 		contentView.activityIndicator.stopAnimating()
+		contentView.refreshControl.endRefreshing()
 	}
 }

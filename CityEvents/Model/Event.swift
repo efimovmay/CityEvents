@@ -44,9 +44,9 @@ extension EventModel {
 		dateFormatter.timeZone = .gmt
 		
 		self.id = model.id
-		self.title = model.title.capitalized
+		self.title = model.title.capitalizedSentence
 		self.dates = ""
-		self.price = model.isFree ? L10n.DetailScreen.isFree : model.price.capitalized
+		self.price = model.isFree ? L10n.DetailScreen.isFree : model.price.capitalizedSentence
 		self.address = model.place?.address
 		self.place = model.place?.title
 		self.description = ""
@@ -79,7 +79,7 @@ extension EventModel {
 			}
 			
 			if let startTime = date.startTime, let endTime = date.endTime {
-				dateString.append(", \(L10n.DatePrefix.startAt) \(startTime.dropLast(3)) \(L10n.DatePrefix.toTime) \(endTime.dropLast(3))")
+				dateString.append(", \(L10n.DatePrefix.from) \(startTime.dropLast(3)) \(L10n.DatePrefix.toTime) \(endTime.dropLast(3))")
 			}
 			if let startTime = date.startTime, date.endTime == nil {
 				dateString.append(", \(L10n.DatePrefix.startAt) \(startTime.dropLast(3))")

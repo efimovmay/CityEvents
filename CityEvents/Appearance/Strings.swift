@@ -8,7 +8,6 @@
 import Foundation
 
 enum L10n {
-	static let location = "location"
 	
 	enum Common {
 		static let ok = NSLocalizedString("common.ok", comment: "")

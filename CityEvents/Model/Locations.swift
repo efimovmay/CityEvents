@@ -14,8 +14,6 @@ enum Locations: String, CaseIterable {
 	case ekb = "ekb"
 	case nnv = "nnv"
 	case kzn = "kzn"
-	case bg = "bg"
-	case smr = "smr"
 	case krd = "krd"
 	case sochi = "sochi"
 	case ufa = "ufa"
@@ -25,7 +23,6 @@ enum Locations: String, CaseIterable {
 	
 	var description: String {
 		switch self {
-			
 		case .spb:
 			L10n.Location.spb
 		case .msk:
@@ -38,10 +35,6 @@ enum Locations: String, CaseIterable {
 			L10n.Location.nnv
 		case .kzn:
 			L10n.Location.kzn
-		case .bg:
-			L10n.Location.bg
-		case .smr:
-			L10n.Location.smr
 		case .krd:
 			L10n.Location.krd
 		case .sochi:

@@ -30,6 +30,11 @@ final class FavoriteCell: UITableViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	override func prepareForReuse() {
+		super.prepareForReuse()
+		eventImageView.image = nil
+	}
+	
 	// MARK: - Public methods
 	
 	func configure(nameEvent: String, lastDate: String) {
@@ -44,19 +49,17 @@ private extension FavoriteCell {
 	func setupUI() {
 		nameEventLabel.font = UIFont.boldSystemFont(ofSize: Sizes.Font.regular)
 		lastDateLabel.font = UIFont.systemFont(ofSize: Sizes.Font.regular)
-		activityIndicator.startAnimating()
 	}
 	
 	func setupLayout() {
 		addSubview(eventImageView)
 		addSubview(nameEventLabel)
 		addSubview(lastDateLabel)
-		eventImageView.addSubview(activityIndicator)
 		
-		NSLayoutConstraint.activate([
-			eventImageView.topAnchor.constraint(equalTo: topAnchor, constant: Sizes.Padding.half),
-			eventImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Sizes.Padding.normal),
-			eventImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Sizes.Padding.half),
+		let constraints = [
+			eventImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Sizes.Padding.half),
+			eventImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Sizes.Padding.normal),
+			eventImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Sizes.Padding.half),
 			eventImageView.widthAnchor.constraint(equalTo: eventImageView.heightAnchor, multiplier: 1.3),
 			
 			nameEventLabel.topAnchor.constraint(equalTo: topAnchor, constant: Sizes.Padding.half),
@@ -67,10 +70,11 @@ private extension FavoriteCell {
 			lastDateLabel.leadingAnchor.constraint(equalTo: eventImageView.trailingAnchor, constant: Sizes.Padding.normal),
 			lastDateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Sizes.Padding.normal),
 			lastDateLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -Sizes.Padding.half),
-			
-			activityIndicator.centerXAnchor.constraint(equalTo: eventImageView.centerXAnchor),
-			activityIndicator.centerYAnchor.constraint(equalTo: eventImageView.centerYAnchor),
-		])
+		]
+		for constraint in constraints {
+			constraint.priority = UILayoutPriority(999)
+		}
+		NSLayoutConstraint.activate(constraints)
 	}
 	
 	func makeImageView() -> UIImageView {
