@@ -61,10 +61,12 @@ final class EventsPresenter {
 	
 	func reloadAllFavoriteButton() {
 		events.enumerated().forEach { index, event in
+			events[index].isFavorite = storage.eventExists(withId: events[index].event.id)
 			view?.changeFavoriteIcon(
-				isFavorite: storage.eventExists(withId: events[index].event.id),
+				isFavorite: events[index].isFavorite,
 				row: index
 			)
+			
 		}
 	}
 	
@@ -100,6 +102,7 @@ final class EventsPresenter {
 	func changeDateButtonPressed() {
 		router.routeToCalendarScreen { [weak self] startDate, endDate in
 			self?.setNewDate(start: startDate, end: endDate)
+			self?.reloadEvents()
 		}
 	}
 	

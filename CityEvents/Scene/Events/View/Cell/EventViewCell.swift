@@ -48,7 +48,7 @@ final class EventViewCell: UICollectionViewCell {
 		isfavorite: Bool
 	) {
 		titleLabel.text = title
-		placeLabel.text = place?.capitalized
+		placeLabel.text = place?.capitalizedSentence
 		dateLabel.text = date
 		dateView.isHidden = date == nil ? true : false
 		favoriteButton.tintColor = isfavorite ? .systemRed : .gray

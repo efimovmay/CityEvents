@@ -44,9 +44,9 @@ extension EventModel {
 		dateFormatter.timeZone = .gmt
 		
 		self.id = model.id
-		self.title = model.title.capitalized
+		self.title = model.title.capitalizedSentence
 		self.dates = ""
-		self.price = model.isFree ? L10n.DetailScreen.isFree : model.price.capitalized
+		self.price = model.isFree ? L10n.DetailScreen.isFree : model.price.capitalizedSentence
 		self.address = model.place?.address
 		self.place = model.place?.title
 		self.description = ""

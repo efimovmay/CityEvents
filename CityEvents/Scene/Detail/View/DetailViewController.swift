@@ -76,7 +76,11 @@ private extension DetailViewController {
 
 extension DetailViewController: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		presenter.getImagesCount()
+		let count = presenter.getImagesCount()
+		contentView.pageControl.numberOfPages = count
+		contentView.pageControl.isHidden = count <= 1
+		
+		return count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
