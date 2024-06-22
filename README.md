@@ -10,4 +10,4 @@ UIKit, MVP, URLSession, REST API, Core Data, UserDefaults.
 
 **Prewiew:**
 
-![Image alt](https://github.com/efimovmay/CityEvents/blob/develop/Screen.jpg)
+![Image alt](https://github.com/efimovmay/CityEvents/blob/develop/Screen.png)
