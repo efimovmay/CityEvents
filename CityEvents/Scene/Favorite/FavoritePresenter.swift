@@ -63,9 +63,13 @@ final class FavoritePresenter: IFavoritePresenter {
 	}
 	
 	func deleteEventTaped(at index: Int) {
-		storage.deleteEvent(withId: events[index].id)
-		events.remove(at: index)
-		view?.deleteRow(at: index)
+		storage.deleteEvent(withId: events[index].id) { [weak self] success in
+			guard success else { return }
+			self?.events.remove(at: index)
+			DispatchQueue.main.async {
+				self?.view?.deleteRow(at: index)
+			}
+		}
 	}
 	
 	func routeToDetailScreen(eventIndex: Int) {

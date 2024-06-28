@@ -69,12 +69,19 @@ final class DetailPresenter: IDetailPresenter {
 	
 	func favoriteButtonPressed() {
 		if storage.eventExists(withId: idEvent) {
-			storage.deleteEvent(withId: idEvent)
-			view?.changeFavoriteIcon(isFavorite: false)
+			storage.deleteEvent(withId: idEvent) { [weak self] success in
+				guard success else { return }
+				DispatchQueue.main.async {
+					self?.view?.changeFavoriteIcon(isFavorite: false)
+				}
+			}
 		} else {
-			if let viewModel = viewModel {
-				storage.saveEvent(viewModel.eventInfo)
-				view?.changeFavoriteIcon(isFavorite: true)
+			guard let viewModel = viewModel else { return }
+			storage.saveEvent(viewModel.eventInfo) { [weak self] success in
+				guard success else { return }
+				DispatchQueue.main.async {
+					self?.view?.changeFavoriteIcon(isFavorite: true)
+				}
 			}
 		}
 	}

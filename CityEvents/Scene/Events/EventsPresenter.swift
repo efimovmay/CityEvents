@@ -51,11 +51,19 @@ final class EventsPresenter {
 	
 	func favoriteButtonPressed(index: Int) {
 		if storage.eventExists(withId: events[index].event.id) {
-			storage.deleteEvent(withId: events[index].event.id)
-			reloadFavoriteButton(at: index)
+			storage.deleteEvent(withId: events[index].event.id) { [weak self] success in
+				guard success else { return }
+				DispatchQueue.main.async {
+					self?.reloadFavoriteButton(at: index)
+				}
+			}
 		} else if index < events.count {
-			storage.saveEvent(events[index].event)
-			view?.changeFavoriteIcon(isFavorite: true, row: index)
+			storage.saveEvent(events[index].event) { [weak self] success in
+				guard success else { return }
+				DispatchQueue.main.async {
+					self?.view?.changeFavoriteIcon(isFavorite: true, row: index)
+				}
+			}
 		}
 	}
 	
