@@ -101,11 +101,13 @@ final class DetailPresenter: IDetailPresenter {
 private extension DetailPresenter {
 	
 	func loadData() {
-		if let event = storage.getEvent(withId: idEvent) {
-			viewModel = DetailViewModel(isFavorite: true, eventInfo: EventModel(from: event))
-			updateView()
-		} else {
-			fetchEvent()
+		storage.getEvent(withId: idEvent) { [weak self] event in
+			guard let event = event else {
+				self?.fetchEvent()
+				return
+			}
+			self?.viewModel = DetailViewModel(isFavorite: true, eventInfo: EventModel(from: event))
+			self?.updateView()
 		}
 	}
 	

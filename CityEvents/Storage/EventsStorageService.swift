@@ -11,8 +11,8 @@ import CoreData
 protocol IEventsStorageService {
 	func saveEvent(_ eventForSave: EventModel, completion: @escaping (Bool) -> Void)
 	func deleteEvent(withId id: Int, completion: @escaping (Bool) -> Void)
-	func getEvent(withId id: Int) -> EventData?
-	func getAllEvents() -> [EventData]
+	func getEvent(withId id: Int, completion: @escaping (EventData?) -> Void)
+	func getAllEvents(completion: @escaping ([EventData]) -> Void)
 	func eventExists(withId id: Int) -> Bool
 }
 
@@ -67,29 +67,31 @@ final class EventsStorageService: IEventsStorageService {
 		}
 	}
 	
-	func getEvent(withId id: Int) -> EventData? {
-		let context = persistentContainer.viewContext
-		let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
-		fetchRequest.predicate = NSPredicate(format: "id == %d", id)
-		fetchRequest.fetchLimit = 1
-		
-		do {
-			return try context.fetch(fetchRequest).first
-		} catch {
-			print("Fetch event by id failed: \(error)")
-			return nil
+	func getEvent(withId id: Int, completion: @escaping (EventData?) -> Void) {
+		persistentContainer.performBackgroundTask { backgroundContext in
+			let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
+			fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+			fetchRequest.fetchLimit = 1
+			
+			do {
+				let event = try backgroundContext.fetch(fetchRequest).first
+				completion(event)
+			} catch {
+				completion(nil)
+			}
 		}
 	}
 
-	func getAllEvents() -> [EventData] {
-		let context = persistentContainer.viewContext
-		let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
-		
-		do {
-			return try context.fetch(fetchRequest)
-		} catch {
-			print("Fetch failed")
-			return []
+	func getAllEvents(completion: @escaping ([EventData]) -> Void) {
+		persistentContainer.performBackgroundTask { backgroundContext in
+			let fetchRequest: NSFetchRequest<EventData> = EventData.fetchRequest()
+			
+			do {
+				let events = try backgroundContext.fetch(fetchRequest)
+				completion(events)
+			} catch {
+				completion([])
+			}
 		}
 	}
 	
@@ -103,7 +105,6 @@ final class EventsStorageService: IEventsStorageService {
 			let count = try context.count(for: fetchRequest)
 			return count > 0
 		} catch {
-			print("Error checking if event exists: \(error)")
 			return false
 		}
 	}

@@ -45,12 +45,9 @@ final class FavoritePresenter: IFavoritePresenter {
 	
 	func reloadEvents() {
 		events = []
-		events = storage.getAllEvents().map { EventModel(from: $0) }
-		if events.isEmpty {
-			view?.hideTable()
-		} else {
-			view?.reloadFavoriteTable()
-			view?.showTable()
+		storage.getAllEvents() { [weak self] events in
+			self?.events = events.map { EventModel(from: $0) }
+			self?.showEvents()
 		}
 	}
 	
@@ -81,6 +78,19 @@ final class FavoritePresenter: IFavoritePresenter {
 		imageService.fetchImage(at: url) { dataImage in
 			DispatchQueue.main.async {
 				self.view?.setImage(dataImage: dataImage, indexRow: index)
+			}
+		}
+	}
+}
+
+private extension FavoritePresenter {
+	func showEvents() {
+		DispatchQueue.main.async {
+			if self.events.isEmpty {
+				self.view?.hideTable()
+			} else {
+				self.view?.reloadFavoriteTable()
+				self.view?.showTable()
 			}
 		}
 	}
