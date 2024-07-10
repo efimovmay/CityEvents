@@ -13,14 +13,20 @@ protocol INetworkRequestData {
 	var path: String { get }
 	/// HTTP Метод, указывающий тип запроса.
 	var method: HTTPMethod { get }
+	/// HTTP заголовок.
+	var header: [String: String]? { get }
 	/// Параметры запроса.
 	var parameters: [String: String] { get }
 }
 
+extension INetworkRequestData {
+	var header: [String: String]? { nil }
+}
+
 struct NetworkRequestDataCategories: INetworkRequestData {
-	var path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventCategories.description
-	var method = HTTPMethod.get
-	var parameters: [String : String]
+	let path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventCategories.description
+	let method = HTTPMethod.get
+	let parameters: [String : String]
 	
 	init(lang: String = "ru") {
 		parameters = [
@@ -30,8 +36,8 @@ struct NetworkRequestDataCategories: INetworkRequestData {
 }
 
 struct NetworkRequestDataEvents: INetworkRequestData {
-	var path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventsPath.description
-	var method = HTTPMethod.get
+	let path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventsPath.description
+	let method = HTTPMethod.get
 	var parameters: [String : String]
 	
 	init(
@@ -61,8 +67,8 @@ struct NetworkRequestDataEvents: INetworkRequestData {
 
 struct NetworkRequestDataDetailEvent: INetworkRequestData {
 	var path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventsPath.description
-	var method = HTTPMethod.get
-	var parameters: [String : String]
+	let method = HTTPMethod.get
+	let parameters: [String : String]
 	
 	init(idEvent: Int, lang: String = "ru") {
 		path.append("/\(String(idEvent))")
@@ -74,13 +80,13 @@ struct NetworkRequestDataDetailEvent: INetworkRequestData {
 }
 
 struct NetworkRequestDataOfDay: INetworkRequestData {
-	var path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventsOfDay.description
-	var method = HTTPMethod.get
-	var parameters: [String : String]
+	let path = NetworkEndpoints.commonPath.description + NetworkEndpoints.eventsOfDay.description
+	let method = HTTPMethod.get
+	let parameters: [String : String]
 	
-	init(location: Locations, page: Int = 1) {
+	init(location: Locations, page: Int = 1, lang: String = "ru") {
 		parameters = [
-			"lang": "ru",
+			"lang": lang,
 			"page" : String(page),
 			"location": location.rawValue,
 			"expand" : "Object"

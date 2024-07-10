@@ -7,7 +7,6 @@
 
 import Foundation
 
-// MARK: - Event
 struct EventDTO: Decodable {
 	let id: Int
 	let dates: [DateDetails]
@@ -20,26 +19,9 @@ struct EventDTO: Decodable {
 	let images: [EventImages]
 	let favoritesCount: Int
 	let commentsCount: Int
-	let siteURL: String
+	let siteUrl: String
 	let shortTitle: String
 	let tags: [String]
-	
-	enum CodingKeys: String, CodingKey {
-		case id
-		case dates
-		case title
-		case place
-		case description
-		case ageRestriction = "age_restriction"
-		case price
-		case isFree = "is_free"
-		case images
-		case favoritesCount = "favorites_count"
-		case commentsCount = "comments_count"
-		case siteURL = "site_url"
-		case shortTitle = "short_title"
-		case tags
-	}
 }
 
 struct DateDetails: Decodable {
@@ -47,28 +29,14 @@ struct DateDetails: Decodable {
 	let end: Double
 	let startTime: String?
 	let endTime: String?
-	let endLess: Bool
+	let isEndless: Bool
 	let schedules: [Schedules]
-	
-	enum CodingKeys: String, CodingKey {
-		case start, end
-		case startTime = "start_time"
-		case endTime = "end_time"
-		case endLess = "is_endless"
-		case schedules
-	}
 }
 
 struct Schedules: Decodable {
-	let dayOfWeak: [Int?]
+	let daysOfWeek: [Int?]
 	let startTime: String?
 	let endTime: String?
-	
-	enum CodingKeys: String, CodingKey {
-		case dayOfWeak = "days_of_week"
-		case startTime = "start_time"
-		case endTime = "end_time"
-	}
 }
 
 struct Place: Decodable {

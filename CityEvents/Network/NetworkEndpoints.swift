@@ -28,7 +28,7 @@ extension NetworkEndpoints: CustomStringConvertible {
 		case .searchPath:
 			"/search"
 		case .eventsPath:
-			"/events"
+			"/events/"
 		case .listPath:
 			"/lists"
 		case .placesPath:

@@ -163,7 +163,7 @@ final class EventsPresenter {
 				case .success(let data):
 					self?.addDownloadEvents(data)
 				case .failure(let error):
-					DispatchQueue.main.asyncAndWait {
+					DispatchQueue.main.async {
 						self?.router.showAlert(with: error.localizedDescription)
 					}
 				}

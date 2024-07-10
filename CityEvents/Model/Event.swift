@@ -50,7 +50,7 @@ extension EventModel {
 		self.address = model.place?.address
 		self.place = model.place?.title
 		self.description = ""
-		self.siteUrl = model.siteURL
+		self.siteUrl = model.siteUrl
 		self.images = model.images.map { $0.image }
 		self.lastDate = ""
 		self.shortTitle = model.shortTitle
@@ -63,7 +63,7 @@ extension EventModel {
 	private func generateDatesString(from dates: [DateDetails], dateFormatter: DateFormatter) -> String {
 		var result: String = .init()
 		dates.forEach { date in
-			if date.endLess {
+			if date.isEndless {
 				result = L10n.DatePrefix.everyDay
 				return
 			}
@@ -122,7 +122,7 @@ extension EventModel {
 		var lastDate = Date(timeIntervalSince1970: dates.first!.end)
 		
 		dates.forEach { date in
-			if date.endLess {
+			if date.isEndless {
 				isEveryDay = true
 				return
 			}

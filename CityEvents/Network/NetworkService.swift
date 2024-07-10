@@ -7,30 +7,48 @@
 import Foundation
 
 protocol INetworkService {
-
+	
+	/// Метод для получения <T> данных.
+	/// - Parameters:
+	///   - dataType: Тип данных для декодирования.
+	///   - requestData: данные для созданиия запроса
 	func fetch<T: Decodable>(
 		dataType: T.Type,
 		with requestData: INetworkRequestData,
 		completion: @escaping(Result<T, NetworkServiceError>) -> Void
 	)
 	
+	/// Метод для получения <T> данных по URL.
+	/// - Parameters:
+	///   - dataType: Тип данных для декодирования.
+	///   - url: Адрес запроса.
 	func fetch<T: Decodable>(
 		dataType: T.Type,
 		url: String,
 		completion: @escaping(Result<T, NetworkServiceError>) -> Void
 	)
 	
+	/// Метод для получения Data по URLRequest.
+	/// - Parameters:
+	///   - request: Сформированный URLRequest.
 	func perform(
 		request: URLRequest,
-		completion: @escaping (Result<Data, NetworkServiceError>
-		) -> Void)
+		completion: @escaping (Result<Data, NetworkServiceError>) -> Void
+	)
 }
 
-class NetworkService: INetworkService {
+class NetworkService {
 	
-	private let decoder = JSONDecoder()
-	private let session = URLSession.shared
-	
+	private let session: URLSession = URLSession(configuration: URLSessionConfiguration.default)
+	private let decoder: JSONDecoder = {
+		let decoder = JSONDecoder()
+		decoder.keyDecodingStrategy = .convertFromSnakeCase
+		return decoder
+	}()
+}
+
+extension NetworkService: INetworkService {
+
 	func fetch<T: Decodable>(
 		dataType: T.Type,
 		with requestData: INetworkRequestData,
@@ -84,7 +102,8 @@ class NetworkService: INetworkService {
 	func perform(
 		request: URLRequest,
 		completion: @escaping (Result<Data, NetworkServiceError>
-		) -> Void) {
+		) -> Void
+	) {
 		session.dataTask(with: request) { (data, response, error) in
 			if let error = error {
 				completion(.failure(.networkError(error)))
